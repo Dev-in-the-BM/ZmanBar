@@ -1,0 +1,7 @@
+{
+  "name": "JDate",
+  "description": "Displays the Hebrew date in the panel",
+  "uuid": "JDate@devinthebm.com",
+  "shell-version": ["48"],
+  "url": "https://example.com"
+}
