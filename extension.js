@@ -10,8 +10,8 @@ export default class HebrewDateDisplayExtension extends Extension {
         super(metadata);
         this._dateMenu = Main.panel.statusArea.dateMenu;
         this._clockDisplay = this._dateMenu._clockDisplay;
-        this._dateLabel = this._dateMenu._date;
         this._originalDateText = null;
+        this._dateLabel = null;
     }
 
     _updateHebrewDate() {
@@ -21,6 +21,23 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuOpened() {
+        if (!this._dateMenu.menu) {
+            return;
+        }
+        const calendar = this._dateMenu.menu.box.get_first_child();
+        if (!calendar) {
+            return;
+        }
+        const dateArea = calendar.get_first_child();
+        if (!dateArea) {
+            return;
+        }
+        this._dateLabel = dateArea.get_children().find(c => c.style_class === 'datemenu-date-label');
+
+        if (!this._dateLabel) {
+            return;
+        }
+
         this._originalDateText = this._dateLabel.get_text();
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
@@ -28,9 +45,11 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuClosed() {
-        if (this._originalDateText) {
+        if (this._dateLabel && this._originalDateText) {
             this._dateLabel.set_text(this._originalDateText);
         }
+        this._dateLabel = null;
+        this._originalDateText = null;
     }
 
     enable() {
