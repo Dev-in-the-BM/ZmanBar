@@ -258,7 +258,7 @@ export function toJewishDate(date) {
   const JewishDate = {
     year: jewishYear,
     monthName: jewishMonthName,
-    month: a,
+    month: jewishMonth,
     day: jewishDateArr[2],
   };
   return JewishDate;
