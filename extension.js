@@ -7,8 +7,14 @@ import { toJewishDate, formatJewishDateInHebrew } from './JewishDate.js';
 
 // Recursive function to find a widget by its style class
 function findActorByClassName(actor, className) {
-    if (actor.get_style_class_name && actor.get_style_class_name().includes(className)) {
-        return actor;
+    if (!actor) {
+        return null;
+    }
+    if (actor.get_style_class_name) {
+        const styleClassName = actor.get_style_class_name();
+        if (styleClassName && styleClassName.includes(className)) {
+            return actor;
+        }
     }
     if (actor.get_children) {
         for (const child of actor.get_children()) {
@@ -38,8 +44,16 @@ export default class HebrewDateDisplayExtension extends Extension {
 
     _onMenuOpened() {
         // Use the robust recursive search to find the label
-        const dateLabel = findActorByClassName(this._dateMenu.menu.box, 'datemenu-date-label');
+        const todayButton = findActorByClassName(Main.panel.statusArea.dateMenu.menu.box, 'datemenu-today-button');
+        if (!todayButton) {
+            log('JDate extension: Could not find todayButton');
+            return;
+        }
+
+        const dateLabel = findActorByClassName(todayButton, 'date-label');
+        log('JDate extension: dateLabel: ' + dateLabel);
         if (!dateLabel) {
+            log('JDate extension: Could not find dateLabel');
             return;
         }
 
