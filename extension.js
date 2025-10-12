@@ -21,30 +21,44 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuOpened() {
+        log('[HebrewDateDisplay] Menu opened');
         if (!this._dateMenu.menu) {
+            log('[HebrewDateDisplay] No menu found');
             return;
         }
         const calendar = this._dateMenu.menu.box.get_first_child();
         if (!calendar) {
+            log('[HebrewDateDisplay] No calendar found');
             return;
         }
+        log(`[HebrewDateDisplay] Found calendar: ${calendar}`);
         const dateArea = calendar.get_first_child();
         if (!dateArea) {
+            log('[HebrewDateDisplay] No dateArea found');
             return;
         }
+        log(`[HebrewDateDisplay] Found dateArea: ${dateArea}`);
+
         this._dateLabel = dateArea.get_children().find(c => c.style_class === 'datemenu-date-label');
 
         if (!this._dateLabel) {
+            log('[HebrewDateDisplay] datemenu-date-label not found');
             return;
         }
+
+        log(`[HebrewDateDisplay] Found date label: ${this._dateLabel}`);
 
         this._originalDateText = this._dateLabel.get_text();
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
-        this._dateLabel.set_text(`${this._originalDateText}\n${hebrewDateWithYear}`);
+        const newText = `${this._originalDateText}\n${hebrewDateWithYear}`;
+        log(`[HebrewDateDisplay] Original text: "${this._originalDateText}"`);
+        log(`[HebrewDateDisplay] Setting new text to: "${newText}"`);
+        this._dateLabel.set_text(newText);
     }
 
     _onMenuClosed() {
+        log('[HebrewDateDisplay] Menu closed');
         if (this._dateLabel && this._originalDateText) {
             this._dateLabel.set_text(this._originalDateText);
         }
@@ -53,6 +67,7 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     enable() {
+        log('[HebrewDateDisplay] Enabling extension');
         // Create and add top panel label
         this._topPanelLabel = new St.Label({
             style_class: 'panel-date-label',
@@ -76,6 +91,7 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     disable() {
+        log('[HebrewDateDisplay] Disabling extension');
         // Restore the original date text if the extension is disabled while the menu is open
         this._onMenuClosed();
 
