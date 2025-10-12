@@ -52,8 +52,8 @@ export default class HebrewDateDisplayExtension extends Extension {
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
         const newText = `${this._originalDateText}\n${hebrewDateWithYear}`;
-        log(`[HebrewDateDisplay] Original text: "${this._originalDateText}"`);
-        log(`[HebrewDateDisplay] Setting new text to: "${newText}"`);
+        log(`[HebrewDateDisplay] Original text: \"${this._originalDateText}\"`);
+        log(`[HebrewDateDisplay] Setting new text to: \"${newText}\"`);
         this._dateLabel.set_text(newText);
     }
 
