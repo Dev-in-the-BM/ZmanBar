@@ -38,7 +38,7 @@ export default class HebrewDateDisplayExtension extends Extension {
 
         // Create new label for hebrew date
         this._hebrewDateLabel = new St.Label({
-            style_class: 'datemenu-date-label date-style',
+            style_class: 'hebrew-date-label',
             text: '',
             x_align: Clutter.ActorAlign.START,
         });
