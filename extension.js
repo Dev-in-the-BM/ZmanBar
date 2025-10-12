@@ -5,6 +5,22 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import { toJewishDate, formatJewishDateInHebrew } from './JewishDate.js';
 
+// Recursive function to find a widget by its style class
+function findActorByClassName(actor, className) {
+    if (actor.get_style_class_name && actor.get_style_class_name().includes(className)) {
+        return actor;
+    }
+    if (actor.get_children) {
+        for (const child of actor.get_children()) {
+            const found = findActorByClassName(child, className);
+            if (found) {
+                return found;
+            }
+        }
+    }
+    return null;
+}
+
 export default class HebrewDateDisplayExtension extends Extension {
     constructor(metadata) {
         super(metadata);
@@ -21,17 +37,15 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuOpened() {
-        // Find the date label within the menu
-        const dateLabel = this._dateMenu.menu.box.get_children().find(c => c.style_class === 'datemenu-date-label');
+        // Use the robust recursive search to find the label
+        const dateLabel = findActorByClassName(this._dateMenu.menu.box, 'datemenu-date-label');
         if (!dateLabel) {
             return;
         }
 
-        // Store the original text and the label itself
         this._dateLabel = dateLabel;
         this._originalDateText = this._dateLabel.get_text();
 
-        // Set the new text
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
         const newText = `${this._originalDateText}\n${hebrewDateWithYear}`;
@@ -47,7 +61,6 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     enable() {
-        // Create and add top panel label
         this._topPanelLabel = new St.Label({
             style_class: 'panel-date-label',
             text: '',
@@ -69,7 +82,6 @@ export default class HebrewDateDisplayExtension extends Extension {
             this._onMenuClosed();
         };
         
-        // This signal will update the top panel label every minute
         this._clockUpdateSignal = this._clockDisplay.connect(
              'notify::clock',
              this._updateHebrewDate.bind(this)
@@ -79,7 +91,6 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     disable() {
-        // Restore original methods
         if (this._originalOpen) {
             this._dateMenu.menu.open = this._originalOpen;
             this._originalOpen = null;
@@ -89,16 +100,13 @@ export default class HebrewDateDisplayExtension extends Extension {
             this._originalClose = null;
         }
 
-        // Clean up the label if the menu was open during disabling
         this._onMenuClosed();
 
-        // Disconnect clock signal
         if (this._clockUpdateSignal) {
             this._clockDisplay.disconnect(this._clockUpdateSignal);
             this._clockUpdateSignal = null;
         }
 
-        // Destroy the top panel label
         if (this._topPanelLabel) {
             this._topPanelLabel.destroy();
             this._topPanelLabel = null;
