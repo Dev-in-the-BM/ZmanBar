@@ -10,14 +10,18 @@ export default class HebrewDateDisplayExtension extends Extension {
         super(metadata);
         this._dateMenu = Main.panel.statusArea.dateMenu;
         this._clockDisplay = this._dateMenu._clockDisplay;
+        this._originalDateLabel = this._dateMenu._date;
     }
 
     _updateHebrewDate() {
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
         const hebrewDateWithoutYear = formatJewishDateInHebrew(today, false);
-        this._hebrewDateLabel.set_text(hebrewDateWithYear);
         this._topPanelLabel.set_text(hebrewDateWithoutYear);
+
+        const originalDateText = this._originalDateLabel.get_text();
+        this._originalDateLabel.set_text(`${originalDateText}\n${hebrewDateWithYear}`);
+
     }
 
     enable() {
@@ -32,25 +36,13 @@ export default class HebrewDateDisplayExtension extends Extension {
         const children = this._dateMenu._clockDisplay.get_parent().get_children();
         this._dateMenu._clockDisplay.get_parent().insert_child_at_index(this._topPanelLabel, children.length -1);
 
-        // Find the original date label's container
-        const originalDateLabel = this._dateMenu._date;
-        const dateBox = originalDateLabel.get_parent();
-
-        // Create new label for hebrew date
-        this._hebrewDateLabel = new St.Label({
-            style_class: 'hebrew-date-label',
-            text: '',
-            x_align: Clutter.ActorAlign.START,
-        });
-        const dateBoxChildren = dateBox.get_children();
-        const originalDateLabelIndex = dateBoxChildren.indexOf(originalDateLabel);
-        dateBox.insert_child_at_index(this._hebrewDateLabel, originalDateLabelIndex + 1);
-
-
         // Update the calendar when the menu is opened
         this._menuOpenedSignal = this._dateMenu.menu.connect('open-state-changed', (menu, isOpen) => {
             if (isOpen) {
                 this._updateHebrewDate();
+            } else {
+                // Restore the original date text when the menu is closed
+                this._originalDateLabel.set_text(this._originalDateLabel.get_text().split('\n')[0])
             }
         });
 
@@ -58,15 +50,12 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     disable() {
+        // Restore the original date text when the menu is closed
+        this._originalDateLabel.set_text(this._originalDateLabel.get_text().split('\n')[0])
+
         if (this._menuOpenedSignal) {
             this._dateMenu.menu.disconnect(this._menuOpenedSignal);
             this._menuOpenedSignal = null;
-        }
-
-        // Remove hebrew date label
-        if (this._hebrewDateLabel) {
-            this._hebrewDateLabel.destroy();
-            this._hebrewDateLabel = null;
         }
 
         if (this._topPanelLabel) {
