@@ -1,11 +1,9 @@
-import { Console } from 'console';
+
 import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import { toJewishDate, formatJewishDateInHebrew } from './JewishDate.js';
-
-const console = new Console(import.meta.url);
 
 export default class HebrewDateDisplayExtension extends Extension {
     constructor(metadata) {
@@ -23,44 +21,32 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuOpened() {
-        console.log('[HebrewDateDisplay] Menu opened');
-        if (!this._dateMenu.menu) {
-            console.log('[HebrewDateDisplay] No menu found');
-            return;
-        }
+        // This line is intentionally added to create an error for debugging.
+        throw new Error('[HebrewDateDisplay] _onMenuOpened was called!');
+
+        // The rest of this function will not run because of the error above.
         const calendar = this._dateMenu.menu.box.get_first_child();
         if (!calendar) {
-            console.log('[HebrewDateDisplay] No calendar found');
             return;
         }
-        console.log(`[HebrewDateDisplay] Found calendar: ${calendar}`);
         const dateArea = calendar.get_first_child();
         if (!dateArea) {
-            console.log('[HebrewDateDisplay] No dateArea found');
             return;
         }
-        console.log(`[HebrewDateDisplay] Found dateArea: ${dateArea}`);
-
         this._dateLabel = dateArea.get_children().find(c => c.style_class === 'datemenu-date-label');
 
         if (!this._dateLabel) {
-            console.log('[HebrewDateDisplay] datemenu-date-label not found');
             return;
         }
-
-        console.log(`[HebrewDateDisplay] Found date label: ${this._dateLabel}`);
 
         this._originalDateText = this._dateLabel.get_text();
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
         const newText = `${this._originalDateText}\n${hebrewDateWithYear}`;
-        console.log(`[HebrewDateDisplay] Original text: \"${this._originalDateText}\"`);
-        console.log(`[HebrewDateDisplay] Setting new text to: \"${newText}\"`);
         this._dateLabel.set_text(newText);
     }
 
     _onMenuClosed() {
-        console.log('[HebrewDateDisplay] Menu closed');
         if (this._dateLabel && this._originalDateText) {
             this._dateLabel.set_text(this._originalDateText);
         }
@@ -69,7 +55,6 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     enable() {
-        console.log('[HebrewDateDisplay] Enabling extension');
         // Create and add top panel label
         this._topPanelLabel = new St.Label({
             style_class: 'panel-date-label',
@@ -82,7 +67,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         // Connect to the menu's open/close signals
         this._menuOpenedSignal = this._dateMenu.menu.connect('opened', this._onMenuOpened.bind(this));
         this._menuClosedSignal = this._dateMenu.menu.connect('closed', this._onMenuClosed.bind(this));
-        
+
         // This signal will update the top panel label every minute
         this._clockUpdateSignal = this._clockDisplay.connect(
              'notify::clock',
@@ -93,11 +78,8 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     disable() {
-        console.log('[HebrewDateDisplay] Disabling extension');
-        // Restore the original date text if the extension is disabled while the menu is open
         this._onMenuClosed();
 
-        // Disconnect all signals
         if (this._menuOpenedSignal) {
             this._dateMenu.menu.disconnect(this._menuOpenedSignal);
             this._menuOpenedSignal = null;
@@ -111,7 +93,6 @@ export default class HebrewDateDisplayExtension extends Extension {
             this._clockUpdateSignal = null;
         }
 
-        // Destroy the top panel label
         if (this._topPanelLabel) {
             this._topPanelLabel.destroy();
             this._topPanelLabel = null;
