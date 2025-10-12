@@ -80,6 +80,12 @@ export default class HebrewDateDisplayExtension extends Extension {
             text: '',
             y_align: Clutter.ActorAlign.CENTER,
         });
+
+        try {
+            this._topPanelLabel.style = 'font-family: "Open Sans Hebrew", sans-serif;';
+        } catch (e) {
+            log('JDate extension: "Open Sans Hebrew" font not found, using default.');
+        }
         const children = this._dateMenu._clockDisplay.get_parent().get_children();
         this._dateMenu._clockDisplay.get_parent().insert_child_at_index(this._topPanelLabel, children.length - 1);
 

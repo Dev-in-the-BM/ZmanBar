@@ -89,7 +89,7 @@ const hebrewMonths = {
 export function toHebrewDateString(day, monthName, year) {
   const hebrewDay = gematriya(day, { geresh: false });
   const hebrewMonth = hebrewMonths[monthName];
-  const hebrewYear = gematriya(year, { geresh: false });
+  const hebrewYear = gematriya(year % 1000, { geresh: false });
 
   return `${hebrewDay} ${hebrewMonth} ${hebrewYear}`;
 }
