@@ -1,151 +1,236 @@
-// JDate@devinthebm.com/extension.js
 
+import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import { toJewishDate } from './_lib/JewishDate.js';
 
-// Pure JS Hebrew Date Converter (fixed for accurate calculation)
-const HebrewDateConverter = {
-    // Constants
-    EPOCH: 347997, // JD of 1 Tishrei 1 (Gregorian Sep 7, -3760)
-    MOLAD_BAIS: 1 * 24 * 3600 + 12 * 3600, // Molad of year 1
-    MOLAD_MONTH: 29 * 24 * 3600 + 12 * 3600 + 793, // Average month length in seconds
-    WEEK: 7 * 24 * 3600,
+// START gematriya.js
+const letters = {}, numbers = {
+    '': 0,
+    א: 1,
+    ב: 2,
+    ג: 3,
+    ד: 4,
+    ה: 5,
+    ו: 6,
+    ז: 7,
+    ח: 8,
+    ט: 9,
+    י: 10,
+    כ: 20,
+    ל: 30,
+    מ: 40,
+    נ: 50,
+    ס: 60,
+    ע: 70,
+    פ: 80,
+    צ: 90,
+    ק: 100,
+    ר: 200,
+    ש: 300,
+    ת: 400,
+    תק: 500,
+    תר: 600,
+    תש: 700,
+    תת: 800,
+    תתק: 900,
+    תתר: 1000
+};
+for (let i in numbers) {
+    letters[numbers[i]] = i;
+}
 
-    // Hebrew month names
-    MONTH_NAMES: [
-        'Tishrei', 'Cheshvan', 'Kislev', 'Tevet', 'Shevat', 
-        'Adar I', 'Adar II', 'Nisan', 'Iyar', 'Sivan', 
-        'Tammuz', 'Av', 'Elul'
-    ],
+function gematriya(num, options) {
+    if (options === undefined) {
+        options = {limit: false, punctuate: true, order: false, geresh: true};
+    }
 
-    // Days per month (Tishrei to Elul, with leap year adjustments for Cheshvan/Kislev)
-    MONTH_LENGTHS: [30, 29, 29, 29, 30, 30, 29, 30, 29, 30, 29, 30, 29],
+    if (typeof num !== 'number' && typeof num !== 'string') {
+        throw new TypeError('non-number or string given to gematriya()');
+    }
 
-    // Is leap year?
-    isLeapYear(year) {
-        const key = (year * 12 + 17) % 19;
-        return key === 0 || key === 3 || key === 6 || key === 8 || key === 11 || key === 14 || key === 17;
-    },
+    if (typeof options !== 'object' || options === null){
+        throw new TypeError('An object was not given as second argument')
+    }
 
-    // Days in year
-    daysInYear(year) {
-        let days = 353; // Base for common year
-        if (this.isLeapYear(year)) days += 30; // Add Adar II
-        // Adjust Cheshvan/Kislev based on year length rules
-        const key = (year % 19);
-        if ([0, 3, 6, 8, 11, 14, 17].includes(key)) days += 2; // Complete year
-        else if ([2, 5, 10, 13, 16].includes(key)) days += 1; // Regular year
-        return days;
-    },
+    const limit = options.limit;
+    const order = options.order;
+    const punctuate = typeof options.punctuate === 'undefined' ? true : options.punctuate;
+    const geresh = typeof options.geresh === 'undefined' && punctuate ? true : options.geresh;
 
-    // Gregorian to Julian Day
-    gregorianToJD(year, month, day) {
-        const a = Math.floor((14 - month) / 12);
-        const y = year + 4800 - a;
-        const m = month + 12 * a - 3;
-        return day + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-    },
+    const str = typeof num === 'string';
 
-    // Julian Day to Hebrew
-    jdToHebrew(jd) {
-        let year = this.hebrewYearFromJD(jd);
-        let month = 7; // Start at Tishrei
-        let day = jd - this.jdFromHebrew(year, month, 1) + 1;
-        let leap = this.isLeapYear(year);
+    if (str) {
+        num = num.replace(/('|")/g,'');
+    }
+    num = num.toString().split('').reverse();
+    if (!str && limit) {
+        num = num.slice(0, limit);
+    }
 
-        while (day > this.daysInMonth(year, month)) {
-            day -= this.daysInMonth(year, month);
-            month++;
-            if (month > (leap ? 13 : 12)) {
-                month = 1;
-                year++;
-                leap = this.isLeapYear(year);
+    num = num.map(function g(n,i){
+        if (str) {
+            return order && numbers[n] < numbers[num[i - 1]] && numbers[n] < 100 ? numbers[n] * 1000 : numbers[n];
+        } else {
+            if (parseInt(n, 10) * Math.pow(10, i) > 1000) {
+                return g(n, i-3);
+            }
+            return letters[parseInt(n, 10) * Math.pow(10, i)];
+        }
+    });
+
+    if (str) {
+        return num.reduce(function(o,t){
+            return o + t;
+        }, 0);
+    } else {
+        num = num.reverse().join('').replace(/יה/g,'טו').replace(/יו/g,'טז').split('');
+
+        if (punctuate || geresh)	{
+            if (num.length === 1) {
+                num.push(geresh ? '׳' : "'");
+            } else if (num.length > 1) {
+                num.splice(-1, 0, geresh ? '״' : '"');
             }
         }
 
-        // Adjust month index for leap years
-        let monthIndex = month - 1;
-        if (leap && month > 6) monthIndex = month; // Adar II or later
-        const monthName = this.MONTH_NAMES[monthIndex];
-
-        return { year, month: monthName, day };
-    },
-
-    // Hebrew year from JD
-    hebrewYearFromJD(jd) {
-        let year = Math.floor((jd - this.EPOCH) / 365.25) + 3760;
-        while (this.jdFromHebrew(year, 7, 1) > jd) year--;
-        while (this.jdFromHebrew(year + 1, 7, 1) <= jd) year++;
-        return year;
-    },
-
-    // JD from Hebrew date
-    jdFromHebrew(year, month, day) {
-        let jd = this.EPOCH;
-        for (let y = 1; y < year; y++) {
-            jd += this.daysInYear(y);
-        }
-        for (let m = 1; m < month; m++) {
-            jd += this.daysInMonth(year, m);
-        }
-        jd += day - 1;
-        return jd;
-    },
-
-    // Days in Hebrew month
-    daysInMonth(year, month) {
-        if (month === 2) { // Cheshvan
-            const key = (year % 19);
-            return [0, 3, 6, 8, 11, 14, 17].includes(key) ? 30 : 29;
-        }
-        if (month === 3) { // Kislev
-            const key = (year % 19);
-            return [2, 5, 10, 13, 16].includes(key) ? 29 : 30;
-        }
-        if (month === 6 && !this.isLeapYear(year)) return 0; // No Adar I in non-leap
-        if (month === 7 && !this.isLeapYear(year)) return 29; // Adar II becomes Adar
-        return this.MONTH_LENGTHS[month - 1] || 29; // Fallback
-    },
-
-    // Gregorian to Hebrew
-    gregorianToHebrew(date) {
-        const jd = this.gregorianToJD(date.getFullYear(), date.getMonth() + 1, date.getDate());
-        const hebrew = this.jdToHebrew(jd);
-        return `${hebrew.day} ${hebrew.month} ${hebrew.year}`;
+        return num.join('');
     }
+}
+// END gematriya.js
+
+const JewishMonth = {
+    None: "None",
+    Tishri: "Tishri",
+    Cheshvan: "Cheshvan",
+    Kislev: "Kislev",
+    Tevet: "Tevet",
+    Shevat: "Shevat",
+    Adar: "Adar",
+    Nisan: "Nisan",
+    Iyyar: "Iyyar",
+    Sivan: "Sivan",
+    Tammuz: "Tammuz",
+    Av: "Av",
+    Elul: "Elul",
+    AdarI: "AdarI",
+    AdarII: "AdarII"
+};
+
+const getJewishMonthInHebrew = (jewishMonth) => {
+    const jewishMonthsHebrewNamesDic = {
+      [JewishMonth.None]: "ללא",
+      [JewishMonth.Tishri]: "תשרי",
+      [JewishMonth.Cheshvan]: "חשון",
+      [JewishMonth.Kislev]: "כסלו",
+      [JewishMonth.Tevet]: "טבת",
+      [JewishMonth.Shevat]: "שבט",
+      [JewishMonth.Adar]: "אדר",
+      [JewishMonth.AdarI]: "אדר א",
+      [JewishMonth.AdarII]: "אדר ב",
+      [JewishMonth.Nisan]: "ניסן",
+      [JewishMonth.Iyyar]: "אייר",
+      [JewishMonth.Sivan]: "סיון",
+      [JewishMonth.Tammuz]: "תמוז",
+      [JewishMonth.Av]: "אב",
+      [JewishMonth.Elul]: "אלול",
+    };
+    return jewishMonthsHebrewNamesDic[jewishMonth];
+};
+
+const convertNumberToHebrew = (num, addGeresh = true, addPunctuate = true) => {
+    return gematriya(num, { geresh: addGeresh, punctuate: addPunctuate });
+};
+
+const toHebrewJewishDate = (jewishDate) => {
+    return {
+        day: convertNumberToHebrew(jewishDate.day),
+        monthName: getJewishMonthInHebrew(jewishDate.monthName),
+        year: convertNumberToHebrew(jewishDate.year % 1000),
+    };
+};
+
+const formatJewishDateInHebrew = (jewishDate, includeYear = true) => {
+    const jewishDateInHebrew = toHebrewJewishDate(jewishDate);
+    let formattedDate = `${jewishDateInHebrew.day} ${jewishDateInHebrew.monthName}`;
+    if (includeYear) {
+        formattedDate += ` ${jewishDateInHebrew.year}`;
+    }
+    return formattedDate;
 };
 
 export default class HebrewDateDisplayExtension extends Extension {
     constructor(metadata) {
         super(metadata);
-        this._indicator = null;
+        this._dateMenu = Main.panel.statusArea.dateMenu;
+        this._clockDisplay = this._dateMenu._clockDisplay;
+    }
+
+    _updateHebrewDate() {
+        const today = new Date();
+        const jewishDate = toJewishDate(today);
+        const hebrewDateWithYear = formatJewishDateInHebrew(jewishDate, true);
+        const hebrewDateWithoutYear = formatJewishDateInHebrew(jewishDate, false);
+        this._hebrewDateLabel.set_text(hebrewDateWithYear);
+        this._topPanelLabel.set_text(hebrewDateWithoutYear);
     }
 
     enable() {
-        console.log(`${this.metadata.uuid}: Extension ENABLED successfully (Accurate Hebrew Date)`);
-
-        this._indicator = new PanelMenu.Button(0, 'hebrew-date-display');
-
-        const today = new Date();
-        const hebrewDate = HebrewDateConverter.gregorianToHebrew(today);
-
-        const label = new St.Label({
-            style_class: 'panel-button',
-            text: hebrewDate,
-            y_align: 2
+        // Create top panel label
+        this._topPanelLabel = new St.Label({
+            style_class: 'panel-date-label',
+            text: '',
+            y_align: Clutter.ActorAlign.CENTER,
         });
 
-        this._indicator.add_child(label);
-        Main.panel.addToStatusArea('hebrew-date-display', this._indicator);
+        // Add the top panel label
+        const children = this._dateMenu._clockDisplay.get_parent().get_children();
+        this._dateMenu._clockDisplay.get_parent().insert_child_at_index(this._topPanelLabel, children.length -1);
+
+        // Find the original date label's container
+        const originalDateLabel = this._dateMenu._date;
+        const dateBox = originalDateLabel.get_parent();
+
+        // Create new label for hebrew date
+        this._hebrewDateLabel = new St.Label({
+            style_class: 'datemenu-date-label hebrew-date-label',
+            text: '',
+            x_align: Clutter.ActorAlign.CENTER,
+            y_align: Clutter.ActorAlign.CENTER,
+            y_expand: true,
+        });
+        const dateBoxChildren = dateBox.get_children();
+        const originalDateLabelIndex = dateBoxChildren.indexOf(originalDateLabel);
+        dateBox.insert_child_at_index(this._hebrewDateLabel, originalDateLabelIndex + 1);
+
+
+        // Update the calendar when the menu is opened
+        this._menuOpenedSignal = this._dateMenu.menu.connect('open-state-changed', (menu, isOpen) => {
+            if (isOpen) {
+                this._updateHebrewDate();
+            }
+        });
+
+        this._updateHebrewDate();
     }
 
     disable() {
-        if (this._indicator) {
-            this._indicator.destroy();
-            this._indicator = null;
+        if (this._menuOpenedSignal) {
+            this._dateMenu.menu.disconnect(this._menuOpenedSignal);
+            this._menuOpenedSignal = null;
         }
-        console.log(`${this.metadata.uuid}: Extension disabled.`);
+
+        // Remove hebrew date label
+        if (this._hebrewDateLabel) {
+            this._hebrewDateLabel.destroy();
+            this._hebrewDateLabel = null;
+        }
+
+        if (this._topPanelLabel) {
+            this._topPanelLabel.destroy();
+            this._topPanelLabel = null;
+        }
     }
 }

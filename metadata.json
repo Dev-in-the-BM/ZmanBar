@@ -2,6 +2,7 @@
   "name": "JDate",
   "description": "Displays the Hebrew date in the panel",
   "uuid": "JDate@devinthebm.com",
-  "shell-version": ["48"],
-  "url": "https://example.com"
+  "shell-version": ["48", "49"],
+  "url": "https://example.com",
+  "stylesheet": "stylesheet.css"
 }

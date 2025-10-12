@@ -14,9 +14,9 @@ function formatJewishDateInGJS(dateObject) {
 }
 
 // Export only the core, working functions.
-var exports = {
+export {
     // Q is the internal name for the toJewishDate function
-    toJewishDate: Q, 
+    Q as toJewishDate,
     // We export our safe GJS formatter under the expected name
-    formatJewishDateInHebrew: formatJewishDateInGJS 
+    formatJewishDateInGJS as formatJewishDateInHebrew
 };

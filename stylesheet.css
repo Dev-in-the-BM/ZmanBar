@@ -1,1 +1,6 @@
-/* Add your custom extension styling here */
+.hebrew-date-label {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
