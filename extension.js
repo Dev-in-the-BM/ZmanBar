@@ -51,14 +51,16 @@ export default class HebrewDateDisplayExtension extends Extension {
         }
 
         const dateLabel = findActorByClassName(todayButton, 'date-label');
-        log('JDate extension: dateLabel: ' + dateLabel);
         if (!dateLabel) {
             log('JDate extension: Could not find dateLabel');
             return;
         }
+        const font = dateLabel.get_theme_node().get_font();
+        log(`JDate extension: dateLabel font: ${font.to_string()}`);
 
         this._dateLabel = dateLabel;
         this._originalDateText = this._dateLabel.get_text();
+        this._originalDateStyle = this._dateLabel.get_style();
 
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
@@ -69,9 +71,11 @@ export default class HebrewDateDisplayExtension extends Extension {
     _onMenuClosed() {
         if (this._dateLabel && this._originalDateText) {
             this._dateLabel.set_text(this._originalDateText);
+            this._dateLabel.set_style(this._originalDateStyle);
         }
         this._dateLabel = null;
         this._originalDateText = null;
+        this._originalDateStyle = null;
     }
 
     enable() {
@@ -81,11 +85,6 @@ export default class HebrewDateDisplayExtension extends Extension {
             y_align: Clutter.ActorAlign.CENTER,
         });
 
-        try {
-            this._topPanelLabel.style = 'font-family: "Open Sans Hebrew", sans-serif;';
-        } catch (e) {
-            log('JDate extension: "Open Sans Hebrew" font not found, using default.');
-        }
         const children = this._dateMenu._clockDisplay.get_parent().get_children();
         this._dateMenu._clockDisplay.get_parent().insert_child_at_index(this._topPanelLabel, children.length - 1);
 
