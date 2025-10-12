@@ -10,33 +10,28 @@ export default class HebrewDateDisplayExtension extends Extension {
         super(metadata);
         this._dateMenu = Main.panel.statusArea.dateMenu;
         this._clockDisplay = this._dateMenu._clockDisplay;
-        this._originalDateText = null;
-        this._dateLabel = null;
     }
 
     _updateHebrewDate() {
-        const today = new Date();
-        const hebrewDateWithoutYear = formatJewishDateInHebrew(today, false);
-        this._topPanelLabel.set_text(hebrewDateWithoutYear);
+        if (this._topPanelLabel) {
+            const today = new Date();
+            const hebrewDateWithoutYear = formatJewishDateInHebrew(today, false);
+            this._topPanelLabel.set_text(hebrewDateWithoutYear);
+        }
     }
 
     _onMenuOpened() {
-        const calendar = this._dateMenu.menu.box.get_first_child();
-        if (!calendar) {
-            return;
-        }
-        const dateArea = calendar.get_first_child();
-        if (!dateArea) {
+        // Find the date label within the menu
+        const dateLabel = this._dateMenu.menu.box.get_children().find(c => c.style_class === 'datemenu-date-label');
+        if (!dateLabel) {
             return;
         }
 
-        this._dateLabel = dateArea.get_children().find(c => c.style_class === 'datemenu-date-label');
-
-        if (!this._dateLabel) {
-            return;
-        }
-
+        // Store the original text and the label itself
+        this._dateLabel = dateLabel;
         this._originalDateText = this._dateLabel.get_text();
+
+        // Set the new text
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
         const newText = `${this._originalDateText}\n${hebrewDateWithYear}`;
@@ -51,14 +46,6 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._originalDateText = null;
     }
 
-    _onOpenStateChanged(menu, isOpen) {
-        if (isOpen) {
-            this._onMenuOpened();
-        } else {
-            this._onMenuClosed();
-        }
-    }
-
     enable() {
         // Create and add top panel label
         this._topPanelLabel = new St.Label({
@@ -69,12 +56,19 @@ export default class HebrewDateDisplayExtension extends Extension {
         const children = this._dateMenu._clockDisplay.get_parent().get_children();
         this._dateMenu._clockDisplay.get_parent().insert_child_at_index(this._topPanelLabel, children.length - 1);
 
-        // Connect to the menu's state change signal
-        this._menuStateChangedSignal = this._dateMenu.menu.connect(
-            'open-state-changed',
-            this._onOpenStateChanged.bind(this)
-        );
+        // Monkey-patch the menu's open and close methods
+        this._originalOpen = this._dateMenu.menu.open;
+        this._dateMenu.menu.open = (...args) => {
+            this._originalOpen.apply(this._dateMenu.menu, args);
+            this._onMenuOpened();
+        };
 
+        this._originalClose = this._dateMenu.menu.close;
+        this._dateMenu.menu.close = (...args) => {
+            this._originalClose.apply(this._dateMenu.menu, args);
+            this._onMenuClosed();
+        };
+        
         // This signal will update the top panel label every minute
         this._clockUpdateSignal = this._clockDisplay.connect(
              'notify::clock',
@@ -85,17 +79,26 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     disable() {
+        // Restore original methods
+        if (this._originalOpen) {
+            this._dateMenu.menu.open = this._originalOpen;
+            this._originalOpen = null;
+        }
+        if (this._originalClose) {
+            this._dateMenu.menu.close = this._originalClose;
+            this._originalClose = null;
+        }
+
+        // Clean up the label if the menu was open during disabling
         this._onMenuClosed();
 
-        if (this._menuStateChangedSignal) {
-            this._dateMenu.menu.disconnect(this._menuStateChangedSignal);
-            this._menuStateChangedSignal = null;
-        }
+        // Disconnect clock signal
         if (this._clockUpdateSignal) {
             this._clockDisplay.disconnect(this._clockUpdateSignal);
             this._clockUpdateSignal = null;
         }
 
+        // Destroy the top panel label
         if (this._topPanelLabel) {
             this._topPanelLabel.destroy();
             this._topPanelLabel = null;
