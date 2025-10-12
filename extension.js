@@ -21,10 +21,6 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuOpened() {
-        // This line is intentionally added to create an error for debugging.
-        throw new Error('[HebrewDateDisplay] _onMenuOpened was called!');
-
-        // The rest of this function will not run because of the error above.
         const calendar = this._dateMenu.menu.box.get_first_child();
         if (!calendar) {
             return;
@@ -33,6 +29,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         if (!dateArea) {
             return;
         }
+
         this._dateLabel = dateArea.get_children().find(c => c.style_class === 'datemenu-date-label');
 
         if (!this._dateLabel) {
@@ -54,6 +51,14 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._originalDateText = null;
     }
 
+    _onOpenStateChanged(menu, isOpen) {
+        if (isOpen) {
+            this._onMenuOpened();
+        } else {
+            this._onMenuClosed();
+        }
+    }
+
     enable() {
         // Create and add top panel label
         this._topPanelLabel = new St.Label({
@@ -64,9 +69,11 @@ export default class HebrewDateDisplayExtension extends Extension {
         const children = this._dateMenu._clockDisplay.get_parent().get_children();
         this._dateMenu._clockDisplay.get_parent().insert_child_at_index(this._topPanelLabel, children.length - 1);
 
-        // Connect to the menu's open/close signals
-        this._menuOpenedSignal = this._dateMenu.menu.connect('opened', this._onMenuOpened.bind(this));
-        this._menuClosedSignal = this._dateMenu.menu.connect('closed', this._onMenuClosed.bind(this));
+        // Connect to the menu's state change signal
+        this._menuStateChangedSignal = this._dateMenu.menu.connect(
+            'open-state-changed',
+            this._onOpenStateChanged.bind(this)
+        );
 
         // This signal will update the top panel label every minute
         this._clockUpdateSignal = this._clockDisplay.connect(
@@ -80,15 +87,11 @@ export default class HebrewDateDisplayExtension extends Extension {
     disable() {
         this._onMenuClosed();
 
-        if (this._menuOpenedSignal) {
-            this._dateMenu.menu.disconnect(this._menuOpenedSignal);
-            this._menuOpenedSignal = null;
+        if (this._menuStateChangedSignal) {
+            this._dateMenu.menu.disconnect(this._menuStateChangedSignal);
+            this._menuStateChangedSignal = null;
         }
-        if (this._menuClosedSignal) {
-            this._dateMenu.menu.disconnect(this._menuClosedSignal);
-            this._menuClosedSignal = null;
-        }
-        if(this._clockUpdateSignal) {
+        if (this._clockUpdateSignal) {
             this._clockDisplay.disconnect(this._clockUpdateSignal);
             this._clockUpdateSignal = null;
         }
