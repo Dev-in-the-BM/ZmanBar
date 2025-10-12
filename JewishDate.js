@@ -1,4 +1,5 @@
 
+import { toHebrewDateString, toHebrewDateStringWithoutYear } from './hebrew-date.js';
 const GREGORIAN_EPOCH = 1721425.5;
 const HEBREW_EPOCH = 347995.5;
 
@@ -267,8 +268,8 @@ export function toJewishDate(date) {
 export function formatJewishDateInHebrew(date, withYear = true) {
     const jewishDate = toJewishDate(date);
     if (withYear) {
-        return `${jewishDate.day} ${jewishDate.monthName} ${jewishDate.year}`;
+        return toHebrewDateString(jewishDate.day, jewishDate.monthName, jewishDate.year);
     } else {
-        return `${jewishDate.day} ${jewishDate.monthName}`;
+        return toHebrewDateStringWithoutYear(jewishDate.day, jewishDate.monthName);
     }
 }
