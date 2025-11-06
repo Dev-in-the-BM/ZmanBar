@@ -12,7 +12,8 @@ A simple GNOME Shell extension that displays the current Hebrew date in the top 
 
 ## ⚠️ Beta Limitation
 
-This extension does not yet account for the Hebrew day changing at shkiah. **From shkiah until midnight, the displayed date will be a day behind.** This is planned for a future release.
+This extension does not yet account for the Hebrew day changing at shkiah. **From shkiah until midnight, the displayed date will be a day behind.** 
+A fix is planned for a future release.
 
 ## 💻 Installation
 
