@@ -1,4 +1,7 @@
-# ZmanBar - Hebrew Date for GNOME
+# ZmanBar
+
+### Hebrew Date for GNOME
+
 
 ![ZmanBar](https://github.com/Dev-in-the-BM/ZmanBar/blob/main/screenshot.png?raw=true)
 
