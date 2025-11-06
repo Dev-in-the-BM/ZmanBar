@@ -53,4 +53,4 @@ If you find this extension useful, please consider supporting its development.
 
 ## 📜 License
 
-This project is licensed under the GPL-3.0-or-later.
+This project is licensed under the MIT License.
