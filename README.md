@@ -15,7 +15,7 @@
 
 ---
 
-![get it on gnome extensions](https://github.com/Dev-in-the-BM/ZmanBar/blob/main/get_it_on_gnome_extensions.png?raw=true)
+[![get it on gnome extensions](https://github.com/Dev-in-the-BM/ZmanBar/blob/main/get_it_on_gnome_extensions.png?raw=true)](https://extensions.gnome.org/extension/8774/zmanbar/)
 
 ## ⚠️ Beta Limitation
 
@@ -54,4 +54,3 @@ If you find this extension useful, please consider supporting its development.
 ## 📜 License
 
 This project is licensed under the GPL-3.0-or-later.
-
