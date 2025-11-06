@@ -1,0 +1,464 @@
+
+Skip to content
+Main Navigation
+Home
+About
+Guides
+Showcase
+Extensions
+API References
+Sidebar Navigation
+Development
+
+Getting Started
+
+Translations
+
+Preferences
+
+Accessibility
+
+Debugging
+
+Targeting Older GNOME
+
+TypeScript and LSP
+Overview
+
+Anatomy
+
+Architecture
+
+Imports And Modules
+
+Updates And Breakage
+Topics
+
+Extension
+
+Extension Utils
+
+Dialogs
+
+Notifications
+
+Popup Menu
+
+Quick Settings
+
+Search Provider
+
+Session Modes
+Upgrading
+
+GNOME Shell 49
+
+GNOME Shell 48
+
+GNOME Shell 47
+
+GNOME Shell 46
+
+GNOME Shell 45
+
+GNOME Shell 44
+
+GNOME Shell 43
+
+GNOME Shell 42
+
+GNOME Shell 40
+
+Legacy Documentation
+Review Guidelines
+
+Review Guidelines
+On this page
+Table of Contents for current page
+
+    Extension ZIP
+    metadata.json (Required)
+    extension.js (Required)
+    prefs.js
+    stylesheet.css
+
+Anatomy of an Extension
+
+This document details the files and structure of a GNOME Shell extension. For documentation on how to create and develop your first extension, see the Development section of the extensions guide.
+Extension ZIP
+
+Whether you're downloading from a repository (e.g. GitHub, GitLab) or installing from the GNOME Extensions Website, extensions are distributed as Zip files with only two required files: metadata.json and extension.js.
+
+Once unpacked and installed, the extension will be in one of two places:
+sh
+
+# User Extension
+~/.local/share/gnome-shell/extensions/example@gjs.guide/
+    extension.js
+    metadata.json
+
+# System Extension
+/usr/share/gnome-shell/extensions/example@gjs.guide/
+    extension.js
+    metadata.json
+
+A more complete, zipped extension usually looks like this:
+
+example@gjs.guide.zip
+    locale/
+        de/
+          LC_MESSAGES/
+              example.mo
+    schemas/
+        gschemas.compiled
+        org.gnome.shell.extensions.example.gschema.xml
+    extension.js
+    metadata.json
+    prefs.js
+    stylesheet.css
+
+The topic of GSettings and the schemas/ directory is explained on the Preferences page.
+
+The topic of Gettext and the locale/ directory is explained on the Translations page.
+metadata.json (Required)
+
+metadata.json is a required file of every extension. It contains basic information about the extension such as its UUID, name and description. Below is a minimal example:
+json
+
+{
+    "uuid": "example@gjs.guide",
+    "name": "Example Extension",
+    "description": "An example extension",
+    "shell-version": [ "45" ],
+    "url": "https://gjs.guide/extensions"
+}
+
+There are a number of other, optional fields that metadata.json may contain. Below is a complete example, demonstrating all current possible fields:
+json
+
+{
+    "uuid": "example@gjs.guide",
+    "name": "Example Extension",
+    "description": "An example extension",
+    "shell-version": [ "3.38", "45" ],
+    "url": "https://gjs.guide/extensions",
+    "gettext-domain": "example@gjs.guide",
+    "settings-schema": "org.gnome.shell.extensions.example",
+    "session-modes": ["user", "unlock-dialog"],
+    "donations": {
+        "github": "john_doe",
+        "custom": ["https://example.com/1/", "https://example.com/2/"]
+    },
+    "version": 2,
+    "version-name": "1.1"
+}
+
+Required Fields
+uuid
+
+This field is a globally-unique identifier for your extension, made of two parts separated by @. Each part must only container letters, numbers, period (.), underscore (_) and hyphen (-).
+
+The first part should be a short string like "click-to-focus". The second part must be some namespace under your control, such as username.github.io. Common examples are click-to-focus@username.github.io and adblock@username.gmail.com. Extensions are prohibited from using gnome.org without express permission from the GNOME Foundation.
+
+An extension's files must be installed to a folder with the same name as uuid to be recognized by GNOME Shell:
+sh
+
+~/.local/share/gnome-shell/extensions/example@gjs.guide/
+
+name
+
+This field should be a short, descriptive string like "Click To Focus", "Adblock" or "Shell Window Shrinker".
+description
+
+This field should be a relatively short description of the extension's function. If you need to, you can insert line breaks and tabs by using the \n and \t escape sequences.
+shell-version
+
+This field is an array of strings describing the GNOME Shell versions that an extension supports. It must include at least one entry or the extension will be uninstallable.
+
+For versions up to and including GNOME 3.38, this should have a major and minor component such as "3.38". Starting with GNOME 40, it should simply be the major version, such as "40" or "41".
+
+Note that GNOME Shell has a configuration setting, disable-extension-version-validation, which controls whether unsupported extensions can be loaded. Before GNOME 40 this was true by default (users could install extensions regardless of the shell-version), but because of the major changes it is now false by default.
+url
+
+This field is a URL for an extension, which should almost always be a git repository where the code can be found and issues can be reported.
+
+It is required for extensions submitted to https://extensions.gnome.org/ to have a valid URL.
+Optional Fields
+gettext-domain
+
+This field is a Gettext translation domain, used by GNOME Shell to automatically initialize translations when an extension is loaded.
+
+The domain should be unique to your extension and the easiest choice is to use the UUID from your extension, such as example@gjs.guide.
+
+Use of this field is optional and documented in the Translations page.
+settings-schema
+
+This field is a Gio.SettingsSchema ID, used by Extension.getSettings() and ExtensionPreferences.getSettings() methods to create a Gio.Settings object for an extension.
+
+By convention, the schema ID for extensions all start with the string org.gnome.shell.extensions with the extension ID as a unique identifier, such as org.gnome.shell.extensions.example.
+
+Use of this field is optional and documented in the Preferences page.
+session-modes
+
+WARNING
+
+This field was added in GNOME 42.
+
+This field is an array of strings describing the GNOME Shell session modes that the extension supports. Almost all extensions will only use the user session mode, which is the default if this field is not present.
+
+TIP
+
+Extensions that specify user and unlock-dialog must still be prepared to have disable() and enable() called when the session mode changes.
+
+The current possible session modes are:
+
+    user
+
+    Extensions that specify this key run during active user sessions. If no other session modes are specified, the extension will be enabled when the session is unlocked and disabled when it locks.
+
+    unlock-dialog
+
+    Extensions that specify this key are allowed to run, or keep running, on the lock screen.
+
+    gdm
+
+    Extensions that specify this key are allowed to run, or keep running, on the login screen. This session mode is only available for system extensions that are enabled for the "gdm" user.
+
+Extensions that want to support other session modes must provide a justification to be approved during review for distribution from the GNOME Extensions website.
+
+Use of this field is optional and documented in the Session Modes page.
+version
+
+TIP
+
+See version-name to set the version visible to users.
+
+This field is the submission version of an extension, incremented and controlled by the GNOME Extensions website.
+
+The value MUST be a whole number like 1. It MUST NOT be a semantic version like 1.1 or a string like "1".
+
+This field SHOULD NOT be set by extension developers. The GNOME Extensions website will override this field and GNOME Shell may automatically upgrade or downgrade an extension if the version field is set.
+version-name
+
+This field sets the version visible to users. If not given the version field will be displayed instead.
+
+The value MUST be a string that only contains letters, numbers, space and period with a length between 1 and 16 characters. It MUST contain at least one letter or number.
+
+A valid version-name will match the regex /^(?!^[. ]+$)[a-zA-Z0-9 .]{1,16}$/.
+donations
+
+This field is an object including donation links with these possible keys:
+
+    buymeacoffee
+    custom
+    github
+    kofi
+    liberapay
+    opencollective
+    patreon
+    paypal
+
+Value of each element can be string or array of strings (maximum array length is 3).
+
+While custom pointing to the exact value (URL), other keys only including the user handle (for example, "paypal": "john_doe" points to the https://paypal.me/john_doe).
+extension.js (Required)
+
+WARNING
+
+GNOME Shell and Extensions use ESModules as of GNOME 45. Please see the Legacy Documentation for previous versions.
+
+extension.js is a required file of every extension. It must export a subclass of the base Extension and implement the enable() and disable() methods. If your subclass overrides the constructor() method, it must also call super() and pass the metadata argument to the parent class.
+js
+
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+
+
+export default class ExampleExtension extends Extension {
+    /**
+     * This class is constructed once when your extension is loaded, not
+     * enabled. This is a good time to setup translations or anything else you
+     * only do once.
+     *
+     * You MUST NOT make any changes to GNOME Shell, connect any signals or add
+     * any event sources here.
+     *
+     * @param {ExtensionMeta} metadata - An extension meta object
+     */
+    constructor(metadata) {
+        super(metadata);
+
+        console.debug(`constructing ${this.metadata.name}`);
+    }
+
+    /**
+     * This function is called when your extension is enabled, which could be
+     * done in GNOME Extensions, when you log in or when the screen is unlocked.
+     *
+     * This is when you should setup any UI for your extension, change existing
+     * widgets, connect signals or modify GNOME Shell's behavior.
+     */
+    enable() {
+        console.debug(`enabling ${this.metadata.name}`);
+    }
+
+    /**
+     * This function is called when your extension is uninstalled, disabled in
+     * GNOME Extensions or when the screen locks.
+     *
+     * Anything you created, modified or setup in enable() MUST be undone here.
+     * Not doing so is the most common reason extensions are rejected in review!
+     */
+    disable() {
+        console.debug(`disabling ${this.metadata.name}`);
+    }
+}
+
+ExtensionMetadata Object
+
+The ExtensionMetadata object is passed to the constructor() of the Extension class and (ExtensionPreferences class) when loaded, and available as the metadata property afterwards.
+
+This object is described in more detail on the Extension (ESModule) topic page.
+prefs.js
+
+WARNING
+
+GNOME Shell and Extensions use ESModules as of GNOME 45. Please see the Legacy Documentation for previous versions.
+
+prefs.js is used to build the preferences for an extensions. If this file is not present, there will simply be no preferences button in GNOME Extensions or the GNOME Extensions Website.
+js
+
+import Gtk from 'gi://Gtk?version=4.0';
+import Adw from 'gi://Adw';
+
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
+
+export default class ExamplePreferences extends ExtensionPreferences {
+    /**
+     * This class is constructed once when your extension preferences are
+     * about to be opened. This is a good time to setup translations or anything
+     * else you only do once.
+     *
+     * @param {ExtensionMeta} metadata - An extension meta object
+     */
+    constructor(metadata) {
+        super(metadata);
+
+        console.debug(`constructing ${this.metadata.name}`);
+    }
+
+    /**
+     * This function is called when the preferences window is first created to
+     * build and return a GTK4 widget.
+     *
+     * The preferences window will be a `Adw.PreferencesWindow`, and the widget
+     * returned by this function will be added to an `Adw.PreferencesPage` or
+     * `Adw.PreferencesGroup` if necessary.
+     *
+     * @returns {Gtk.Widget} the preferences widget
+     */
+    getPreferencesWidget() {
+        return new Gtk.Label({
+            label: this.metadata.name,
+        });
+    }
+
+    /**
+     * Fill the preferences window with preferences.
+     *
+     * If this method is overridden, `getPreferencesWidget()` will NOT be called.
+     *
+     * @param {Adw.PreferencesWindow} window - the preferences window
+     */
+    fillPreferencesWindow(window) {
+        // Create a preferences page, with a single group
+        const page = new Adw.PreferencesPage({
+            title: _('General'),
+            icon_name: 'dialog-information-symbolic',
+        });
+        window.add(page);
+
+        const group = new Adw.PreferencesGroup({
+            title: _('Appearance'),
+            description: _('Configure the appearance of the extension'),
+        });
+        page.add(group);
+
+        // Create a new preferences row
+        const row = new Adw.SwitchRow({
+            title: _('Show Indicator'),
+            subtitle: _('Whether to show the panel indicator'),
+        });
+        group.add(row);
+    }
+}
+
+Something that's important to understand:
+
+    The code in extension.js is executed in the same process as gnome-shell
+
+    Here you will have access to live code running in GNOME Shell, but fatal errors or mistakes will affect the stability of the desktop. It also means you will be using the Clutter and St toolkits.
+
+    The code in prefs.js will be executed in a separate Gtk process
+
+    Here you will not have access to code running in GNOME Shell, but fatal errors or mistakes will be contained within that process. In this process you will be using the GTK4 and Adwaita toolkits.
+
+You can open the preferences dialog for your extension manually with gnome-extensions prefs:
+sh
+
+$ gnome-extensions prefs example@gjs.guide
+
+stylesheet.css
+
+TIP
+
+The CSS in this file will only apply to GNOME Shell and extensions, not the extension preferences or any other application.
+
+stylesheet.css is CSS stylesheet which can apply custom styles to your widgets in extension.js or GNOME Shell as a whole. For example, if you had the following widgets:
+js
+
+import GObject from 'gi://GObject';
+import St from 'gi://St';
+
+
+// A standard StLabel
+const label = new St.Label({
+    text: 'LabelText',
+    style_class: 'example-style',
+});
+
+// An StLabel subclass with `GTypeName` set to "ExampleLabel"
+const ExampleLabel = GObject.registerClass({
+    GTypeName: 'ExampleLabel',
+}, class ExampleLabel extends St.Label {
+});
+
+const exampleLabel = new ExampleLabel({
+    text: 'Label Text',
+});
+
+You could have this in your stylesheet.css:
+css
+
+/* This will change the color of all StLabel elements */
+StLabel {
+    color: red;
+}
+
+/* This will change the color of all elements with the "example-style" class */
+.example-style {
+    color: green;
+}
+
+/* This will change the color of StLabel elements with the "example-style" class */
+StLabel.example-style {
+    color: blue;
+}
+
+/* This will change the color of your StLabel subclass with the custom GTypeName */
+ExampleLabel {
+    color: yellow;
+}
+
+Previous pageTypeScript and LSP
+Next pageArchitecture

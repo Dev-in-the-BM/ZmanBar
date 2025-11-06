@@ -37,8 +37,10 @@ export default class HebrewDateDisplayExtension extends Extension {
     _updateHebrewDate() {
         const today = new Date();
         const hebrewDateWithoutYear = formatJewishDateInHebrew(today, false);
-        const originalText = this._dateMenu._clock.clock; // Use the raw clock string
-        this._clockDisplay.set_text(`${originalText}  ${hebrewDateWithoutYear}`);
+        // The internal `_clock` property holds the time string without any other indicators.
+        const originalClockText = this._dateMenu._clock.clock;
+        // Combine the original clock time with our Hebrew date.
+        this._clockDisplay.set_text(`${originalClockText}  ${hebrewDateWithoutYear}`);
     }
 
     _onMenuOpened() {
@@ -54,11 +56,9 @@ export default class HebrewDateDisplayExtension extends Extension {
             log('JDate extension: Could not find dateLabel');
             return;
         }
-        const font = dateLabel.get_theme_node().get_font();
 
         this._dateLabel = dateLabel;
         this._originalDateText = this._dateLabel.get_text();
-        this._originalDateStyle = this._dateLabel.get_style();
 
         const today = new Date();
         const hebrewDateWithYear = formatJewishDateInHebrew(today, true);
@@ -69,11 +69,8 @@ export default class HebrewDateDisplayExtension extends Extension {
     _onMenuClosed() {
         if (this._dateLabel && this._originalDateText) {
             this._dateLabel.set_text(this._originalDateText);
-            this._dateLabel.set_style(this._originalDateStyle);
         }
         this._dateLabel = null;
-        this._originalDateText = null;
-        this._originalDateStyle = null;
     }
 
     _onMenuStateChanged(menu, isOpen) {
@@ -85,33 +82,35 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     enable() {
-        // Instead of patching, we listen for the same signal the dateMenu uses.
+        // Store the original text so we can restore it perfectly on disable.
+        this._originalClockText = this._clockDisplay.get_text();
+        
+        // Listen for the same signal the dateMenu uses to update the clock.
         this._clockUpdateSignal = this._dateMenu._clock.connect(
             'notify::clock',
             this._updateHebrewDate.bind(this)
         );
 
+        // Connect to menu opening/closing to show the full date.
         this._menuStateSignal = this._dateMenu.menu.connect('open-state-changed', this._onMenuStateChanged.bind(this));
 
-        // Trigger an immediate update
+        // Trigger an immediate update to show the date right away.
         this._updateHebrewDate();
     }
 
     disable() {
-        // Disconnect our clock update signal
-        this._dateMenu._clock.disconnect(this._clockUpdateSignal);
-        this._onMenuClosed();
-
+        // Disconnect all signals.
+        if (this._clockUpdateSignal) {
+            this._dateMenu._clock.disconnect(this._clockUpdateSignal);
+            this._clockUpdateSignal = null;
+        }
         if (this._menuStateSignal) {
             this._dateMenu.menu.disconnect(this._menuStateSignal);
             this._menuStateSignal = null;
         }
 
-        // Restore the original clock text by forcing the clock to update itself.
-        // This is the clean way to revert our changes without causing instability
-        // by destroying the clock object.
-        if (this._dateMenu._clock.update_clock) {
-            this._dateMenu._clock.update_clock();
-        }
+        // Restore UI to its original state.
+        this._onMenuClosed(); // Revert date label in the menu if it's open.
+        this._clockDisplay.set_text(this._originalClockText); // Restore original clock text immediately.
     }
 }
