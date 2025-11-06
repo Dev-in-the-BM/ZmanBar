@@ -1,6 +1,6 @@
 # ZmanBar - Hebrew Date for GNOME
 
-![ZmanBar](https://github.com/Dev-in-the-BM/ZmanBar/blob/main/Screenshot%20From%202025-11-05%2013-14-31_upscayl_2x_high-fidelity-4x.png?raw=true)
+![ZmanBar](https://github.com/Dev-in-the-BM/ZmanBar/blob/main/screenshot.png?raw=true)
 
 A simple GNOME Shell extension that displays the current Hebrew date in the top panel and calendar menu.
 
