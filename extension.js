@@ -35,11 +35,10 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _updateHebrewDate() {
-        if (this._topPanelLabel) {
-            const today = new Date();
-            const hebrewDateWithoutYear = formatJewishDateInHebrew(today, false);
-            this._topPanelLabel.set_text(hebrewDateWithoutYear);
-        }
+        const today = new Date();
+        const hebrewDateWithoutYear = formatJewishDateInHebrew(today, false);
+        const originalText = this._dateMenu._clock.clock; // Use the raw clock string
+        this._clockDisplay.set_text(`${originalText}  ${hebrewDateWithoutYear}`);
     }
 
     _onMenuOpened() {
@@ -56,7 +55,6 @@ export default class HebrewDateDisplayExtension extends Extension {
             return;
         }
         const font = dateLabel.get_theme_node().get_font();
-        log(`JDate extension: dateLabel font: ${font.to_string()}`);
 
         this._dateLabel = dateLabel;
         this._originalDateText = this._dateLabel.get_text();
@@ -78,57 +76,42 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._originalDateStyle = null;
     }
 
-    enable() {
-        this._topPanelLabel = new St.Label({
-            style_class: 'panel-date-label',
-            text: '',
-            y_align: Clutter.ActorAlign.CENTER,
-        });
-
-        const children = this._dateMenu._clockDisplay.get_parent().get_children();
-        this._dateMenu._clockDisplay.get_parent().insert_child_at_index(this._topPanelLabel, children.length - 1);
-
-        // Monkey-patch the menu's open and close methods
-        this._originalOpen = this._dateMenu.menu.open;
-        this._dateMenu.menu.open = (...args) => {
-            this._originalOpen.apply(this._dateMenu.menu, args);
+    _onMenuStateChanged(menu, isOpen) {
+        if (isOpen) {
             this._onMenuOpened();
-        };
-
-        this._originalClose = this._dateMenu.menu.close;
-        this._dateMenu.menu.close = (...args) => {
-            this._originalClose.apply(this._dateMenu.menu, args);
+        } else {
             this._onMenuClosed();
-        };
-        
-        this._clockUpdateSignal = this._clockDisplay.connect(
-             'notify::clock',
-             this._updateHebrewDate.bind(this)
+        }
+    }
+
+    enable() {
+        // Instead of patching, we listen for the same signal the dateMenu uses.
+        this._clockUpdateSignal = this._dateMenu._clock.connect(
+            'notify::clock',
+            this._updateHebrewDate.bind(this)
         );
 
+        this._menuStateSignal = this._dateMenu.menu.connect('open-state-changed', this._onMenuStateChanged.bind(this));
+
+        // Trigger an immediate update
         this._updateHebrewDate();
     }
 
     disable() {
-        if (this._originalOpen) {
-            this._dateMenu.menu.open = this._originalOpen;
-            this._originalOpen = null;
-        }
-        if (this._originalClose) {
-            this._dateMenu.menu.close = this._originalClose;
-            this._originalClose = null;
-        }
-
+        // Disconnect our clock update signal
+        this._dateMenu._clock.disconnect(this._clockUpdateSignal);
         this._onMenuClosed();
 
-        if (this._clockUpdateSignal) {
-            this._clockDisplay.disconnect(this._clockUpdateSignal);
-            this._clockUpdateSignal = null;
+        if (this._menuStateSignal) {
+            this._dateMenu.menu.disconnect(this._menuStateSignal);
+            this._menuStateSignal = null;
         }
 
-        if (this._topPanelLabel) {
-            this._topPanelLabel.destroy();
-            this._topPanelLabel = null;
+        // Restore the original clock text by forcing the clock to update itself.
+        // This is the clean way to revert our changes without causing instability
+        // by destroying the clock object.
+        if (this._dateMenu._clock.update_clock) {
+            this._dateMenu._clock.update_clock();
         }
     }
 }
