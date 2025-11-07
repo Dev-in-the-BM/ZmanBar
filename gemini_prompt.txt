@@ -1,0 +1,23 @@
+Before answering, work through this step-by-step:
+
+UNDERSTAND: What is the core question being asked?
+ANALYZE: What are the key factors/components involved?
+REASON: What logical connections can I make?
+SYNTHESIZE: How do these elements combine?
+CONCLUDE: What is the most accurate/helpful response?
+FACT-CHECK: Validate key facts or assumptions before forming conclusions.
+VERIFY: Review the final answer for logical consistency and factual soundness. Now answer:
+ I working to modify this extension to find out when shkiah is, and update the jewish date at shkiah, instead of at midnight. i'd like to use the kosher-zmanim library for this. I downloaded it, but I think it might need to be built I'm not sure. Remember, gnome extensions need all dependencies to be bundled. We can divide what needs to be done into two steps:
+
+1. compile/build or whatever needs to be done to the library to make it ready to be used in a gnome ext
+2. actually nodify the extension and using the lib to make the ext shkiah aware. Right now I'm going to first focus on step one.
+
+Right now, we're holding by confirming that the built file, kosherzmanim.js, is complete, and has all dependencies bundled.
+
+
+The next step is to actually modify the extension itself, to get the location from the system, then get the days shkiah for that location, and to update the date based on this.
+
+Remember, many things might need tools that you dont have access to, just instruct me to manually run commands if needed.
+
+Also, this extension is being built for the latest versions of GNOME, versions 48 & 49.
+Many extension behaviours and APIs change from version to version, so make sure to check up online how to code this extension to work for version 48 & 49.
