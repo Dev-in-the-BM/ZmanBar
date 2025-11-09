@@ -21,3 +21,11 @@ Remember, many things might need tools that you dont have access to, just instru
 
 Also, this extension is being built for the latest versions of GNOME, versions 48 & 49.
 Many extension behaviours and APIs change from version to version, so make sure to check up online how to code this extension to work for version 48 & 49.
+
+GNOME Extensions are offline, and can't access the web.
+They also have many restrictions to how they can be coded that differ from regular js.
+
+Make sure to research online how GNOME extensions get coded, and everything about it.
+I think that kosher-zmanim.js the way it is right now isn't compatible with the extension, and might need to be refactored.
+
+before making any changes or edits, explain what you're doing, and why.

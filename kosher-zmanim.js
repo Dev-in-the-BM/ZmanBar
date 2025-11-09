@@ -7,7 +7,7 @@
 		exports["KosherZmanim"] = factory();
 	else
 		root["KosherZmanim"] = factory();
-})(window, function() {
+})(globalThis, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
