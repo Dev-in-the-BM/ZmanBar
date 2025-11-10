@@ -8,9 +8,30 @@ import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 import Geoclue from 'gi://Geoclue?version=2.0';
 
-import { toJewishDate, formatJewishDateInHebrew } from './JewishDate.js';
-import * as KosherZmanim from './kosher-zmanim.js';
+import { formatJewishDateInHebrew } from './JewishDate.js';
+import { log, close } from './logger.js';
 
+function importUMD(path) {
+    const file = Gio.File.new_for_path(path);
+    const [, contents] = file.load_contents(null);
+    const module = { exports: {} };
+
+    // The UMD wrapper expects `module` and `exports`.
+    // We can create a function that has those in its scope.
+    const umdLoader = new Function('module', 'exports', 'globalThis', new TextDecoder().decode(contents));
+
+    // Execute the UMD bundle, which will populate `module.exports`.
+    // We pass `globalThis` so the UMD wrapper can attach to it if needed.
+    umdLoader(module, module.exports, globalThis);
+
+    return module.exports;
+}
+
+// Get the path of the current module, remove the 'file://' prefix,
+// and then construct the path to the UMD module.
+const kosherZmanimPath = import.meta.url.substring(7).replace('extension.js', 'kosher-zmanim.js');
+const KosherZmanim = importUMD(kosherZmanimPath);
+log('KosherZmanim object loaded successfully.');
 
 // Recursive function to find a widget by its style class
 function findActorByClassName(actor, className) {
@@ -56,7 +77,7 @@ export default class HebrewDateDisplayExtension extends Extension {
             this._clueSimple.connect('notify::location', this._onLocationUpdate.bind(this));
             this._clueSimple.start();
         } catch (e) {
-            console.log(`JDate extension: Geoclue service not available. Falling back to default location. Error: ${e}`);
+            log(`JDate extension: Geoclue service not available. Falling back to default location. Error: ${e}`);
             // Default to Tel Aviv if GClue is not available
             this._location = {
                 latitude: 32.0853,
@@ -79,7 +100,7 @@ export default class HebrewDateDisplayExtension extends Extension {
             timezone: location.get_timezone_id(),
         };
 
-        console.log(`JDate extension: Location updated to ${this._location.latitude}, ${this._location.longitude}`);
+        log(`JDate extension: Location updated to ${this._location.latitude}, ${this._location.longitude}`);
 
         // Once we have a location, start the update cycle
         this._scheduleNextUpdate();
@@ -94,7 +115,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         }
 
         if (!this._location) {
-            console.log('JDate extension: Waiting for location data to schedule update...');
+            log('JDate extension: Waiting for location data to schedule update...');
             return;
         }
 
@@ -104,20 +125,20 @@ export default class HebrewDateDisplayExtension extends Extension {
         const geoLocation = new KosherZmanim.GeoLocation(null, latitude, longitude, 0, timezone);
         const zmanimCalendar = new KosherZmanim.ComplexZmanimCalendar(geoLocation);
 
-        let shkiah = zmanimCalendar.getSunset();
+        let shkiahDateTime = zmanimCalendar.getSunset();
 
         // If shkiah for today has already passed, calculate for tomorrow
-        if (now > shkiah) {
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
+        if (now > shkiahDateTime.toJSDate()) {
+            const tomorrow = new Date(now.getTime());
+            tomorrow.setDate(now.getDate() + 1);
             zmanimCalendar.setDate(tomorrow);
-            shkiah = zmanimCalendar.getSunset();
+            shkiahDateTime = zmanimCalendar.getSunset();
         }
 
-        this._shkiah = shkiah;
+        this._shkiah = shkiahDateTime.toJSDate();
         const diff = this._shkiah.getTime() - now.getTime();
 
-        console.log(`JDate extension: Next shkiah at ${this._shkiah}. Scheduling update in ${diff / 1000} seconds.`);
+        log(`JDate extension: Next shkiah at ${this._shkiah}. Scheduling update in ${diff / 1000} seconds.`);
 
         // Schedule the next update to happen at shkiah
         this._timeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, diff, () => {
@@ -127,7 +148,7 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _updateDateAndReschedule() {
-        console.log('JDate extension: Shkiah reached. Updating date and rescheduling.');
+        log('JDate extension: Shkiah reached. Updating date and rescheduling.');
         this._updateHebrewDate();
         this._scheduleNextUpdate();
     }
@@ -151,13 +172,13 @@ export default class HebrewDateDisplayExtension extends Extension {
     _onMenuOpened() {
         const todayButton = findActorByClassName(Main.panel.statusArea.dateMenu.menu.box, 'datemenu-today-button');
         if (!todayButton) {
-            console.log('JDate extension: Could not find todayButton');
+            log('JDate extension: Could not find todayButton');
             return;
         }
 
         const dateLabel = findActorByClassName(todayButton, 'date-label');
         if (!dateLabel) {
-            console.log('JDate extension: Could not find dateLabel');
+            log('JDate extension: Could not find dateLabel');
             return;
         }
 
@@ -233,5 +254,7 @@ export default class HebrewDateDisplayExtension extends Extension {
 
         this._location = null;
         this._shkiah = null;
+        
+        close();
     }
 }
