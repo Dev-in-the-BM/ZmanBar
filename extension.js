@@ -58,12 +58,17 @@ export default class HebrewDateDisplayExtension extends Extension {
         try {
             this._clueSimple = new Geoclue.Simple({
                 desktop_id: 'org.gnome.Shell',
+                // time_threshold: 60, // Only get updates every minute
+                // distance_threshold: 1000, // Only get updates if location changes by 1km
                 accuracy_level: Geoclue.AccuracyLevel.CITY,
             });
             log('Geoclue.Simple created for desktop_id: org.gnome.Shell');
 
             const processLocation = (location) => {
-                if (this._location) return; 
+                if (this._location) {
+                    log('processLocation called, but location is already set. Ignoring.');
+                    return; 
+                }
 
                 if (!location) {
                     logError(new Error('processLocation called with null location.'));
@@ -74,7 +79,8 @@ export default class HebrewDateDisplayExtension extends Extension {
                     const latitude = location.get_latitude();
                     const longitude = location.get_longitude();
                     const timezone = location.get_timezone_id() || GLib.TimeZone.new_local().get_identifier();
-                    this._location = { latitude, longitude, timezone };
+                    this._location = { latitude, longitude, timezone, source: 'Geoclue' };
+                    log(`Location has been set to: ${JSON.stringify(this._location)}`);
 
                     log(`Location found: Lat ${latitude}, Lon ${longitude}`);
                     if (this._fallbackTimer) {
@@ -131,7 +137,7 @@ export default class HebrewDateDisplayExtension extends Extension {
             this._scheduleMidnightUpdate();
         } else {
             const timezone = GLib.TimeZone.new_local().get_identifier();
-            this._location = { latitude, longitude, timezone };
+            this._location = { latitude, longitude, timezone, source: 'Saved Settings' };
             log(`Using saved location: Lat ${latitude}, Lon ${longitude}`);
             this._scheduleNextUpdate();
         }
@@ -145,6 +151,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         }
         this._location = null;
         this._shkiah = null;
+        log('Cleared current location and shkiah time.');
         this._useSavedLocation();
         this._updateHebrewDate();
     }
@@ -156,7 +163,8 @@ export default class HebrewDateDisplayExtension extends Extension {
         }
         const now = new Date();
         const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-        const diff = tomorrow.getTime() - now.getTime();
+        const diff = tomorrow.getTime() - now.getTime() + 1000; // Add a second to ensure it's after midnight
+        log(`Next update will be at: ${tomorrow.toLocaleString()}`);
         log(`Scheduling next update at midnight in ${Math.round(diff / 1000)}s.`);
         this._timeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, diff, () => {
             this._updateDateAndReschedule();
@@ -186,6 +194,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         }
 
         this._shkiah = shkiahDateTime.toJSDate();
+        log(`Calculated next shkiah at: ${this._shkiah.toLocaleString()}`);
         const diff = this._shkiah.getTime() - now.getTime();
         log(`Next shkiah at ${this._shkiah.toLocaleTimeString()}. Scheduling update in ${Math.round(diff / 1000)}s.`);
         this._timeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, diff, () => {
@@ -210,11 +219,13 @@ export default class HebrewDateDisplayExtension extends Extension {
         let dateForHebrewCalc = now;
 
         if (this._shkiah && now > this._shkiah) {
+            log(`Current time is after shkiah (${this._shkiah.toLocaleTimeString()}). Using tomorrow's date for display.`);
             const tomorrow = new Date(now.getTime() + 86400000);
             dateForHebrewCalc = tomorrow;
         }
 
         const hebrewDateWithoutYear = formatJewishDateInHebrew(dateForHebrewCalc, false);
+        log(`Formatted Hebrew date: ${hebrewDateWithoutYear}`);
         const originalClockText = this._dateMenu._clock.clock;
         this._clockDisplay.set_text(`${originalClockText}  ${hebrewDateWithoutYear}`);
     }
@@ -238,11 +249,13 @@ export default class HebrewDateDisplayExtension extends Extension {
 
         const now = new Date();
         let dateForHebrewCalc = now;
-        if (this._shkiah && now > this._shkiah) {
+        if (this._shkiah && now > this._shkiah) { // Duplicated logic, but necessary for menu context
+            log(`Date menu opened after shkiah. Using tomorrow's date for menu.`);
             dateForHebrewCalc = new Date(now.getTime() + 86400000);
         }
 
         const hebrewDateWithYear = formatJewishDateInHebrew(dateForHebrewCalc, true);
+        log(`Formatted Hebrew date for menu: ${hebrewDateWithYear}`);
         this._dateLabel.set_text(`${this._originalDateText}\n${hebrewDateWithYear}`);
     }
 

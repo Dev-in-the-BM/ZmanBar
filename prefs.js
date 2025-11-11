@@ -12,13 +12,22 @@ import { log, logError } from './logger.js';
 export default class ZmanBarPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
-        this._httpSession = new Soup.Session();
+        this._httpSession = Soup.Session.new_with_options({ 'force-http1': true });
         this._searchTimeout = null;
+        this._window = null;
+    }
+
+    _onWindowDestroy() {
+        log('ZmanBar Preferences window closed.');
         log('ZmanBar Preferences window opened.');
     }
 
     fillPreferencesWindow(window) {
+        log('Filling preferences window...');
         this.settings = this.getSettings();
+
+        this._window = window;
+        this._window.connect('destroy', this._onWindowDestroy.bind(this));
 
         const page = new Adw.PreferencesPage();
         const group = new Adw.PreferencesGroup({
@@ -65,6 +74,8 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
         // --- Event Handlers ---
         searchEntry.connect('search-changed', () => {
+            const query = searchEntry.get_text().trim();
+            log(`Search text changed: "${query}"`);
             if (this._searchTimeout) {
                 GLib.source_remove(this._searchTimeout);
             }
@@ -84,6 +95,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             const result = row.get_child().get_data('result');
             if (result) {
                 log(`Location selected: ${result.display_name}`);
+                log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
                 this.settings.set_string('location-name', result.display_name);
                 this.settings.set_double('latitude', parseFloat(result.lat));
                 this.settings.set_double('longitude', parseFloat(result.lon));
@@ -108,6 +120,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             try {
                 const bytes = session.send_and_read_finish(result);
                 const response = new TextDecoder().decode(bytes.get_data());
+                log(`Nominatim response: ${response}`);
                 const data = JSON.parse(response);
                 this._updateResults(data);
             }
@@ -120,7 +133,9 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
     _updateResults(results) {
         this._clearResults();
-        log(`Found ${results ? results.length : 0} results for location search.`);
+        const resultCount = results ? results.length : 0;
+        log(`Found ${resultCount} results for location search.`);
+        log(`Search results: ${JSON.stringify(results)}`);
         if (!results || results.length === 0) {
             const row = new Gtk.ListBoxRow();
             row.set_child(new Gtk.Label({ label: 'No results found.', margin_top: 6, margin_bottom: 6 }));
@@ -146,6 +161,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     }
 
     _clearResults() {
+        log('Clearing search results.');
         this._resultsListBox.remove_all();
         this._resultsListBox.set_visible(false);
     }

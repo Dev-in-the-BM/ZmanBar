@@ -21,7 +21,14 @@ function _getStream() {
                 base_stream: rawStream,
                 close_base_stream: true,
             });
-            log('Log file initialized at: ' + logFile.get_path());
+
+            // Write the initialization message directly and synchronously.
+            const time = new Date();
+            const separator = '-----\n';
+            const logMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] INFO: Log file initialized at: ${logFile.get_path()}\n`;
+            _logStream.write_all(new TextEncoder().encode(separator), null);
+            _logStream.write_all(new TextEncoder().encode(logMessage), null);
+
         } catch (e) {
             console.error('Error opening log file: ' + e.message);
         }
@@ -43,15 +50,12 @@ export function log(message) {
     const time = new Date();
     const logMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] INFO: ${message}\n`;
 
-    // Asynchronously write to the log file
-    const bytes = new GLib.Bytes(new TextEncoder().encode(logMessage));
-    stream.write_bytes_async(bytes, GLib.PRIORITY_DEFAULT, null, (stream, res) => {
-        try {
-            stream.write_bytes_finish(res);
-        } catch (e) {
-            console.error('Failed to write to log file: ' + e.message);
-        }
-    });
+    // Synchronously write to the log file
+    try {
+        stream.write_all(new TextEncoder().encode(logMessage), null);
+    } catch (e) {
+        console.error('Failed to write to log file: ' + e.message);
+    }
 }
 
 export function logError(error, message = 'An error occurred') {
@@ -63,21 +67,21 @@ export function logError(error, message = 'An error occurred') {
 
     const time = new Date();
     let errorMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] ERROR: ${message}\n`;
-    if (error instanceof Error) {
+
+    if (error instanceof GLib.Error) {
+        errorMessage += `Domain: ${error.domain}, Code: ${error.code}, Message: ${error.message}\n`;
+    } else if (error instanceof Error) {
         errorMessage += `Stack: ${error.stack}\n`;
     } else {
         errorMessage += `Details: ${error}\n`;
     }
 
-    // Asynchronously write to the log file
-    const bytes = new GLib.Bytes(new TextEncoder().encode(errorMessage));
-    stream.write_bytes_async(bytes, GLib.PRIORITY_DEFAULT, null, (stream, res) => {
-        try {
-            stream.write_bytes_finish(res);
-        } catch (e) {
-            console.error('Failed to write error to log file: ' + e.message);
-        }
-    });
+    // Synchronously write to the log file
+    try {
+        stream.write_all(new TextEncoder().encode(errorMessage), null);
+    } catch (e) {
+        console.error('Failed to write error to log file: ' + e.message);
+    }
 }
 
 export function close() {
