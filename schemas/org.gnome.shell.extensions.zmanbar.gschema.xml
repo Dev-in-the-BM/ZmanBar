@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema id="org.gnome.shell.extensions.zmanbar" path="/org/gnome/shell/extensions/zmanbar/">
-    <key name="location-string" type="s">
+    <key name="location-name" type="s">
       <default>''</default>
-      <summary>Manual location string</summary>
-      <description>A string for your location, like "New York, NY", used if automatic location fails.</description>
+      <summary>Location Name</summary>
+      <description>The name of the location for Zmanim, e.g., "New York, NY".</description>
+    </key>
+    <key name="latitude" type="d">
+      <default>0.0</default>
+      <summary>Latitude</summary>
+      <description>The latitude of the location.</description>
+    </key>
+    <key name="longitude" type="d">
+      <default>0.0</default>
+      <summary>Longitude</summary>
+      <description>The longitude of the location.</description>
     </key>
   </schema>
 </schemalist>
