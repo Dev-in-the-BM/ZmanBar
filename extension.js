@@ -1,6 +1,7 @@
 
 import Clutter from 'gi://Clutter';
 import St from 'gi://St';
+import Soup from 'gi://Soup?version=3.0';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import GLib from 'gi://GLib';
@@ -66,6 +67,8 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._shkiah = null;
         this._timeoutId = null;
         this._fallbackTimer = null;
+
+        this._httpSession = new Soup.Session();
     }
 
     _initLocationService() {
@@ -99,8 +102,8 @@ export default class HebrewDateDisplayExtension extends Extension {
                     }
                     this._scheduleNextUpdate();
                 } catch (e) {
-                    log(`JDate extension: Error processing location: ${e.message}. Falling back to midnight updates.`);
-                    this._scheduleMidnightUpdate();
+                    log(`JDate extension: Error processing location: ${e.message}. Trying manual location.`);
+                    this._fetchLocationManually();
                 }
             };
 
@@ -134,17 +137,78 @@ export default class HebrewDateDisplayExtension extends Extension {
                 // If no location after a bit, fall back.
                 this._fallbackTimer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 20000, () => {
                     if (!this._location) {
-                        log('JDate extension: No location received after 20s. Falling back to midnight updates.');
-                        this._scheduleMidnightUpdate();
+                        log('JDate extension: No location received after 20s. Trying manual location.');
+                        this._fetchLocationManually();
                     }
                     this._fallbackTimer = null;
                     return GLib.SOURCE_REMOVE;
                 });
             }
         } catch (e) {
-            log(`JDate extension: Failed to initialize Geoclue. Error: ${e.message}. Falling back to midnight updates.`);
-            this._scheduleMidnightUpdate();
+            log(`JDate extension: Failed to initialize Geoclue. Error: ${e.message}. Trying manual location.`);
+            this._fetchLocationManually();
         }
+    }
+
+    _fetchLocationManually() {
+        const settings = this.getSettings();
+        const locationString = settings.get_string('location-string');
+
+        if (!locationString || locationString.trim() === '') {
+            log('JDate extension: Manual location not set. Falling back to midnight updates.');
+            this._scheduleMidnightUpdate();
+            return;
+        }
+
+        log(`JDate extension: Fetching coordinates for manual location: "${locationString}"`);
+
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationString)}`;
+        const message = new Soup.Message({
+            method: 'GET',
+            uri: GLib.Uri.parse(url, GLib.UriFlags.NONE)
+        });
+
+        // Set a custom User-Agent as required by Nominatim's usage policy
+        message.request_headers.append('User-Agent', `GNOME Shell Extension ZmanBar/${this.metadata.version}`);
+
+        this._httpSession.send_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
+            try {
+                const bytes = session.send_finish(result);
+                const response = new TextDecoder().decode(bytes.get_data());
+                const data = JSON.parse(response);
+
+                if (data && data.length > 0) {
+                    const firstResult = data[0];
+                    const latitude = parseFloat(firstResult.lat);
+                    const longitude = parseFloat(firstResult.lon);
+
+                    // We don't get a timezone from Nominatim, so we use the system's default.
+                    const timezone = GLib.TimeZone.new_local().get_identifier();
+
+                    this._location = { latitude, longitude, timezone };
+                    log(`JDate extension: Manual location coordinates found: ${latitude}, ${longitude}`);
+                    this._scheduleNextUpdate();
+                } else {
+                    log(`JDate extension: No results found for "${locationString}". Falling back to midnight updates.`);
+                    this._scheduleMidnightUpdate();
+                }
+            } catch (e) {
+                log(`JDate extension: Error fetching manual location: ${e.message}. Falling back to midnight updates.`);
+                this._scheduleMidnightUpdate();
+            }
+        });
+    }
+
+    _onLocationSettingChanged() {
+        log('JDate extension: Manual location setting changed. Re-initializing location service.');
+        // Clear existing location and timers to force a re-fetch
+        if (this._timeoutId) {
+            GLib.Source.remove(this._timeoutId);
+            this._timeoutId = null;
+        }
+        this._location = null;
+        this._shkiah = null;
+        this._initLocationService();
     }
 
     _scheduleMidnightUpdate() {
@@ -283,6 +347,12 @@ export default class HebrewDateDisplayExtension extends Extension {
     enable() {
         this._originalClockText = this._clockDisplay.get_text();
         
+        this._settings = this.getSettings();
+        this._settingsChangedSignal = this._settings.connect(
+            'changed::location-string',
+            this._onLocationSettingChanged.bind(this)
+        );
+
         // This signal updates the time portion of the clock display
         this._clockUpdateSignal = this._dateMenu._clock.connect(
             'notify::clock',
@@ -302,6 +372,11 @@ export default class HebrewDateDisplayExtension extends Extension {
         if (this._clockUpdateSignal) {
             this._dateMenu._clock.disconnect(this._clockUpdateSignal);
             this._clockUpdateSignal = null;
+        }
+        if (this._settingsChangedSignal) {
+            this._settings.disconnect(this._settingsChangedSignal);
+            this._settingsChangedSignal = null;
+            this._settings = null;
         }
         if (this._menuStateSignal) {
             this._dateMenu.menu.disconnect(this._menuStateSignal);

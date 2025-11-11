@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.zmanbar" path="/org/gnome/shell/extensions/zmanbar/">
+    <key name="location-string" type="s">
+      <default>''</default>
+      <summary>Manual location string</summary>
+      <description>A string for your location, like "New York, NY", used if automatic location fails.</description>
+    </key>
+  </schema>
+</schemalist>
