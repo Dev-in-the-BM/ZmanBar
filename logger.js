@@ -1,22 +1,36 @@
-const Mainloop = imports.mainloop;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 
-var logFile = Gio.file_new_for_path(GLib.get_home_dir() + '/.ZmanBar.log');
-var logStream = logFile.append_to(Gio.FileCreateFlags.REPLACE, null);
+let _logStream = null;
+
+function _getStream() {
+    if (!_logStream) {
+        const logFile = Gio.File.new_for_path(GLib.get_home_dir() + '/.ZmanBar.log');
+        // Open the file for appending, creating it if it doesn't exist.
+        // Using REPLACE is risky if the extension restarts quickly. APPEND is safer.
+        const rawStream = logFile.append_to(Gio.FileCreateFlags.NONE, null);
+        _logStream = new Gio.DataOutputStream({
+            base_stream: rawStream,
+            close_base_stream: true,
+        });
+    }
+    return _logStream;
+}
 
 export function log(message) {
-    let time = new Date();
-    let logMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] ${message}\n`;
-    logStream.write(logMessage, null);
+    const stream = _getStream();
+    const time = new Date();
+    const logMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] ${message}\n`;
+
+    // Asynchronously write to the log file without blocking the UI
+    stream.put_string(logMessage, null, (stream, res) => {
+        stream.put_string_finish(res);
+    });
 }
 
 export function close() {
-    logStream.close(null);
+    if (_logStream) {
+        _logStream.close(null);
+        _logStream = null;
+    }
 }
-
-// Add a timeout to flush the stream periodically
-Mainloop.timeout_add_seconds(5, () => {
-    logStream.flush(null);
-    return true; // Keep the timeout running
-});

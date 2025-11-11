@@ -65,47 +65,110 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._clueSimple = null;
         this._shkiah = null;
         this._timeoutId = null;
+        this._fallbackTimer = null;
     }
 
     _initLocationService() {
+        log('JDate extension: Initializing location service...');
         try {
             this._clueSimple = new Geoclue.Simple({
-                desktop_id: this.uuid,
-                distance_threshold: 1000, // 1km
-                time_threshold: 600, // 10 minutes
+                desktop_id: 'org.gnome.Shell',
+                accuracy_level: Geoclue.AccuracyLevel.CITY,
             });
-            this._clueSimple.connect('notify::location', this._onLocationUpdate.bind(this));
-            this._clueSimple.start();
-        } catch (e) {
-            log(`JDate extension: Geoclue service not available. Falling back to default location. Error: ${e}`);
-            // Default to Tel Aviv if GClue is not available
-            this._location = {
-                latitude: 32.0853,
-                longitude: 34.7818,
-                timezone: 'Asia/Jerusalem',
+            log(`JDate extension: Geoclue.Simple created with desktop_id: org.gnome.Shell`);
+
+            const processLocation = (location) => {
+                if (this._location) return; // Already have a location
+
+                if (!location) {
+                    log('JDate extension: processLocation called with null location.');
+                    return;
+                }
+
+                try {
+                    const latitude = location.get_latitude();
+                    const longitude = location.get_longitude();
+                    const timezone = location.get_timezone_id();
+
+                    this._location = { latitude, longitude, timezone };
+
+                    log(`JDate extension: Location found: ${latitude}, ${longitude}`);
+                    if (this._fallbackTimer) {
+                        GLib.Source.remove(this._fallbackTimer);
+                        this._fallbackTimer = null;
+                    }
+                    this._scheduleNextUpdate();
+                } catch (e) {
+                    log(`JDate extension: Error processing location: ${e.message}. Falling back to midnight updates.`);
+                    this._scheduleMidnightUpdate();
+                }
             };
-            this._scheduleNextUpdate();
+
+            this._clueSimple.connect('notify::location', () => {
+                const location = this._clueSimple.get_location();
+                if (location) {
+                    let props = {};
+                    for (const prop in Geoclue.Location.props) {
+                        if (prop !== 'bounding-box') { // This one can be spammy
+                            try {
+                                props[prop] = location[prop];
+                            } catch (e) {
+                                // Ignore properties that might not be available
+                            }
+                        }
+                    }
+                    log(`JDate extension: Received location update: ${JSON.stringify(props, null, 2)}`);
+                } else {
+                    log('JDate extension: Received null location update from notify::location signal.');
+                }
+                processLocation(location);
+            });
+
+            // Process initial location if available
+            const initialLocation = this._clueSimple.get_location();
+            if (initialLocation) {
+                log('JDate extension: Initial location available on startup.');
+                processLocation(initialLocation);
+            } else {
+                log('JDate extension: No initial location available. Waiting for update...');
+                // If no location after a bit, fall back.
+                this._fallbackTimer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 20000, () => {
+                    if (!this._location) {
+                        log('JDate extension: No location received after 20s. Falling back to midnight updates.');
+                        this._scheduleMidnightUpdate();
+                    }
+                    this._fallbackTimer = null;
+                    return GLib.SOURCE_REMOVE;
+                });
+            }
+        } catch (e) {
+            log(`JDate extension: Failed to initialize Geoclue. Error: ${e.message}. Falling back to midnight updates.`);
+            this._scheduleMidnightUpdate();
         }
     }
 
-    _onLocationUpdate() {
-        if (!this._clueSimple) return;
+    _scheduleMidnightUpdate() {
+        // If a timeout is already scheduled, remove it.
+        if (this._timeoutId) {
+            GLib.Source.remove(this._timeoutId);
+            this._timeoutId = null;
+        }
 
-        const location = this._clueSimple.get_location();
-        if (!location) return;
+        const now = new Date();
+        const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        const diff = tomorrow.getTime() - now.getTime();
 
-        this._location = {
-            latitude: location.get_latitude(),
-            longitude: location.get_longitude(),
-            timezone: location.get_timezone_id(),
-        };
+        log(`JDate extension: Scheduling next update at midnight in ${diff / 1000} seconds.`);
 
-        log(`JDate extension: Location updated to ${this._location.latitude}, ${this._location.longitude}`);
-
-        // Once we have a location, start the update cycle
-        this._scheduleNextUpdate();
+        // Schedule the next update to happen at midnight
+        this._timeoutId = GLib.timeout_add(
+            GLib.PRIORITY_DEFAULT,
+            diff,
+            () => {
+                this._updateDateAndReschedule();
+                return GLib.SOURCE_REMOVE; // Run only once
+            });
     }
-
 
     _scheduleNextUpdate() {
         // If a timeout is already scheduled, remove it before scheduling a new one.
@@ -150,7 +213,11 @@ export default class HebrewDateDisplayExtension extends Extension {
     _updateDateAndReschedule() {
         log('JDate extension: Shkiah reached. Updating date and rescheduling.');
         this._updateHebrewDate();
-        this._scheduleNextUpdate();
+        if (this._location) {
+            this._scheduleNextUpdate();
+        } else {
+            this._scheduleMidnightUpdate();
+        }
     }
 
     _updateHebrewDate() {
@@ -244,8 +311,11 @@ export default class HebrewDateDisplayExtension extends Extension {
             GLib.Source.remove(this._timeoutId);
             this._timeoutId = null;
         }
+        if (this._fallbackTimer) {
+            GLib.Source.remove(this._fallbackTimer);
+            this._fallbackTimer = null;
+        }
         if (this._clueSimple) {
-            this._clueSimple.stop();
             this._clueSimple = null;
         }
 
