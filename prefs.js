@@ -12,9 +12,10 @@ import { log, logError } from './logger.js';
 export default class ZmanBarPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
-        this._httpSession = Soup.Session.new_with_options({ 'force-http1': true });
+        this._httpSession = Soup.Session.new();
         this._searchTimeout = null;
         this._window = null;
+        this._searchResults = [];
     }
 
     _onWindowDestroy() {
@@ -92,7 +93,9 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         });
 
         this._resultsListBox.connect('row-activated', (box, row) => {
-            const result = row.get_child().get_data('result');
+            const index = row.get_index();
+            const result = this._searchResults[index];
+
             if (result) {
                 log(`Location selected: ${result.display_name}`);
                 log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
@@ -133,16 +136,19 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
     _updateResults(results) {
         this._clearResults();
-        const resultCount = results ? results.length : 0;
+        this._searchResults = results || []; // Store results
+
+        const resultCount = this._searchResults.length;
         log(`Found ${resultCount} results for location search.`);
-        log(`Search results: ${JSON.stringify(results)}`);
-        if (!results || results.length === 0) {
+        log(`Search results: ${JSON.stringify(this._searchResults)}`);
+
+        if (resultCount === 0) {
             const row = new Gtk.ListBoxRow();
             row.set_child(new Gtk.Label({ label: 'No results found.', margin_top: 6, margin_bottom: 6 }));
             row.set_selectable(false);
             this._resultsListBox.append(row);
         } else {
-            results.forEach(result => {
+            this._searchResults.forEach(result => {
                 const row = new Gtk.ListBoxRow();
                 const label = new Gtk.Label({
                     label: result.display_name,
@@ -152,7 +158,6 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
                     margin_start: 6,
                     margin_end: 6,
                 });
-                label.set_data('result', result);
                 row.set_child(label);
                 this._resultsListBox.append(row);
             });
@@ -162,6 +167,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
     _clearResults() {
         log('Clearing search results.');
+        this._searchResults = [];
         this._resultsListBox.remove_all();
         this._resultsListBox.set_visible(false);
     }
