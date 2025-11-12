@@ -26,14 +26,21 @@ const KosherZmanim = importUMD(kosherZmanimPath);
 log('KosherZmanim library loaded successfully.');
 
 function findActorByClassName(actor, className) {
-    if (!actor) return null;
-    if (actor.get_style_class_name && actor.get_style_class_name().includes(className)) {
-        return actor;
+    if (!actor) {
+        return null;
+    }
+    if (actor.get_style_class_name) {
+        const styleClassName = actor.get_style_class_name();
+        if (styleClassName && styleClassName.includes(className)) {
+            return actor;
+        }
     }
     if (actor.get_children) {
         for (const child of actor.get_children()) {
             const found = findActorByClassName(child, className);
-            if (found) return found;
+            if (found) {
+                return found;
+            }
         }
     }
     return null;
@@ -231,43 +238,59 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuOpened() {
-        log('Date menu opened.');
+        log('Executing _onMenuOpened to update notification center date.');
         const todayButton = findActorByClassName(Main.panel.statusArea.dateMenu.menu.box, 'datemenu-today-button');
         if (!todayButton) {
-            logError(new Error('Could not find todayButton in date menu.'));
+            logError(new Error('Could not find todayButton actor in notification center.'));
             return;
         }
+        log('Found todayButton actor.');
 
         const dateLabel = findActorByClassName(todayButton, 'date-label');
         if (!dateLabel) {
-            logError(new Error('Could not find dateLabel in todayButton.'));
+            logError(new Error('Could not find dateLabel actor in notification center.'));
             return;
         }
+        log('Found dateLabel actor.');
 
         this._dateLabel = dateLabel;
         this._originalDateText = this._dateLabel.get_text();
+        log(`Original date text in notification center: "${this._originalDateText}"`);
 
         const now = new Date();
         let dateForHebrewCalc = now;
-        if (this._shkiah && now > this._shkiah) { // Duplicated logic, but necessary for menu context
-            log(`Date menu opened after shkiah. Using tomorrow's date for menu.`);
-            dateForHebrewCalc = new Date(now.getTime() + 86400000);
+        if (this._shkiah && now > this._shkiah) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            dateForHebrewCalc = tomorrow;
+            log('After shkiah, using tomorrow for Hebrew date calculation.');
         }
 
         const hebrewDateWithYear = formatJewishDateInHebrew(dateForHebrewCalc, true);
-        log(`Formatted Hebrew date for menu: ${hebrewDateWithYear}`);
-        this._dateLabel.set_text(`${this._originalDateText}\n${hebrewDateWithYear}`);
+        const newText = `${this._originalDateText}\n${hebrewDateWithYear}`;
+        log(`Setting new text for notification center: "${newText.replace('\n', '\\n')}"`);
+        
+        try {
+            this._dateLabel.set_text(newText);
+            log('Successfully set new date text in notification center.');
+        } catch (e) {
+            logError(e, 'Failed to set text on dateLabel.');
+        }
     }
 
     _onMenuClosed() {
-        log('Date menu closed.');
+        log('Executing _onMenuClosed.');
         if (this._dateLabel && this._originalDateText) {
+            log(`Restoring original date text: "${this._originalDateText}"`);
             this._dateLabel.set_text(this._originalDateText);
+        } else {
+            log('No original date text to restore.');
         }
         this._dateLabel = null;
     }
 
     _onMenuStateChanged(menu, isOpen) {
+        log(`Date menu state changed. Is open: ${isOpen}`);
         if (isOpen) {
             this._onMenuOpened();
         } else {
