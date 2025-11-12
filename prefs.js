@@ -38,40 +38,28 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         page.add(group);
         window.add(page);
 
-        // --- Location Search Entry ---
-        const searchRow = new Adw.ActionRow({
-            title: 'Search for Location',
+        // --- Location Expander Row ---
+        const locationExpander = new Adw.ExpanderRow({
+            title: 'Location',
+            subtitle: this.settings.get_string('location-name') || 'Not Set',
         });
-        group.add(searchRow);
+        group.add(locationExpander);
 
         const searchEntry = new Gtk.SearchEntry({
             placeholder_text: 'e.g., "New York, NY" or "90210"',
             hexpand: true,
+            margin_top: 6,
+            margin_bottom: 6,
         });
-        searchRow.add_suffix(searchEntry);
-        searchRow.activatable_widget = searchEntry;
+        locationExpander.add_row(searchEntry);
 
-        // --- Current Location Display ---
-        const locationRow = new Adw.ActionRow({
-            title: 'Current Location',
-        });
-        group.add(locationRow);
-
-        this._locationLabel = new Gtk.Label({
-            label: this.settings.get_string('location-name') || 'Not Set',
-            halign: Gtk.Align.START,
-            hexpand: true,
-            css_classes: ['dim-label'],
-        });
-        locationRow.add_suffix(this._locationLabel);
-
-        // --- Search Results List ---
         this._resultsListBox = new Gtk.ListBox({
-            margin_top: 12,
+            margin_top: 6,
             selection_mode: Gtk.SelectionMode.SINGLE,
             visible: false, // Initially hidden
         });
-        group.add(this._resultsListBox);
+        locationExpander.add_row(this._resultsListBox);
+
 
         // --- Event Handlers ---
         searchEntry.connect('search-changed', () => {
@@ -103,9 +91,10 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
                 this.settings.set_double('latitude', parseFloat(result.lat));
                 this.settings.set_double('longitude', parseFloat(result.lon));
 
-                this._locationLabel.set_label(result.display_name);
+                locationExpander.set_subtitle(result.display_name);
                 searchEntry.set_text('');
                 this._clearResults();
+                locationExpander.set_expanded(false);
             }
         });
     }
@@ -168,7 +157,9 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     _clearResults() {
         log('Clearing search results.');
         this._searchResults = [];
-        this._resultsListBox.remove_all();
+        while (this._resultsListBox.get_row_at_index(0)) {
+            this._resultsListBox.remove(this._resultsListBox.get_row_at_index(0));
+        }
         this._resultsListBox.set_visible(false);
     }
 }
