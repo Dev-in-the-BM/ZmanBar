@@ -17,6 +17,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this._currentSearchMessage = null; // To track the current request
         this._window = null;
         this._searchResults = [];
+        this._spinner = null;
     }
 
     _onWindowDestroy() {
@@ -54,12 +55,21 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         });
         locationExpander.add_row(searchEntry);
 
-        this._resultsListBox = new Gtk.ListBox({
+        this._spinner = new Gtk.Spinner({
+            halign: Gtk.Align.CENTER,
+            margin_top: 12,
+            margin_bottom: 12,
+            spinning: false,
+            visible: false,
+        });
+        locationExpander.add_row(this._spinner);
+
+        this._resultsBox = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
             margin_top: 6,
-            selection_mode: Gtk.SelectionMode.SINGLE,
             visible: false, // Initially hidden
         });
-        locationExpander.add_row(this._resultsListBox);
+        locationExpander.add_row(this._resultsBox);
 
 
         // --- Event Handlers ---
@@ -81,27 +91,14 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             });
         });
 
-        this._resultsListBox.connect('row-activated', (box, row) => {
-            const index = row.get_index();
-            const result = this._searchResults[index];
-
-            if (result) {
-                log(`Location selected: ${result.display_name}`);
-                log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
-                this.settings.set_string('location-name', result.display_name);
-                this.settings.set_double('latitude', parseFloat(result.lat));
-                this.settings.set_double('longitude', parseFloat(result.lon));
-
-                locationExpander.set_subtitle(result.display_name);
-                searchEntry.set_text('');
-                this._clearResults();
-                locationExpander.set_expanded(false);
-            }
-        });
     }
 
     _performSearch(query) {
         log(`Searching for location: "${query}"`);
+        this._clearResults();
+
+        this._spinner.set_visible(true);
+        this._spinner.start();
 
         // Cancel any ongoing search
         if (this._currentSearchMessage) {
@@ -120,6 +117,8 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
             // Clear the current message reference once the callback is entered.
             this._currentSearchMessage = null;
+            this._spinner.stop();
+            this._spinner.set_visible(false);
 
             try {
                 const bytes = session.send_and_read_finish(result);
@@ -145,38 +144,70 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this._searchResults = results || []; // Store results
 
         const resultCount = this._searchResults.length;
+        this._spinner.stop();
+        this._spinner.set_visible(false);
+
         log(`Found ${resultCount} results for location search.`);
         log(`Search results: ${JSON.stringify(this._searchResults)}`);
 
         if (resultCount === 0) {
-            const row = new Gtk.ListBoxRow();
-            row.set_child(new Gtk.Label({ label: 'No results found.', margin_top: 6, margin_bottom: 6 }));
-            row.set_selectable(false);
-            this._resultsListBox.append(row);
+            const noResultsLabel = new Gtk.Label({
+                label: 'No results found.',
+                margin_top: 12,
+                margin_bottom: 12,
+                css_classes: ['dim-label'],
+            });
+            this._resultsBox.append(noResultsLabel);
         } else {
-            this._searchResults.forEach(result => {
-                const row = new Gtk.ListBoxRow();
-                const label = new Gtk.Label({
-                    label: result.display_name,
-                    halign: Gtk.Align.START,
-                    margin_top: 6,
-                    margin_bottom: 6,
-                    margin_start: 6,
-                    margin_end: 6,
+            this._searchResults.forEach((result, index) => {
+                const parts = result.display_name.split(', ');
+                const title = parts[0];
+                const subtitle = parts.slice(1).join(', ');
+
+                const row = new Adw.ActionRow({
+                    title: title,
+                    subtitle: subtitle || '',
+                    activatable: true,
                 });
-                row.set_child(label);
-                this._resultsListBox.append(row);
+
+                row.connect('activated', () => {
+                    log(`Location selected: ${result.display_name}`);
+                    log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
+                    this.settings.set_string('location-name', result.display_name);
+                    this.settings.set_double('latitude', parseFloat(result.lat));
+                    this.settings.set_double('longitude', parseFloat(result.lon));
+
+                    // Update the expander subtitle and close it
+                    const expander = this._resultsBox.get_ancestor(Adw.ExpanderRow);
+                    if (expander) {
+                        expander.set_subtitle(result.display_name);
+                        expander.set_expanded(false);
+                    }
+
+                    // Clear search
+                    const searchEntry = this._resultsBox.get_ancestor(Gtk.Box).get_first_child();
+                    if (searchEntry instanceof Gtk.SearchEntry) {
+                        searchEntry.set_text('');
+                    }
+                    this._clearResults();
+                });
+
+                this._resultsBox.append(row);
             });
         }
-        this._resultsListBox.set_visible(true);
+        this._resultsBox.set_visible(true);
     }
 
     _clearResults() {
         log('Clearing search results.');
+        this._spinner.stop();
+        this._spinner.set_visible(false);
         this._searchResults = [];
-        while (this._resultsListBox.get_row_at_index(0)) {
-            this._resultsListBox.remove(this._resultsListBox.get_row_at_index(0));
+        let child = this._resultsBox.get_first_child();
+        while (child) {
+            this._resultsBox.remove(child);
+            child = this._resultsBox.get_first_child();
         }
-        this._resultsListBox.set_visible(false);
+        this._resultsBox.set_visible(false);
     }
 }
