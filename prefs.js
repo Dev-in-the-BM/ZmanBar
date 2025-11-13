@@ -14,6 +14,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         super(metadata);
         this._httpSession = Soup.Session.new();
         this._searchTimeout = null;
+        this._currentSearchMessage = null; // To track the current request
         this._window = null;
         this._searchResults = [];
     }
@@ -101,14 +102,25 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
     _performSearch(query) {
         log(`Searching for location: "${query}"`);
+
+        // Cancel any ongoing search
+        if (this._currentSearchMessage) {
+            this._httpSession.cancel_message(this._currentSearchMessage, Soup.Status.CANCELLED);
+            this._currentSearchMessage = null;
+        }
+
         const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
-        const message = new Soup.Message({
+        this._currentSearchMessage = new Soup.Message({
             method: 'GET',
             uri: GLib.Uri.parse(url, GLib.UriFlags.NONE)
         });
-        message.request_headers.append('User-Agent', `GNOME Shell Extension ZmanBar/${this.metadata.version} (https://github.com/dev-in-the-bm/ZmanBar)`);
+        this._currentSearchMessage.request_headers.append('User-Agent', `GNOME Shell Extension ZmanBar/${this.metadata.version} (https://github.com/dev-in-the-bm/ZmanBar)`);
+        const message = this._currentSearchMessage;
 
         this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
+            // Clear the current message reference once the callback is entered.
+            this._currentSearchMessage = null;
+
             try {
                 const bytes = session.send_and_read_finish(result);
                 const response = new TextDecoder().decode(bytes.get_data());
@@ -116,8 +128,13 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
                 const data = JSON.parse(response);
                 this._updateResults(data);
             }
-            catch (e) {
-                logError(e, 'Error fetching location');
+            catch (error) {
+                // Don't log an error if the request was intentionally cancelled
+                if (error instanceof GLib.Error && error.matches(Soup.http_error_quark(), Soup.Status.CANCELLED)) {
+                    log('Location search was cancelled.');
+                } else {
+                    logError(error, 'Error fetching location');
+                }
                 this._clearResults();
             }
         });
