@@ -106,7 +106,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             method: 'GET',
             uri: GLib.Uri.parse(url, GLib.UriFlags.NONE)
         });
-        message.request_headers.append('User-Agent', `GNOME Shell Extension ZmanBar/${this.metadata.version}`);
+        message.request_headers.append('User-Agent', `GNOME Shell Extension ZmanBar/${this.metadata.version} (https://github.com/dev-in-the-bm/ZmanBar)`);
 
         this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
             try {
