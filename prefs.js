@@ -47,13 +47,19 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         });
         group.add(locationExpander);
 
-        const searchEntry = new Gtk.SearchEntry({
-            placeholder_text: 'e.g., "New York, NY" or "90210"',
-            hexpand: true,
+        const contentBox = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
+            spacing: 6,
             margin_top: 6,
             margin_bottom: 6,
         });
-        locationExpander.add_row(searchEntry);
+        locationExpander.add_row(contentBox);
+
+        const searchEntry = new Gtk.SearchEntry({
+            placeholder_text: 'e.g., "New York, NY" or "90210"',
+            hexpand: true,
+        });
+        contentBox.append(searchEntry);
 
         this._spinner = new Gtk.Spinner({
             halign: Gtk.Align.CENTER,
@@ -62,14 +68,13 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             spinning: false,
             visible: false,
         });
-        locationExpander.add_row(this._spinner);
+        contentBox.append(this._spinner);
 
         this._resultsBox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
-            margin_top: 6,
             visible: false, // Initially hidden
         });
-        locationExpander.add_row(this._resultsBox);
+        contentBox.append(this._resultsBox);
 
 
         // --- Event Handlers ---
