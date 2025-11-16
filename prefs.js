@@ -56,7 +56,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         locationExpander.add_row(contentBox);
 
         const searchEntry = new Gtk.SearchEntry({
-            placeholder_text: 'e.g., "New York, NY" or "90210"',
+            placeholder_text: 'Enter a location, like "Monsey" or "10952"',
             hexpand: true,
         });
         contentBox.append(searchEntry);
