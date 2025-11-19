@@ -1,93 +1,117 @@
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 
-let _logStream = null;
-let _logFile = null;
+let _settings;
+let _logFileStream = null;
+let _enableLogging = false;
+let _enableFileLogging = false;
 
-function _getLogFile() {
-    if (!_logFile) {
-        _logFile = Gio.File.new_for_path(GLib.get_home_dir() + '/.ZmanBar.log');
+function _destroyStream() {
+    if (_logFileStream) {
+        _logFileStream.close(null);
+        _logFileStream = null;
     }
-    return _logFile;
 }
 
-function _getStream() {
-    if (!_logStream) {
-        const logFile = _getLogFile();
-        try {
-            // Open the file for appending, creating it if it doesn't exist.
-            const rawStream = logFile.append_to(Gio.FileCreateFlags.NONE, null);
-            _logStream = new Gio.DataOutputStream({
-                base_stream: rawStream,
-                close_base_stream: true,
-            });
+async function _createStream() {
+    _destroyStream(); 
+    if (!_enableFileLogging) return;
 
-            // Write the initialization message directly and synchronously.
-            const time = new Date();
-            const separator = '-----\n';
-            const logMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] INFO: Log file initialized at: ${logFile.get_path()}\n`;
-            _logStream.write_all(new TextEncoder().encode(separator), null);
-            _logStream.write_all(new TextEncoder().encode(logMessage), null);
-
-        } catch (e) {
-            console.error('Error opening log file: ' + e.message);
+    const logFile = Gio.File.new_for_path(GLib.get_home_dir() + '/.ZmanBar.log');
+    
+    logFile.append_to_async(
+        Gio.FileCreateFlags.NONE, // Use NONE to create or append
+        GLib.PRIORITY_DEFAULT,
+        null,
+        (file, res) => {
+            try {
+                const stream = file.append_to_finish(res);
+                _logFileStream = new Gio.DataOutputStream({
+                    base_stream: stream,
+                    close_base_stream: true,
+                });
+                log('Log file initialized at: ' + logFile.get_path());
+            } catch (e) {
+                console.error('ZmanBar: Error creating log file stream: ' + e.message);
+            }
         }
-    }
-    return _logStream;
+    );
 }
 
-export function getLogFilePath() {
-    return _getLogFile().get_path();
-}
+export function init(settings) {
+    _settings = settings;
+    _enableLogging = _settings.get_boolean('enable-logging');
+    _enableFileLogging = _settings.get_boolean('enable-file-logging');
+    
+    _createStream();
 
-export function log(message) {
-    const stream = _getStream();
-    if (!stream) {
-        console.log('Log stream not available, logging to console:', message);
-        return;
-    }
+    _settings.connect('changed::enable-logging', () => {
+        _enableLogging = _settings.get_boolean('enable-logging');
+        if (!_enableLogging) {
+            _enableFileLogging = false; 
+            _settings.set_boolean('enable-file-logging', false);
+        }
+        log(`Journal logging has been ${(_enableLogging ? 'enabled' : 'disabled')}`);
+    });
 
-    const time = new Date();
-    const logMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] INFO: ${message}\n`;
+    _settings.connect('changed::enable-file-logging', () => {
+        _enableFileLogging = _settings.get_boolean('enable-file-logging');
+        log(`File logging has been ${(_enableFileLogging ? 'enabled' : 'disabled')}`);
+        if (_enableFileLogging) {
+            _createStream();
+        } else {
+            _destroyStream();
+        }
+    });
 
-    // Synchronously write to the log file
-    try {
-        stream.write_all(new TextEncoder().encode(logMessage), null);
-    } catch (e) {
-        console.error('Failed to write to log file: ' + e.message);
-    }
-}
-
-export function logError(error, message = 'An error occurred') {
-    const stream = _getStream();
-    if (!stream) {
-        console.error('Log stream not available, logging error to console:', message, error);
-        return;
-    }
-
-    const time = new Date();
-    let errorMessage = `[${time.toLocaleDateString()} ${time.toLocaleTimeString()}] ERROR: ${message}\n`;
-
-    if (error instanceof GLib.Error) {
-        errorMessage += `Domain: ${error.domain}, Code: ${error.code}, Message: ${error.message}\n`;
-    } else if (error instanceof Error) {
-        errorMessage += `Stack: ${error.stack}\n`;
-    } else {
-        errorMessage += `Details: ${error}\n`;
-    }
-
-    // Synchronously write to the log file
-    try {
-        stream.write_all(new TextEncoder().encode(errorMessage), null);
-    } catch (e) {
-        console.error('Failed to write error to log file: ' + e.message);
-    }
+    log('Logger initialized.');
 }
 
 export function close() {
-    if (_logStream) {
-        log('Closing log stream.');
-        _logStream.close(null);
-        _logStream = null;
+    log('Closing logger.');
+    _destroyStream();
+    _settings = null;
+}
+
+function _logToFile(message) {
+    if (!_logFileStream || !_enableFileLogging) return;
+
+    const time = GLib.DateTime.new_now_local();
+    const logMessage = `[${time.format('%Y-%m-%d %H:%M:%S')}] ${message}\n`;
+
+    _logFileStream.write_all_async(
+        new TextEncoder().encode(logMessage),
+        GLib.PRIORITY_DEFAULT,
+        null,
+        (stream, res) => {
+            try {
+                stream.write_all_finish(res);
+            } catch (e) {
+                console.error('Failed to write to log file: ' + e.message);
+            }
+        }
+    );
+}
+
+function _logToJournal(message) {
+    if (!_enableLogging) return;
+    console.log(`ZmanBar: ${message}`);
+}
+
+export function log(message) {
+    _logToJournal(`INFO: ${message}`);
+    _logToFile(`INFO: ${message}`);
+}
+
+export function logError(error, message = 'An error occurred') {
+    let fullMessage = `ERROR: ${message}`;
+    if (error instanceof GLib.Error) {
+        fullMessage += ` | Domain: ${error.domain}, Code: ${error.code}, Message: ${error.message}`;
+    } else if (error instanceof Error) {
+        fullMessage += ` | Stack: ${error.stack}`;
+    } else {
+        fullMessage += ` | Details: ${error}`;
     }
+    _logToJournal(fullMessage);
+    _logToFile(fullMessage);
 }

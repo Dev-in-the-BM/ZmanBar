@@ -7,8 +7,6 @@ import Soup from 'gi://Soup?version=3.0';
 import GLib from 'gi://GLib';
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import { log, logError } from './logger.js';
-
 export default class ZmanBarPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
@@ -20,17 +18,10 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this._spinner = null;
     }
 
-    _onWindowDestroy() {
-        log('ZmanBar Preferences window closed.');
-        log('ZmanBar Preferences window opened.');
-    }
-
     fillPreferencesWindow(window) {
-        log('Filling preferences window...');
         this.settings = this.getSettings();
 
         this._window = window;
-        this._window.connect('destroy', this._onWindowDestroy.bind(this));
 
         const page = new Adw.PreferencesPage();
         const group = new Adw.PreferencesGroup({
@@ -46,6 +37,38 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             subtitle: this.settings.get_string('location-name') || 'Not Set',
         });
         group.add(locationExpander);
+
+        // --- Logging Settings Group ---
+        const loggingGroup = new Adw.PreferencesGroup({
+            title: 'Logging',
+            description: 'Configure logging for debugging purposes.',
+        });
+        page.add(loggingGroup);
+
+        // Main Logging Switch
+        const loggingRow = new Adw.SwitchRow({
+            title: 'Enable Logging',
+            subtitle: 'Logs will be written to the systemd journal.',
+        });
+        loggingGroup.add(loggingRow);
+        this.settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+        // File Logging Switch
+        const fileLoggingRow = new Adw.SwitchRow({
+            title: 'Enable File Logging',
+            subtitle: 'Also write logs to a file (~/.ZmanBar.log).',
+        });
+        loggingGroup.add(fileLoggingRow);
+        this.settings.bind('enable-file-logging', fileLoggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+        // Make file logging switch dependent on the main logging switch
+        loggingRow.connect('notify::active', () => {
+            fileLoggingRow.set_sensitive(loggingRow.get_active());
+            if (!loggingRow.get_active()) {
+                fileLoggingRow.set_active(false);
+            }
+        });
+        fileLoggingRow.set_sensitive(loggingRow.get_active());
 
         const contentBox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,

@@ -6,7 +6,7 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
-import { log, logError, close } from './logger.js';
+import { log, logError, init as initLogger, close as closeLogger } from './logger.js';
 
 function importUMD(path) {
     const file = Gio.File.new_for_path(path);
@@ -19,7 +19,6 @@ function importUMD(path) {
 
 const kosherZmanimPath = import.meta.url.substring(7).replace('extension.js', 'kosher-zmanim.js');
 const KosherZmanim = importUMD(kosherZmanimPath);
-log('KosherZmanim library loaded successfully.');
 
 function findActorByClassName(actor, className) {
     if (!actor) {
@@ -204,10 +203,12 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     enable() {
+        this._settings = this.getSettings();
+        initLogger(this._settings);
+
         log('Enabling ZmanBar extension.');
         this._originalClockText = this._clockDisplay.get_text();
 
-        this._settings = this.getSettings();
         this._settingsChangedIdLat = this._settings.connect('changed::latitude', this._onLocationSettingChanged.bind(this));
         this._settingsChangedIdLon = this._settings.connect('changed::longitude', this._onLocationSettingChanged.bind(this));
         this._settingsChangedIdName = this._settings.connect('changed::location-name', this._onLocationSettingChanged.bind(this));
@@ -238,7 +239,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._location = null;
         this._shkiah = null;
         
-        close();
+        closeLogger();
         log('ZmanBar extension disabled.');
     }
 }

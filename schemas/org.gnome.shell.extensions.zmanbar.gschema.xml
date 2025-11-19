@@ -16,5 +16,15 @@
       <summary>Longitude</summary>
       <description>The longitude of the location.</description>
     </key>
+    <key name="enable-logging" type="b">
+      <default>false</default>
+      <summary>Enable Logging</summary>
+      <description>Enable logging to the systemd journal.</description>
+    </key>
+    <key name="enable-file-logging" type="b">
+      <default>false</default>
+      <summary>Enable File Logging</summary>
+      <description>Enable logging to a separate file in the extension's directory.</description>
+    </key>
   </schema>
 </schemalist>
