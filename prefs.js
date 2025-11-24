@@ -5,11 +5,14 @@ import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 import Soup from 'gi://Soup?version=3.0';
 import GLib from 'gi://GLib';
-import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {createAboutPage} from './aboutPage.js';
 
 export default class ZmanBarPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
+        this.initTranslations();
+        log('ZmanBar Preferences constructor called.');
         this._httpSession = Soup.Session.new();
         this._searchTimeout = null;
         this._currentSearchMessage = null; // To track the current request
@@ -18,57 +21,57 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this._spinner = null;
     }
 
+    _onWindowDestroy() {
+        this._log('ZmanBar Preferences window closed.');
+    }
+
     fillPreferencesWindow(window) {
         this.settings = this.getSettings();
+        log('ZmanBar settings object:', this.settings);
+        this._log('Filling preferences window...');
+        log(JSON.stringify(this.metadata));
 
         this._window = window;
+        this._window.connect('destroy', this._onWindowDestroy.bind(this));
 
+        const locationPage = this._createLocationPage();
+        const aboutPage = createAboutPage(this.metadata);
+
+        window.add(locationPage);
+        window.add(aboutPage);
+    }
+
+    _createLocationPage() {
         const page = new Adw.PreferencesPage();
+
+        // --- General Settings Group ---
+        const generalGroup = new Adw.PreferencesGroup({
+            title: _('General Settings'),
+        });
+        page.add(generalGroup);
+
+        const loggingRow = new Adw.SwitchRow({
+            title: _('Enable Logging'),
+            subtitle: _('Enable verbose logging for debugging.'),
+        });
+        generalGroup.add(loggingRow);
+
+        this.settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+
+        // --- Location Settings Group ---
         const group = new Adw.PreferencesGroup({
-            title: 'Location Settings',
-            description: 'Set your location to get accurate Zmanim.',
+            title: _('Location Settings'),
+            description: _('Set your location to get accurate Zmanim.'),
         });
         page.add(group);
-        window.add(page);
 
         // --- Location Expander Row ---
         const locationExpander = new Adw.ExpanderRow({
-            title: 'Location',
-            subtitle: this.settings.get_string('location-name') || 'Not Set',
+            title: _('Location'),
+            subtitle: this.settings.get_string('location-name') || _('Not Set'),
         });
         group.add(locationExpander);
-
-        // --- Logging Settings Group ---
-        const loggingGroup = new Adw.PreferencesGroup({
-            title: 'Logging',
-            description: 'Configure logging for debugging purposes.',
-        });
-        page.add(loggingGroup);
-
-        // Main Logging Switch
-        const loggingRow = new Adw.SwitchRow({
-            title: 'Enable Logging',
-            subtitle: 'Logs will be written to the systemd journal.',
-        });
-        loggingGroup.add(loggingRow);
-        this.settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
-
-        // File Logging Switch
-        const fileLoggingRow = new Adw.SwitchRow({
-            title: 'Enable File Logging',
-            subtitle: 'Also write logs to a file (~/.ZmanBar.log).',
-        });
-        loggingGroup.add(fileLoggingRow);
-        this.settings.bind('enable-file-logging', fileLoggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
-
-        // Make file logging switch dependent on the main logging switch
-        loggingRow.connect('notify::active', () => {
-            fileLoggingRow.set_sensitive(loggingRow.get_active());
-            if (!loggingRow.get_active()) {
-                fileLoggingRow.set_active(false);
-            }
-        });
-        fileLoggingRow.set_sensitive(loggingRow.get_active());
 
         const contentBox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
@@ -79,7 +82,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         locationExpander.add_row(contentBox);
 
         const searchEntry = new Gtk.SearchEntry({
-            placeholder_text: 'Enter a location, like "Monsey" or "10952"',
+            placeholder_text: _('Enter a location, like "Monsey" or "10952"'),
             hexpand: true,
         });
         contentBox.append(searchEntry);
@@ -103,7 +106,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         // --- Event Handlers ---
         searchEntry.connect('search-changed', () => {
             const query = searchEntry.get_text().trim();
-            log(`Search text changed: "${query}"`);
+            this._log(`Search text changed: "${query}"`);
             if (this._searchTimeout) {
                 GLib.source_remove(this._searchTimeout);
             }
@@ -119,10 +122,11 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             });
         });
 
+        return page;
     }
 
     _performSearch(query) {
-        log(`Searching for location: "${query}"`);
+        this._log(`Searching for location: "${query}"`);
         this._clearResults();
 
         this._spinner.set_visible(true);
@@ -151,16 +155,16 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             try {
                 const bytes = session.send_and_read_finish(result);
                 const response = new TextDecoder().decode(bytes.get_data());
-                log(`Nominatim response: ${response}`);
+                this._log(`Nominatim response: ${response}`);
                 const data = JSON.parse(response);
                 this._updateResults(data);
             }
             catch (error) {
                 // Don't log an error if the request was intentionally cancelled
                 if (error instanceof GLib.Error && error.matches(Soup.http_error_quark(), Soup.Status.CANCELLED)) {
-                    log('Location search was cancelled.');
+                    this._log('Location search was cancelled.');
                 } else {
-                    logError(error, 'Error fetching location');
+                    this._logError(error, 'Error fetching location');
                 }
                 this._clearResults();
             }
@@ -175,8 +179,8 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this._spinner.stop();
         this._spinner.set_visible(false);
 
-        log(`Found ${resultCount} results for location search.`);
-        log(`Search results: ${JSON.stringify(this._searchResults)}`);
+        this._log(`Found ${resultCount} results for location search.`);
+        this._log(`Search results: ${JSON.stringify(this._searchResults)}`);
 
         if (resultCount === 0) {
             const noResultsLabel = new Gtk.Label({
@@ -199,8 +203,8 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
                 });
 
                 row.connect('activated', () => {
-                    log(`Location selected: ${result.display_name}`);
-                    log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
+                    this._log(`Location selected: ${result.display_name}`);
+                    this._log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
                     this.settings.set_string('location-name', result.display_name);
                     this.settings.set_double('latitude', parseFloat(result.lat));
                     this.settings.set_double('longitude', parseFloat(result.lon));
@@ -227,7 +231,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     }
 
     _clearResults() {
-        log('Clearing search results.');
+        this._log('Clearing search results.');
         this._spinner.stop();
         this._spinner.set_visible(false);
         this._searchResults = [];
@@ -237,5 +241,18 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             child = this._resultsBox.get_first_child();
         }
         this._resultsBox.set_visible(false);
+    }
+
+    _log(message) {
+        if (this.settings.get_boolean('enable-logging')) {
+            log(`ZmanBar Prefs: ${message}`);
+        }
+    }
+
+    _logError(error, message) {
+        // Errors should probably always be logged, but for consistency with the user's request,
+        // we can tie it to the same setting. Or we can log them always.
+        // For now, let's always log errors.
+        logError(error, `ZmanBar Prefs Error: ${message}`);
     }
 }
