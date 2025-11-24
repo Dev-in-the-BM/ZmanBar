@@ -68,6 +68,11 @@ export default class HebrewDateDisplayExtension extends Extension {
 
 
 
+    _onLogSettingChanged() {
+        // Now that the setting has changed, we will log a message.
+        this._log('Log setting changed. Logging is now ' + (this._settings.get_boolean('enable-logging') ? 'enabled' : 'disabled'));
+    }
+
     _useSavedLocation() {
         this._log('Attempting to use saved location from settings.');
         const settings = this.getSettings();
@@ -221,6 +226,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._settingsChangedIdLat = this._settings.connect('changed::latitude', this._onLocationSettingChanged.bind(this));
         this._settingsChangedIdLon = this._settings.connect('changed::longitude', this._onLocationSettingChanged.bind(this));
         this._settingsChangedIdName = this._settings.connect('changed::location-name', this._onLocationSettingChanged.bind(this));
+        this._settingsChangedIdLog = this._settings.connect('changed::enable-logging', this._onLogSettingChanged.bind(this));
 
         this._clockUpdateSignal = this._dateMenu._clock.connect('notify::clock', this._updateClockDisplay.bind(this));
         this._menuStateSignal = this._dateMenu.menu.connect('open-state-changed', this._onMenuStateChanged.bind(this));
@@ -239,6 +245,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         if (this._settingsChangedIdLat) this._settings.disconnect(this._settingsChangedIdLat);
         if (this._settingsChangedIdLon) this._settings.disconnect(this._settingsChangedIdLon);
         if (this._settingsChangedIdName) this._settings.disconnect(this._settingsChangedIdName);
+        if (this._settingsChangedIdLog) this._settings.disconnect(this._settingsChangedIdLog);
         if (this._menuStateSignal) this._dateMenu.menu.disconnect(this._menuStateSignal);
 
         this._onMenuClosed();

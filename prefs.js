@@ -10,6 +10,7 @@ import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/ex
 export default class ZmanBarPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
+        log('ZmanBar Preferences constructor called.');
         this._httpSession = Soup.Session.new();
         this._searchTimeout = null;
         this._currentSearchMessage = null; // To track the current request
@@ -24,6 +25,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
     fillPreferencesWindow(window) {
         this.settings = this.getSettings();
+        log('ZmanBar settings object:', this.settings);
         this._log('Filling preferences window...');
 
         this._window = window;
