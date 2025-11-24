@@ -1,0 +1,1681 @@
+naftali@naftali-Inspiron-15-3525:~$ dbus-run-session -- gnome-shell --devkit
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
+libmutter-Message: 14:44:57.330: Running GNOME Shell (using mutter 49.0) as a Wayland display server
+libmutter-Message: 14:44:57.330: Enabling experimental feature 'scale-monitor-framebuffer'
+libmutter-Message: 14:44:57.330: Enabling experimental feature 'xwayland-native-scaling'
+libmutter-Message: 14:44:57.400: Added device '/dev/dri/renderD128' (amdgpu) using no mode setting.
+libmutter-Message: 14:44:57.402: Created gbm renderer for '/dev/dri/renderD128'
+libmutter-Message: 14:44:57.402: Boot VGA GPU /dev/dri/renderD128 selected as primary
+** Message: 14:44:57.405: Obtained a high priority EGL context
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.2' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.a11y.Bus'
+libmutter-Message: 14:44:57.430: Using public X11 display :2, (using :3 for managed services)
+
+(gnome-shell:50758): libmutter-WARNING **: 14:44:57.431: WL: unable to lock lockfile /run/user/1000/wayland-0.lock, maybe another compositor is running
+
+libmutter-Message: 14:44:57.431: Using Wayland display name 'wayland-1'
+dbus-daemon[50809]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50809]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+GNOME Shell-Message: 14:44:57.796: Unset XDG_SESSION_ID, getCurrentSessionProxy() called outside a user session. Asking logind directly.
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Shell.Screencast' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Shell.CalendarServer' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.evolution.dataserver.Sources5' requested by ':1.9' (uid=1000 pid=50836 comm="/usr/libexec/gnome-shell-calendar-server" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='ca.desrt.dconf' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'ca.desrt.dconf'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.OnlineAccounts' requested by ':1.10' (uid=1000 pid=50849 comm="/usr/libexec/evolution-source-registry" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.evolution.dataserver.Sources5'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.evolution.dataserver.Calendar8' requested by ':1.9' (uid=1000 pid=50836 comm="/usr/libexec/gnome-shell-calendar-server" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Shell.CalendarServer'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Shell.Notifications' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+
+(gnome-shell:50758): GNOME Shell-CRITICAL **: 14:44:57.936: Could not load extension battery-time-with-percentage@gabrock94.github.com: Error: Failed to parse metadata.json: SyntaxError: JSON.parse: unexpected character at line 9 column 3 of the JSON data
+
+Stack trace:
+  loadExtensionMetadata@resource:///org/gnome/shell/misc/extensionUtils.js:140:15
+  createExtensionObject@resource:///org/gnome/shell/ui/extensionSystem.js:383:47
+  _loadExtensions/extensionObjects<@resource:///org/gnome/shell/ui/extensionSystem.js:739:34
+  _loadExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:719:49
+  async*_enableAllExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:760:48
+  _sessionUpdated@resource:///org/gnome/shell/ui/extensionSystem.js:795:20
+  async*init@resource:///org/gnome/shell/ui/extensionSystem.js:77:14
+  _initializeUI@resource:///org/gnome/shell/ui/main.js:345:22
+  start@resource:///org/gnome/shell/ui/main.js:193:11
+  @resource:///org/gnome/shell/ui/init.js:12:47
+  @resource:///org/gnome/shell/ui/init.js:21:20
+  
+goa-daemon-Message: 14:44:57.938: goa-daemon version 3.54.5 starting
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Identity' requested by ':1.12' (uid=1000 pid=50864 comm="/usr/libexec/goa-daemon" label="unconfined")
+
+(process:50814): mdk-WARNING **: 14:44:57.945: Invalid application ID 'org.gnome.Ptyxis'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.OnlineAccounts'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Identity'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.evolution.dataserver.Calendar8'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.evolution.dataserver.AddressBook10' requested by ':1.14' (uid=1000 pid=50868 comm="/usr/libexec/evolution-calendar-factory" label="unconfined")
+GNOME Shell-Message: 14:44:57.986: Error looking up permission: GDBus.Error:org.freedesktop.portal.Error.NotFound: No entry for geolocation
+GNOME Shell-Message: 14:44:57.986: Will monitor session 2
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.portal.IBus' requested by ':1.16' (uid=1000 pid=50903 comm="ibus-daemon --panel disable" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.6' (uid=1000 pid=50814 comm="/usr/libexec/mutter-devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Shell.Notifications'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.portal.IBus'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.21' (uid=1000 pid=50946 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.evolution.dataserver.AddressBook10'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+fusermount3: failed to access mountpoint /run/user/1000/doc: Permission denied
+error: fuse init failed: Can't mount path /run/user/1000/doc
+
+(/usr/libexec/xdg-desktop-portal:50946): xdg-desktop-portal-WARNING **: 14:44:58.015: Document portal fuse mount point unknown: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name :1.22 was not provided by any .service files
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.21' (uid=1000 pid=50946 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gtk.vfs.UDisks2VolumeMonitor'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gtk.vfs.GoaVolumeMonitor'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gtk.vfs.AfcVolumeMonitor'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gtk.vfs.GPhoto2VolumeMonitor'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gtk.vfs.MTPVolumeMonitor'
+GNOME Shell-Message: 14:44:58.110: Failed to register AuthenticationAgent
+GNOME Shell-Message: 14:44:58.256: ZmanBar: Enabling ZmanBar extension.
+GNOME Shell-Message: 14:44:58.256: ZmanBar: KosherZmanim library loaded successfully.
+GNOME Shell-Message: 14:44:58.256: ZmanBar: Attempting to use saved location from settings.
+GNOME Shell-Message: 14:44:58.258: ZmanBar: Using saved location: Lat 41.116089, Lon -74.0763899
+GNOME Shell-Message: 14:44:58.259: ZmanBar: Recalculating shkiah and Hebrew date for 11/23/2025, 2:44:58 PM
+GNOME Shell-Message: 14:44:58.262: ZmanBar: Cached new Hebrew date: ג׳ כסלו
+GNOME Shell-Message: 14:44:58.262: ZmanBar: Scheduling next update for shkiah at 4:31:31 PM
+GNOME Shell-Message: 14:44:58.262: ZmanBar: ZmanBar extension enabled successfully.
+
+(gnome-shell:50758): Gjs-WARNING **: 14:44:58.352: Type GITypeInfo of property NM.Object::client does not match return type GITypeInfo of getter get_client. Falling back to slow path
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Shell.Screencast'
+
+(gnome-shell:50758): GNOME Shell-CRITICAL **: 14:44:58.685: Extension openbar@neuromorph: TypeError: can't access property "height", panelMonitor is undefined
+
+Stack trace:
+  enable@file:///home/naftali/.local/share/gnome-shell/extensions/openbar@neuromorph/extension.js:1414:50
+  _callExtensionEnable@resource:///org/gnome/shell/ui/extensionSystem.js:267:38
+  loadExtension@resource:///org/gnome/shell/ui/extensionSystem.js:434:32
+  async*_loadExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:754:24
+  async*_enableAllExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:760:48
+  _sessionUpdated@resource:///org/gnome/shell/ui/extensionSystem.js:795:20
+  async*init@resource:///org/gnome/shell/ui/extensionSystem.js:77:14
+  _initializeUI@resource:///org/gnome/shell/ui/main.js:345:22
+  start@resource:///org/gnome/shell/ui/main.js:193:11
+  @resource:///org/gnome/shell/ui/init.js:12:47
+  @resource:///org/gnome/shell/ui/init.js:21:20
+  
+
+(gnome-shell:50758): Gjs-WARNING **: 14:44:58.694: Gio.DesktopAppInfo has been moved to a separate platform-specific library. Please update your code to use GioUnix.DesktopAppInfo instead.
+0 get() ["resource:///org/gnome/gjs/modules/core/overrides/Gio.js":524:46]
+1 reload/this.apps<() ["file:///home/naftali/.local/share/gnome-shell/extensions/fuzzy-application-search@mkhl.codeberg.page/extension.js":38:57]
+2 filter() ["self-hosted":195:21]
+3 reload() ["file:///home/naftali/.local/share/gnome-shell/extensions/fuzzy-application-search@mkhl.codeberg.page/extension.js":38:5]
+4 enable() ["file:///home/naftali/.local/share/gnome-shell/extensions/fuzzy-application-search@mkhl.codeberg.page/extension.js":19:8]
+5 _callExtensionEnable() ["resource:///org/gnome/shell/ui/extensionSystem.js":267:38]
+6 loadExtension() ["resource:///org/gnome/shell/ui/extensionSystem.js":434:32]
+7 AsyncFunctionNext() ["self-hosted":800:27]
+8 anonymous() ["resource:///org/gnome/shell/ui/init.js":21:20]
+
+GNOME Shell-Message: 14:44:58.702: [QSA] Enabling extension
+GNOME Shell-Message: 14:44:58.792: Lilypad extension started...
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Settings.GlobalShortcutsProvider' requested by ':1.24' (uid=1000 pid=50979 comm="/usr/libexec/xdg-desktop-portal-gnome" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Settings.GlobalShortcutsProvider'
+GNOME Shell-Message: 14:44:58.883: Failed to load D-Bus interface org.gnome.SettingsDaemon.Power.Screen
+
+(gnome-shell:50758): GNOME Shell-CRITICAL **: 14:44:58.884: Extension touchpad-gesture-customization@coooolapps.com: TypeError: Invalid type [object Null]
+
+Stack trace:
+  _newNodeInfo@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:280:11
+  _wrapFunction/klass[method]@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:312:25
+  _newInterfaceInfo@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:284:37
+  _makeProxyWrapper@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:235:33
+  @file:///home/naftali/.local/share/gnome-shell/extensions/touchpad-gesture-customization@coooolapps.com/src/brightnessControl.js:9:39
+  @resource:///org/gnome/shell/ui/init.js:21:20
+  
+
+(gnome-shell:50758): libmutter-WARNING **: 14:44:58.965: Overwriting existing binding of keysym ff9a with keysym ffb9 (keycode 51).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:44:58.965: Overwriting existing binding of keysym ffb3 with keysym ff9b (keycode 59).
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
+
+(gnome-shell:50758): Gjs-WARNING **: 14:44:58.998: Gio.DesktopAppInfo has been moved to a separate platform-specific library. Please update your code to use GioUnix.DesktopAppInfo instead.
+0 get() ["resource:///org/gnome/gjs/modules/core/overrides/Gio.js":524:46]
+1 <TOP LEVEL> ["file:///usr/share/gnome-shell/extensions/ubuntu-dock@ubuntu.com/locations.js":113:4]
+2 anonymous() ["resource:///org/gnome/shell/ui/init.js":21:20]
+
+/home/naftali/.pyenv/versions/3.12.4/bin/python3: can't open file '/usr/share/gnome-shell/extensions/snapd-prompting@canonical.com/../tools/permission-dialog-launcher.py': [Errno 2] No such file or directory
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.21' (uid=1000 pid=50946 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.21' (uid=1000 pid=50946 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+discover_other_daemon: 1GNOME_KEYRING_CONTROL=/run/user/1000/keyring
+libmutter-Message: 14:45:23.243: Added virtual monitor Meta-0
+
+(gnome-shell:50758): GLib-GObject-CRITICAL **: 14:45:23.698: value "nan" of type 'gdouble' is invalid or out of range for property 'clip' of type 'gdouble'
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:23.717: Trying to re-add keybinding "shortcut".
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.011: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.011: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.011: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.011: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.018: Overwriting existing binding of keysym 39 with keysym 39 (keycode 12).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 33 with keysym 33 (keycode c).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym ffb9 with keysym ff9a (keycode 51).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 32 with keysym 32 (keycode b).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 34 with keysym 34 (keycode d).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 31 with keysym 31 (keycode a).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 31 with keysym 31 (keycode a).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 35 with keysym 35 (keycode e).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 32 with keysym 32 (keycode b).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 36 with keysym 36 (keycode f).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 38 with keysym 38 (keycode 11).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym ff9b with keysym ffb3 (keycode 59).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 33 with keysym 33 (keycode c).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 34 with keysym 34 (keycode d).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 39 with keysym 39 (keycode 12).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 37 with keysym 37 (keycode 10).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 36 with keysym 36 (keycode f).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 37 with keysym 37 (keycode 10).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 38 with keysym 38 (keycode 11).
+
+(gnome-shell:50758): libmutter-WARNING **: 14:45:24.019: Overwriting existing binding of keysym 35 with keysym 35 (keycode e).
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.027: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.027: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.027: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.027: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.027: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.060: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.060: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.060: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.060: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.060: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.102: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.102: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.102: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.102: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.102: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.143: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.143: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.143: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.143: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.143: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.185: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.185: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.185: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.185: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.185: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.227: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.227: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.227: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.227: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.227: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.268: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.268: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.268: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.268: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.268: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.309: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.309: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.309: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.309: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.310: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+GNOME Shell-Message: 14:45:24.313: GNOME Shell started at Sun Nov 23 2025 14:44:57 GMT-0500 (Eastern Standard Time)
+GNOME Shell-Message: 14:45:24.314: Registering session with GDM
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.351: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.351: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.351: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.351: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.351: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.384: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.385: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.385: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.385: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.385: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.418: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.418: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.418: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.418: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.418: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.460: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.460: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.460: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.460: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.460: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.493: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.493: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.493: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.493: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.493: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.526: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.526: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.526: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.526: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.526: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.568: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.568: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.568: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.568: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.568: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.618: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.618: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.618: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.618: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.618: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.718: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.718: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.718: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.718: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:45:24.718: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(/usr/libexec/xdg-desktop-portal:50946): xdg-desktop-portal-WARNING **: 14:45:25.543: Failed to create secret proxy: Error calling StartServiceByName for org.freedesktop.secrets: Timeout was reached
+
+(/usr/libexec/xdg-desktop-portal:50946): xdg-desktop-portal-WARNING **: 14:45:25.543: No skeleton to export
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gtk.vfs.Metadata' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gtk.vfs.Metadata'
+
+(gnome-shell:50758): St-WARNING **: 14:46:08.391: Could not load a pixbuf from icon theme.
+This may indicate that pixbuf loaders or the mime database could not be found.
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Settings.SearchProvider' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Nautilus' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='io.github.kolunmi.Bazaar' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Calculator.SearchProvider' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.clocks' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.seahorse.Application' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Software' requested by ':1.0' (uid=1000 pid=50758 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Settings.SearchProvider'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.seahorse.Application'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.Flatpak' requested by ':1.41' (uid=1000 pid=51458 comm="/usr/bin/flatpak run --branch=stable --arch=x86_64" label="flatpak (unconfined)")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Calculator.SearchProvider'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Software'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.clocks'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.Flatpak'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.41' (uid=1000 pid=51458 comm="/usr/bin/flatpak run --branch=stable --arch=x86_64" label="flatpak (unconfined)")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+fusermount3: failed to access mountpoint /run/user/1000/doc: Permission denied
+error: fuse init failed: Can't mount path /run/user/1000/doc
+F: Can't get document portal: GDBus.Error:org.freedesktop.portal.Error.Failed: Can't mount path /run/user/1000/doc
+** Message: 14:46:08.991: Connecting to org.freedesktop.Tracker3.Miner.Files
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Nautilus'
+GNOME Shell-Message: 14:46:08.992: Received error from D-Bus search provider org.gnome.Terminal.desktop: Gio.IOErrorEnum: Cannot invoke method; proxy is for the well-known name org.gnome.Terminal without an owner, and proxy was constructed with the G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START flag
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'io.github.kolunmi.Bazaar'
+GNOME Shell-Message: 14:46:09.444: Received error from D-Bus search provider org.gnome.Terminal.desktop: Gio.IOErrorEnum: Cannot invoke method; proxy is for the well-known name org.gnome.Terminal without an owner, and proxy was constructed with the G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START flag
+open-any-terminal: terminal is set to "gnome-terminal" opening a new window 
+GSConnect: [Errno 2] No translation file found for domain: 'org.gnome.Shell.Extensions.GSConnect'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.Tracker3.Miner.Files' requested by ':1.47' (uid=1000 pid=51456 comm="/usr/bin/nautilus --gapplication-service" label="unconfined")
+
+(org.gnome.Nautilus:51456): nautilus-search-WARNING **: 14:46:09.613: Localsearch search engine has no connection
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.NautilusPreviewer' requested by ':1.47' (uid=1000 pid=51456 comm="/usr/bin/nautilus --gapplication-service" label="unconfined")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.Tracker3.Miner.Files'
+
+(bazaar:2): BAZAAR::CURATED-PROVIDER-WARNING **: 14:46:09.706: Could not load curated config at path /run/host/etc/bazaar/config.yaml: Error opening file /run/host/etc/bazaar/config.yaml: No such file or directory
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.756: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.756: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.756: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.756: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.777: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.777: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.777: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.777: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.797: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.797: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.797: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.797: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.817: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.817: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.817: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.817: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.portal.Flatpak' requested by ':1.52' (uid=1000 pid=51532 comm="xdg-dbus-proxy --args=40" label="bwrap//&unpriv_bwrap (enforce)")
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.836: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.836: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.836: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.836: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.portal.Flatpak'
+
+** (bazaar:2): WARNING **: 14:46:09.846: Failed to load blocklist from path '/run/host/etc/bazaar/blocklist.txt': Error opening file /run/host/etc/bazaar/blocklist.txt: No such file or directory
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.852: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.852: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.852: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.852: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.869: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.869: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.869: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.869: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.883: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.883: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.883: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.883: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.900: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.900: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.900: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:09.900: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.NautilusPreviewer'
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.59' (uid=1000 pid=51769 comm="/usr/bin/flatpak run --branch=stable --arch=x86_64" label="flatpak (unconfined)")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+fusermount3: failed to access mountpoint /run/user/1000/doc: Permission denied
+error: fuse init failed: Can't mount path /run/user/1000/doc
+
+(gnome-shell:50758): GnomeDesktop-WARNING **: 14:46:10.713: Could not create transient scope for PID 51769: GDBus.Error:org.freedesktop.DBus.Error.NameHasNoOwner: Name "org.freedesktop.systemd1" does not exist
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.gnome.Shell.Extensions' requested by ':1.63' (uid=1000 pid=51792 comm="xdg-dbus-proxy --args=40" label="bwrap//&unpriv_bwrap (enforce)")
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Successfully activated service 'org.gnome.Shell.Extensions'
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.214: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.214: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.214: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.214: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.230: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.230: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.230: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.230: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.248: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.248: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.248: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.248: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.266: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.266: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.266: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.266: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.282: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.282: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.282: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.282: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.295: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.295: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.295: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.295: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.314: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.314: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.314: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.314: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.329: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.329: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.329: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.329: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.345: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.345: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.345: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.345: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.363: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.363: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.363: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.363: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.380: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.380: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.380: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.380: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.398: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.398: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.398: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:12.398: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+Gjs-Message: 14:46:13.930: JS LOG: ZmanBar Prefs: Filling preferences window...
+
+(org.gnome.Shell.Extensions:51809): Gjs-WARNING **: 14:46:13.937: Type GITypeInfo of property Adw.PreferencesWindow::visible-page does not match return type GITypeInfo of getter get_visible_page. Falling back to slow path
+
+(org.gnome.Shell.Extensions:51809): Gjs-WARNING **: 14:46:13.937: Type GITypeInfo of property Adw.PreferencesWindow::visible-page does not match type GITypeInfo of first argument of setter set_visible_page. Falling back to slow path
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.133: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.133: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.133: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.133: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.150: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.150: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.150: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.150: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.187: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.187: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.187: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.187: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.209: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.209: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.209: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.209: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.227: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.227: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.227: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.227: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.244: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.244: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.244: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.244: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.262: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.262: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.262: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.262: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.281: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.281: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.281: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.281: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.299: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.299: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.299: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.299: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.319: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.319: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.319: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:50758): Clutter-WARNING **: 14:46:14.319: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+WARNING: Glycin running without sandbox.
+GNOME Shell-Message: 14:46:53.371: ZmanBar: Date menu state changed. Is open: true
+GNOME Shell-Message: 14:46:53.371: ZmanBar: Executing _onMenuOpened to update notification center date.
+GNOME Shell-Message: 14:46:53.372: ZmanBar: Found dateLabel actor.
+GNOME Shell-Message: 14:46:53.372: ZmanBar: Original date text in notification center: "November 23 2025"
+GNOME Shell-Message: 14:46:53.372: ZmanBar: Setting new text for notification center: "November 23 2025\nג׳ כסלו תשפ״ו"
+GNOME Shell-Message: 14:46:53.373: ZmanBar: Successfully set new date text in notification center.
+GNOME Shell-Message: 14:46:56.101: ZmanBar: Date menu state changed. Is open: false
+GNOME Shell-Message: 14:46:56.101: ZmanBar: Executing _onMenuClosed.
+GNOME Shell-Message: 14:46:56.101: ZmanBar: Restoring original date text: "November 23 2025"
+Gjs-Message: 14:46:59.693: JS LOG: ZmanBar Prefs: Search text changed: "0"
+Gjs-Message: 14:46:59.856: JS LOG: ZmanBar Prefs: Search text changed: "08"
+Gjs-Message: 14:47:00.283: JS LOG: ZmanBar Prefs: Search text changed: "087"
+Gjs-Message: 14:47:00.528: JS LOG: ZmanBar Prefs: Search text changed: "0870"
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Failed to activate service 'org.freedesktop.secrets': timed out (service_start_timeout=120000ms)
+Gjs-Message: 14:47:01.028: JS LOG: ZmanBar Prefs: Searching for location: "0870"
+Gjs-Message: 14:47:01.028: JS LOG: ZmanBar Prefs: Clearing search results.
+Gjs-Message: 14:47:01.311: JS LOG: ZmanBar Prefs: Search text changed: "08701"
+Gjs-Message: 14:47:01.753: JS LOG: ZmanBar Prefs: Nominatim response: [{"place_id":350899627,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"-23.7005563","lon":"133.8736805","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"0870","display_name":"0870, Ciccone, Nyewente, Town of Alice Springs, Northern Territory, Australia","boundingbox":["-23.7505563","-23.6505563","133.8236805","133.9236805"]},{"place_id":353460581,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"59.9484900","lon":"10.7461733","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"0870","display_name":"0870, Nordre Aker, Oslo, Norge","boundingbox":["59.8984900","59.9984900","10.6961733","10.7961733"]}]
+Gjs-Message: 14:47:01.753: JS LOG: ZmanBar Prefs: Clearing search results.
+Gjs-Message: 14:47:01.753: JS LOG: ZmanBar Prefs: Found 2 results for location search.
+Gjs-Message: 14:47:01.753: JS LOG: ZmanBar Prefs: Search results: [{"place_id":350899627,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"-23.7005563","lon":"133.8736805","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"0870","display_name":"0870, Ciccone, Nyewente, Town of Alice Springs, Northern Territory, Australia","boundingbox":["-23.7505563","-23.6505563","133.8236805","133.9236805"]},{"place_id":353460581,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"59.9484900","lon":"10.7461733","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"0870","display_name":"0870, Nordre Aker, Oslo, Norge","boundingbox":["59.8984900","59.9984900","10.6961733","10.7961733"]}]
+Gjs-Message: 14:47:01.812: JS LOG: ZmanBar Prefs: Searching for location: "08701"
+Gjs-Message: 14:47:01.812: JS LOG: ZmanBar Prefs: Clearing search results.
+Gjs-Message: 14:47:02.519: JS LOG: ZmanBar Prefs: Nominatim response: [{"place_id":353632472,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"40.0753391","lon":"-74.2118035","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"08701","display_name":"08701, Lakewood Township, Ocean County, New Jersey, United States of America","boundingbox":["40.0253391","40.1253391","-74.2618035","-74.1618035"]},{"place_id":353613140,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"50.0879408","lon":"30.6055704","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"08701","display_name":"08701, Обухів, Обухівська міська громада, Обухівський район, Київська область, Україна","boundingbox":["50.0379408","50.1379408","30.5555704","30.6555704"]},{"place_id":353603856,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"49.1114711","lon":"21.5061388","class":"place","type":"postcode","place_rank":25,"importance":0.06667666666666666,"addresstype":"postcode","name":"087 01","display_name":"087 01, Giraltovce, okres Svidník, Prešovský kraj, Východné Slovensko, Slovensko","boundingbox":["49.1094711","49.1134711","21.5041388","21.5081388"]}]
+Gjs-Message: 14:47:02.519: JS LOG: ZmanBar Prefs: Clearing search results.
+Gjs-Message: 14:47:02.519: JS LOG: ZmanBar Prefs: Found 3 results for location search.
+Gjs-Message: 14:47:02.519: JS LOG: ZmanBar Prefs: Search results: [{"place_id":353632472,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"40.0753391","lon":"-74.2118035","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"08701","display_name":"08701, Lakewood Township, Ocean County, New Jersey, United States of America","boundingbox":["40.0253391","40.1253391","-74.2618035","-74.1618035"]},{"place_id":353613140,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"50.0879408","lon":"30.6055704","class":"place","type":"postcode","place_rank":21,"importance":0.12000999999999995,"addresstype":"postcode","name":"08701","display_name":"08701, Обухів, Обухівська міська громада, Обухівський район, Київська область, Україна","boundingbox":["50.0379408","50.1379408","30.5555704","30.6555704"]},{"place_id":353603856,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","lat":"49.1114711","lon":"21.5061388","class":"place","type":"postcode","place_rank":25,"importance":0.06667666666666666,"addresstype":"postcode","name":"087 01","display_name":"087 01, Giraltovce, okres Svidník, Prešovský kraj, Východné Slovensko, Slovensko","boundingbox":["49.1094711","49.1134711","21.5041388","21.5081388"]}]
+libmutter-Message: 14:48:54.359: Removed virtual monitor Meta-0
+ 14:48:54 | INFO | Disconnected by EIS
+** Message: 14:48:54.392: Shutting down GNOME Shell
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.790: Object Gjs_ui_panelMenu_PanelMenuButton (0x58e9c5eba780), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b04f8 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:197 (3dceccf2ece0 @ 22)
+#1   58e9c07b0458 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:216 (3dceccf2ed30 @ 168)
+#2   58e9c07b03d8 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:70 (3dceccf2e920 @ 33)
+#3   58e9c07b0350 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:75 (3dceccf2e9c0 @ 11)
+#4   58e9c07b0298 i   resource:///org/gnome/shell/ui/layout.js:245 (2b985812c740 @ 328)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.790: Object Gjs_ui_panelMenu_PanelMenuButton (0x58e9c5eba780), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b04f8 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:204 (3dceccf2ece0 @ 142)
+#1   58e9c07b0458 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:216 (3dceccf2ed30 @ 168)
+#2   58e9c07b03d8 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:70 (3dceccf2e920 @ 33)
+#3   58e9c07b0350 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:75 (3dceccf2e9c0 @ 11)
+#4   58e9c07b0298 i   resource:///org/gnome/shell/ui/layout.js:245 (2b985812c740 @ 328)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.790: Object St.Icon (0x58e9c5eb7b50), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b04f8 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:204 (3dceccf2ece0 @ 142)
+#1   58e9c07b0458 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:216 (3dceccf2ed30 @ 168)
+#2   58e9c07b03d8 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:70 (3dceccf2e920 @ 33)
+#3   58e9c07b0350 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:75 (3dceccf2e9c0 @ 11)
+#4   58e9c07b0298 i   resource:///org/gnome/shell/ui/layout.js:245 (2b985812c740 @ 328)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.790: Object Gjs_ui_panelMenu_PanelMenuButton (0x58e9c5eba780), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0458 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:217 (3dceccf2ed30 @ 188)
+#1   58e9c07b03d8 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:70 (3dceccf2e920 @ 33)
+#2   58e9c07b0350 i   file:///home/naftali/.local/share/gnome-shell/extensions/lilypad@shendrew.github.io/extension.js:75 (3dceccf2e9c0 @ 11)
+#3   58e9c07b0298 i   resource:///org/gnome/shell/ui/layout.js:245 (2b985812c740 @ 328)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.870: Object Clutter.Actor (0x58e9c2a61300), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03e8 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:325 (a30c4826290 @ 58)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:211 (a30c4821e20 @ 212)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object Clutter.Actor (0x58e9c2a61300), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03e8 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:326 (a30c4826290 @ 114)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:211 (a30c4821e20 @ 212)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03e8 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:328 (a30c4826290 @ 122)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:211 (a30c4821e20 @ 212)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.Label (0x58e9c2936330), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:258 (a30c4821fb0 @ 13)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.Label (0x58e9c2a60890), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:334 (a30c48262e0 @ 53)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.Label (0x58e9c2936330), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:335 (a30c48262e0 @ 78)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:336 (a30c48262e0 @ 103)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0488 i   resource:///org/gnome/shell/ui/boxpointer.js:134 (2b985814c0b0 @ 55)
+#1   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:348 (a30c48262e0 @ 301)
+#2   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#3   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.Label (0x58e9c2936330), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:261 (a30c4821fb0 @ 58)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.871: clutter_text_get_editable: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.871: clutter_text_get_text: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.871: clutter_text_set_text: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:272 (a30c4826100 @ 55)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.Label (0x58e9c2a60890), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:334 (a30c48262e0 @ 53)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.Label (0x58e9c2936330), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:335 (a30c48262e0 @ 78)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:336 (a30c48262e0 @ 103)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0500 i   resource:///org/gnome/shell/ui/boxpointer.js:134 (2b985814c0b0 @ 55)
+#1   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:348 (a30c48262e0 @ 301)
+#2   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#3   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c293ad50), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2940d20), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2946bc0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c294caa0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2955d40), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c295bbb0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2961a90), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a64f90), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a6ae70), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a71990), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a778a0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a7d780), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a83660), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a89540), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.871: Object St.BoxLayout (0x58e9c2a8f420), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2a95300), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c293ad50), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d50 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:130 (a30c4821b00 @ 307)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2a9b150), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:138 (a30c4821b50 @ 38)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:306 (a30c4826100 @ 742)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.Label (0x58e9c2936330), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:258 (a30c4821fb0 @ 13)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.Label (0x58e9c2a60890), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:334 (a30c48262e0 @ 53)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.Label (0x58e9c2936330), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:335 (a30c48262e0 @ 78)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:336 (a30c48262e0 @ 103)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0488 i   resource:///org/gnome/shell/ui/boxpointer.js:134 (2b985814c0b0 @ 55)
+#1   58e9c07b03c0 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:348 (a30c48262e0 @ 301)
+#2   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#3   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.Label (0x58e9c2936330), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:261 (a30c4821fb0 @ 58)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.872: clutter_text_get_editable: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.872: clutter_text_get_text: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.872: clutter_text_set_text: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:272 (a30c4826100 @ 55)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.Label (0x58e9c2a60890), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:334 (a30c48262e0 @ 53)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.Label (0x58e9c2936330), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:335 (a30c48262e0 @ 78)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:336 (a30c48262e0 @ 103)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d60 b   resource:///org/gnome/shell/ui/boxpointer.js:134 (2b985814c0b0 @ 55)
+#1   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:348 (a30c48262e0 @ 301)
+#2   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#3   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c293ad50), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2940d20), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2946bc0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c294caa0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2955d40), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c295bbb0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2961a90), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2a64f90), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2a6ae70), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2a71990), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.872: Object St.BoxLayout (0x58e9c2a778a0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a7d780), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a83660), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a89540), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a8f420), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a95300), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c293ad50), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028580 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:130 (a30c4821b00 @ 307)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a9b150), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0438 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:138 (a30c4821b50 @ 38)
+#1   7ffdd9028d60 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:306 (a30c4826100 @ 742)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.Label (0x58e9c2936330), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:258 (a30c4821fb0 @ 13)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.Label (0x58e9c2a60890), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:334 (a30c48262e0 @ 53)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.Label (0x58e9c2936330), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:335 (a30c48262e0 @ 78)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:336 (a30c48262e0 @ 103)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028630 b   resource:///org/gnome/shell/ui/boxpointer.js:134 (2b985814c0b0 @ 55)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:348 (a30c48262e0 @ 301)
+#2   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:259 (a30c4821fb0 @ 31)
+#3   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.Label (0x58e9c2936330), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:261 (a30c4821fb0 @ 58)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.873: clutter_text_get_editable: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.873: clutter_text_get_text: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Clutter-CRITICAL **: 14:48:54.873: clutter_text_set_text: assertion 'CLUTTER_IS_TEXT (self)' failed
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:272 (a30c4826100 @ 55)
+#1   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.Label (0x58e9c2a60890), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:334 (a30c48262e0 @ 53)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.Label (0x58e9c2936330), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:335 (a30c48262e0 @ 78)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object Gjs_ui_ibusCandidatePopup_CandidateArea (0x58e9c293a000), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:336 (a30c48262e0 @ 103)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd90285d0 b   resource:///org/gnome/shell/ui/boxpointer.js:134 (2b985814c0b0 @ 55)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:348 (a30c48262e0 @ 301)
+#2   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:273 (a30c4826100 @ 73)
+#3   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c293ad50), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2940d20), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2946bc0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c294caa0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2955d40), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c295bbb0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2961a90), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a64f90), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.873: Object St.BoxLayout (0x58e9c2a6ae70), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a71990), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a778a0), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a7d780), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a83660), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a89540), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a8f420), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a95300), has been already disposed — impossible to set any property on it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:121 (a30c4821b00 @ 104)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c293ad50), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028ec0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:130 (a30c4821b00 @ 307)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:301 (a30c4826100 @ 666)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object St.BoxLayout (0x58e9c2a9b150), has been already disposed — impossible to access it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd90288f0 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:138 (a30c4821b50 @ 38)
+#1   7ffdd9029000 b   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:306 (a30c4826100 @ 742)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+
+(gnome-shell:50758): Gjs-CRITICAL **: 14:48:54.874: Object Gjs_ui_ibusCandidatePopup_IbusCandidatePopup (0x58e9c2a61880), has been already disposed — impossible to get any property from it. This might be caused by the object having been destroyed from C code using something such as destroy(), dispose(), or remove() vfuncs.
+== Stack trace for context 0x58e9c06e3910 ==
+#0   7ffdd9028d70 b   resource:///org/gnome/shell/ui/boxpointer.js:134 (2b985814c0b0 @ 55)
+#1   58e9c07b0338 i   resource:///org/gnome/shell/ui/ibusCandidatePopup.js:319 (a30c4826240 @ 32)
+#2   58e9c07b0298 i   resource:///org/gnome/shell/ui/main.js:288 (2b985810b0b0 @ 119)
+19:48:55:057 Gdk Lost connection to Wayland compositor.
+Gdk-Message: 14:48:55.057: Error reading events from display: Broken pipe
+
+(bazaar:2): Gdk-WARNING **: 14:48:55.058: vkGetPhysicalDeviceSurfacePresentModesKHR(): A surface is no longer available. (VK_ERROR_SURFACE_LOST_KHR) (-1000000000)
+Gdk-Message: 14:48:55.059: Lost connection to Wayland compositor.
+dbus-daemon[50757]: [session uid=1000 pid=50757 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.21' (uid=1000 pid=50946 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+
+(bazaar:2): Gdk-WARNING **: 14:48:55.089: vkQueuePresentKHR(): A surface has changed in such a way that it is no longer compatible with the swapchain. (VK_ERROR_OUT_OF_DATE_KHR) (-1000001004)
+Gdk-Message: 14:48:55.090: Error flushing display: Connection reset by peer
+
+(xdg-desktop-portal-gtk:52809): Gtk-WARNING **: 14:48:55.206: cannot open display: :2
+A connection to the bus can't be made
+Gdk-Message: 14:48:55.214: Lost connection to Wayland compositor.
+gnome-shell-calendar-server[50836]: Lost (or failed to acquire) the name org.gnome.Shell.CalendarServer - exiting
+
+(evolution-calendar-factory:50868): libedbus-private-WARNING **: 14:48:55.217: Error setting property 'ConnectionStatus' on interface org.gnome.evolution.dataserver.Source: The connection is closed (g-io-error-quark, 18)
+
+** (/usr/libexec/xdg-desktop-portal:50946): WARNING **: 14:48:55.218: Failed to close session implementation: The connection is closed
+
+** (/usr/libexec/xdg-desktop-portal:50946): WARNING **: 14:48:55.218: Failed to close session implementation: The connection is closed
+
+** (/usr/libexec/xdg-desktop-portal:50946): WARNING **: 14:48:55.218: Failed to close session implementation: The connection is closed
+
+(localsearch-3:51685): GVFS-RemoteVolumeMonitor-WARNING **: 14:48:55.219: Owner of volume monitor org.gtk.vfs.UDisks2VolumeMonitor disconnected from the bus; removing drives/volumes/mounts
+A connection to the bus can't be made
+
+(localsearch-3:51685): GVFS-RemoteVolumeMonitor-WARNING **: 14:48:55.221: Owner of volume monitor org.gtk.vfs.GoaVolumeMonitor disconnected from the bus; removing drives/volumes/mounts
+
+(localsearch-3:51685): GVFS-RemoteVolumeMonitor-WARNING **: 14:48:55.221: Owner of volume monitor org.gtk.vfs.AfcVolumeMonitor disconnected from the bus; removing drives/volumes/mounts
+
+(localsearch-3:51685): GVFS-RemoteVolumeMonitor-WARNING **: 14:48:55.221: Owner of volume monitor org.gtk.vfs.GPhoto2VolumeMonitor disconnected from the bus; removing drives/volumes/mounts
+
+(localsearch-3:51685): GVFS-RemoteVolumeMonitor-WARNING **: 14:48:55.221: Owner of volume monitor org.gtk.vfs.MTPVolumeMonitor disconnected from the bus; removing drives/volumes/mounts
+naftali@naftali-Inspiron-15-3525:~$ dbus-run-session -- gnome-shell --devkit
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+fusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied
+libmutter-Message: 14:48:57.829: Running GNOME Shell (using mutter 49.0) as a Wayland display server
+libmutter-Message: 14:48:57.829: Enabling experimental feature 'scale-monitor-framebuffer'
+libmutter-Message: 14:48:57.829: Enabling experimental feature 'xwayland-native-scaling'
+libmutter-Message: 14:48:57.897: Added device '/dev/dri/renderD128' (amdgpu) using no mode setting.
+libmutter-Message: 14:48:57.900: Created gbm renderer for '/dev/dri/renderD128'
+libmutter-Message: 14:48:57.900: Boot VGA GPU /dev/dri/renderD128 selected as primary
+** Message: 14:48:57.903: Obtained a high priority EGL context
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.2' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.a11y.Bus'
+libmutter-Message: 14:48:57.928: Using public X11 display :2, (using :3 for managed services)
+
+(gnome-shell:52830): libmutter-WARNING **: 14:48:57.928: WL: unable to lock lockfile /run/user/1000/wayland-0.lock, maybe another compositor is running
+
+libmutter-Message: 14:48:57.929: Using Wayland display name 'wayland-1'
+dbus-daemon[52882]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52882]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+GNOME Shell-Message: 14:48:58.372: Unset XDG_SESSION_ID, getCurrentSessionProxy() called outside a user session. Asking logind directly.
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.Shell.Screencast' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.Shell.CalendarServer' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.evolution.dataserver.Sources5' requested by ':1.9' (uid=1000 pid=52909 comm="/usr/libexec/gnome-shell-calendar-server" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='ca.desrt.dconf' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'ca.desrt.dconf'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.OnlineAccounts' requested by ':1.10' (uid=1000 pid=52922 comm="/usr/libexec/evolution-source-registry" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.evolution.dataserver.Sources5'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.evolution.dataserver.Calendar8' requested by ':1.9' (uid=1000 pid=52909 comm="/usr/libexec/gnome-shell-calendar-server" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.Shell.CalendarServer'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.Shell.Notifications' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+goa-daemon-Message: 14:48:58.532: goa-daemon version 3.54.5 starting
+
+(gnome-shell:52830): GNOME Shell-CRITICAL **: 14:48:58.534: Could not load extension battery-time-with-percentage@gabrock94.github.com: Error: Failed to parse metadata.json: SyntaxError: JSON.parse: unexpected character at line 9 column 3 of the JSON data
+
+Stack trace:
+  loadExtensionMetadata@resource:///org/gnome/shell/misc/extensionUtils.js:140:15
+  createExtensionObject@resource:///org/gnome/shell/ui/extensionSystem.js:383:47
+  _loadExtensions/extensionObjects<@resource:///org/gnome/shell/ui/extensionSystem.js:739:34
+  _loadExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:719:49
+  async*_enableAllExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:760:48
+  _sessionUpdated@resource:///org/gnome/shell/ui/extensionSystem.js:795:20
+  async*init@resource:///org/gnome/shell/ui/extensionSystem.js:77:14
+  _initializeUI@resource:///org/gnome/shell/ui/main.js:345:22
+  start@resource:///org/gnome/shell/ui/main.js:193:11
+  @resource:///org/gnome/shell/ui/init.js:12:47
+  @resource:///org/gnome/shell/ui/init.js:21:20
+  
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.Identity' requested by ':1.12' (uid=1000 pid=52937 comm="/usr/libexec/goa-daemon" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.OnlineAccounts'
+
+(process:52885): mdk-WARNING **: 14:48:58.545: Invalid application ID 'org.gnome.Ptyxis'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.Identity'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.evolution.dataserver.Calendar8'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.evolution.dataserver.AddressBook10' requested by ':1.14' (uid=1000 pid=52941 comm="/usr/libexec/evolution-calendar-factory" label="unconfined")
+GNOME Shell-Message: 14:48:58.592: Error looking up permission: GDBus.Error:org.freedesktop.portal.Error.NotFound: No entry for geolocation
+GNOME Shell-Message: 14:48:58.595: Will monitor session 2
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.freedesktop.portal.IBus' requested by ':1.16' (uid=1000 pid=52975 comm="ibus-daemon --panel disable" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gtk.vfs.UDisks2VolumeMonitor' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.freedesktop.portal.IBus'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.Shell.Notifications'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.6' (uid=1000 pid=52885 comm="/usr/libexec/mutter-devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.evolution.dataserver.AddressBook10'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.21' (uid=1000 pid=53028 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+fusermount3: failed to access mountpoint /run/user/1000/doc: Permission denied
+error: fuse init failed: Can't mount path /run/user/1000/doc
+
+(/usr/libexec/xdg-desktop-portal:53028): xdg-desktop-portal-WARNING **: 14:48:58.637: Document portal fuse mount point unknown: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name :1.22 was not provided by any .service files
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gnome' requested by ':1.21' (uid=1000 pid=53028 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gtk.vfs.UDisks2VolumeMonitor'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gtk.vfs.GoaVolumeMonitor' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gtk.vfs.GoaVolumeMonitor'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gtk.vfs.AfcVolumeMonitor' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gtk.vfs.AfcVolumeMonitor'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gtk.vfs.GPhoto2VolumeMonitor' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gtk.vfs.GPhoto2VolumeMonitor'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gtk.vfs.MTPVolumeMonitor' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gtk.vfs.MTPVolumeMonitor'
+GNOME Shell-Message: 14:48:58.726: Failed to register AuthenticationAgent
+GNOME Shell-Message: 14:48:58.893: ZmanBar: Enabling ZmanBar extension.
+GNOME Shell-Message: 14:48:58.893: ZmanBar: KosherZmanim library loaded successfully.
+GNOME Shell-Message: 14:48:58.894: ZmanBar: Attempting to use saved location from settings.
+GNOME Shell-Message: 14:48:58.896: ZmanBar: Using saved location: Lat 41.116089, Lon -74.0763899
+GNOME Shell-Message: 14:48:58.896: ZmanBar: Recalculating shkiah and Hebrew date for 11/23/2025, 2:48:58 PM
+GNOME Shell-Message: 14:48:58.899: ZmanBar: Cached new Hebrew date: ג׳ כסלו
+GNOME Shell-Message: 14:48:58.900: ZmanBar: Scheduling next update for shkiah at 4:31:31 PM
+GNOME Shell-Message: 14:48:58.900: ZmanBar: ZmanBar extension enabled successfully.
+
+(gnome-shell:52830): Gjs-WARNING **: 14:48:59.028: Type GITypeInfo of property NM.Object::client does not match return type GITypeInfo of getter get_client. Falling back to slow path
+
+(gnome-shell:52830): GNOME Shell-CRITICAL **: 14:48:59.368: Extension openbar@neuromorph: TypeError: can't access property "height", panelMonitor is undefined
+
+Stack trace:
+  enable@file:///home/naftali/.local/share/gnome-shell/extensions/openbar@neuromorph/extension.js:1414:50
+  _callExtensionEnable@resource:///org/gnome/shell/ui/extensionSystem.js:267:38
+  loadExtension@resource:///org/gnome/shell/ui/extensionSystem.js:434:32
+  async*_loadExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:754:24
+  async*_enableAllExtensions@resource:///org/gnome/shell/ui/extensionSystem.js:760:48
+  _sessionUpdated@resource:///org/gnome/shell/ui/extensionSystem.js:795:20
+  async*init@resource:///org/gnome/shell/ui/extensionSystem.js:77:14
+  _initializeUI@resource:///org/gnome/shell/ui/main.js:345:22
+  start@resource:///org/gnome/shell/ui/main.js:193:11
+  @resource:///org/gnome/shell/ui/init.js:12:47
+  @resource:///org/gnome/shell/ui/init.js:21:20
+  
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.Shell.Screencast'
+
+(gnome-shell:52830): Gjs-WARNING **: 14:48:59.379: Gio.DesktopAppInfo has been moved to a separate platform-specific library. Please update your code to use GioUnix.DesktopAppInfo instead.
+0 get() ["resource:///org/gnome/gjs/modules/core/overrides/Gio.js":524:46]
+1 reload/this.apps<() ["file:///home/naftali/.local/share/gnome-shell/extensions/fuzzy-application-search@mkhl.codeberg.page/extension.js":38:57]
+2 filter() ["self-hosted":195:21]
+3 reload() ["file:///home/naftali/.local/share/gnome-shell/extensions/fuzzy-application-search@mkhl.codeberg.page/extension.js":38:5]
+4 enable() ["file:///home/naftali/.local/share/gnome-shell/extensions/fuzzy-application-search@mkhl.codeberg.page/extension.js":19:8]
+5 _callExtensionEnable() ["resource:///org/gnome/shell/ui/extensionSystem.js":267:38]
+6 loadExtension() ["resource:///org/gnome/shell/ui/extensionSystem.js":434:32]
+7 AsyncFunctionNext() ["self-hosted":800:27]
+8 anonymous() ["resource:///org/gnome/shell/ui/init.js":21:20]
+
+GNOME Shell-Message: 14:48:59.390: [QSA] Enabling extension
+GNOME Shell-Message: 14:48:59.460: Lilypad extension started...
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gnome.Settings.GlobalShortcutsProvider' requested by ':1.24' (uid=1000 pid=53053 comm="/usr/libexec/xdg-desktop-portal-gnome" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gnome.Settings.GlobalShortcutsProvider'
+GNOME Shell-Message: 14:48:59.590: Failed to load D-Bus interface org.gnome.SettingsDaemon.Power.Screen
+
+(gnome-shell:52830): GNOME Shell-CRITICAL **: 14:48:59.591: Extension touchpad-gesture-customization@coooolapps.com: TypeError: Invalid type [object Null]
+
+Stack trace:
+  _newNodeInfo@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:280:11
+  _wrapFunction/klass[method]@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:312:25
+  _newInterfaceInfo@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:284:37
+  _makeProxyWrapper@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:235:33
+  @file:///home/naftali/.local/share/gnome-shell/extensions/touchpad-gesture-customization@coooolapps.com/src/brightnessControl.js:9:39
+  @resource:///org/gnome/shell/ui/init.js:21:20
+  
+
+(gnome-shell:52830): libmutter-WARNING **: 14:48:59.673: Overwriting existing binding of keysym ffb3 with keysym ff9b (keycode 59).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:48:59.673: Overwriting existing binding of keysym ffb9 with keysym ff9a (keycode 51).
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gnome'
+
+(gnome-shell:52830): Gjs-WARNING **: 14:48:59.711: Gio.DesktopAppInfo has been moved to a separate platform-specific library. Please update your code to use GioUnix.DesktopAppInfo instead.
+0 get() ["resource:///org/gnome/gjs/modules/core/overrides/Gio.js":524:46]
+1 <TOP LEVEL> ["file:///usr/share/gnome-shell/extensions/ubuntu-dock@ubuntu.com/locations.js":113:4]
+2 anonymous() ["resource:///org/gnome/shell/ui/init.js":21:20]
+
+/home/naftali/.pyenv/versions/3.12.4/bin/python3: can't open file '/usr/share/gnome-shell/extensions/snapd-prompting@canonical.com/../tools/permission-dialog-launcher.py': [Errno 2] No such file or directory
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.21' (uid=1000 pid=53028 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.freedesktop.secrets' requested by ':1.21' (uid=1000 pid=53028 comm="/usr/libexec/xdg-desktop-portal" label="unconfined")
+discover_other_daemon: 1GNOME_KEYRING_CONTROL=/run/user/1000/keyring
+libmutter-Message: 14:49:23.876: Added virtual monitor Meta-0
+
+(gnome-shell:52830): GLib-GObject-CRITICAL **: 14:49:24.335: value "nan" of type 'gdouble' is invalid or out of range for property 'clip' of type 'gdouble'
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.358: Trying to re-add keybinding "shortcut".
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.796: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.797: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.797: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.797: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.804: Overwriting existing binding of keysym ff9b with keysym ffb3 (keycode 59).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.804: Overwriting existing binding of keysym ff9a with keysym ffb9 (keycode 51).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.804: Overwriting existing binding of keysym 31 with keysym 31 (keycode a).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 32 with keysym 32 (keycode b).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 39 with keysym 39 (keycode 12).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 32 with keysym 32 (keycode b).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 38 with keysym 38 (keycode 11).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 36 with keysym 36 (keycode f).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 33 with keysym 33 (keycode c).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 31 with keysym 31 (keycode a).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 35 with keysym 35 (keycode e).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 33 with keysym 33 (keycode c).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 34 with keysym 34 (keycode d).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 37 with keysym 37 (keycode 10).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 39 with keysym 39 (keycode 12).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 36 with keysym 36 (keycode f).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 34 with keysym 34 (keycode d).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 37 with keysym 37 (keycode 10).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 38 with keysym 38 (keycode 11).
+
+(gnome-shell:52830): libmutter-WARNING **: 14:49:24.805: Overwriting existing binding of keysym 35 with keysym 35 (keycode e).
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.832: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.832: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.832: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.833: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.833: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.922: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.922: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.922: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.922: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.922: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+GNOME Shell-Message: 14:49:24.960: GNOME Shell started at Sun Nov 23 2025 14:48:58 GMT-0500 (Eastern Standard Time)
+GNOME Shell-Message: 14:49:24.961: Registering session with GDM
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.982: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.982: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.982: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.982: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:24.982: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.037: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.037: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.037: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.037: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.037: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.102: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.102: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.102: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.102: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.102: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.157: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.157: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.157: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.157: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.157: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.204: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.204: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.204: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.204: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.204: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.240: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.240: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.240: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.240: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.240: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.272: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.272: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.272: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.272: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.272: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.302: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.302: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.302: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.302: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.302: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.340: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.340: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.340: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.340: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.340: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.516: Can't update stage views actor dashtodockContainer [Gjs_ubuntu-dock_ubuntu_com_docking_DashToDock] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.516: Can't update stage views actor unnamed [Gjs_ubuntu-dock_ubuntu_com_docking_DashSlideContainer] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.516: Can't update stage views actor dashtodockBox [StBoxLayout] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.516: Can't update stage views actor bms-dash-backgroundgroup [MetaBackgroundGroup] is on because it needs an allocation.
+
+(gnome-shell:52830): Clutter-WARNING **: 14:49:25.516: Can't update stage views actor bms-dash-blurred-widget [StWidget] is on because it needs an allocation.
+
+(/usr/libexec/xdg-desktop-portal:53028): xdg-desktop-portal-WARNING **: 14:49:26.500: Failed to create secret proxy: Error calling StartServiceByName for org.freedesktop.secrets: Timeout was reached
+
+(/usr/libexec/xdg-desktop-portal:53028): xdg-desktop-portal-WARNING **: 14:49:26.500: No skeleton to export
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Activating service name='org.gtk.vfs.Metadata' requested by ':1.0' (uid=1000 pid=52830 comm="gnome-shell --devkit" label="unconfined")
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Successfully activated service 'org.gtk.vfs.Metadata'
+dbus-daemon[52829]: [session uid=1000 pid=52829 pidfd=5] Failed to activate service 'org.freedesktop.secrets': timed out (service_start_timeout=120000ms)

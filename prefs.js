@@ -7,8 +7,6 @@ import Soup from 'gi://Soup?version=3.0';
 import GLib from 'gi://GLib';
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import { log, logError } from './logger.js';
-
 export default class ZmanBarPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
@@ -21,24 +19,40 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     }
 
     _onWindowDestroy() {
-        log('ZmanBar Preferences window closed.');
-        log('ZmanBar Preferences window opened.');
+        this._log('ZmanBar Preferences window closed.');
     }
 
     fillPreferencesWindow(window) {
-        log('Filling preferences window...');
         this.settings = this.getSettings();
+        this._log('Filling preferences window...');
 
         this._window = window;
         this._window.connect('destroy', this._onWindowDestroy.bind(this));
 
         const page = new Adw.PreferencesPage();
+        window.add(page);
+
+        // --- General Settings Group ---
+        const generalGroup = new Adw.PreferencesGroup({
+            title: 'General Settings',
+        });
+        page.add(generalGroup);
+
+        const loggingRow = new Adw.SwitchRow({
+            title: 'Enable Logging',
+            subtitle: 'Enable verbose logging for debugging.',
+        });
+        generalGroup.add(loggingRow);
+
+        this.settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+
+        // --- Location Settings Group ---
         const group = new Adw.PreferencesGroup({
             title: 'Location Settings',
             description: 'Set your location to get accurate Zmanim.',
         });
         page.add(group);
-        window.add(page);
 
         // --- Location Expander Row ---
         const locationExpander = new Adw.ExpanderRow({
@@ -80,7 +94,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         // --- Event Handlers ---
         searchEntry.connect('search-changed', () => {
             const query = searchEntry.get_text().trim();
-            log(`Search text changed: "${query}"`);
+            this._log(`Search text changed: "${query}"`);
             if (this._searchTimeout) {
                 GLib.source_remove(this._searchTimeout);
             }
@@ -99,7 +113,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     }
 
     _performSearch(query) {
-        log(`Searching for location: "${query}"`);
+        this._log(`Searching for location: "${query}"`);
         this._clearResults();
 
         this._spinner.set_visible(true);
@@ -128,16 +142,16 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             try {
                 const bytes = session.send_and_read_finish(result);
                 const response = new TextDecoder().decode(bytes.get_data());
-                log(`Nominatim response: ${response}`);
+                this._log(`Nominatim response: ${response}`);
                 const data = JSON.parse(response);
                 this._updateResults(data);
             }
             catch (error) {
                 // Don't log an error if the request was intentionally cancelled
                 if (error instanceof GLib.Error && error.matches(Soup.http_error_quark(), Soup.Status.CANCELLED)) {
-                    log('Location search was cancelled.');
+                    this._log('Location search was cancelled.');
                 } else {
-                    logError(error, 'Error fetching location');
+                    this._logError(error, 'Error fetching location');
                 }
                 this._clearResults();
             }
@@ -152,8 +166,8 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this._spinner.stop();
         this._spinner.set_visible(false);
 
-        log(`Found ${resultCount} results for location search.`);
-        log(`Search results: ${JSON.stringify(this._searchResults)}`);
+        this._log(`Found ${resultCount} results for location search.`);
+        this._log(`Search results: ${JSON.stringify(this._searchResults)}`);
 
         if (resultCount === 0) {
             const noResultsLabel = new Gtk.Label({
@@ -176,8 +190,8 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
                 });
 
                 row.connect('activated', () => {
-                    log(`Location selected: ${result.display_name}`);
-                    log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
+                    this._log(`Location selected: ${result.display_name}`);
+                    this._log(`Setting location to: Lat ${result.lat}, Lon ${result.lon}`);
                     this.settings.set_string('location-name', result.display_name);
                     this.settings.set_double('latitude', parseFloat(result.lat));
                     this.settings.set_double('longitude', parseFloat(result.lon));
@@ -204,7 +218,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     }
 
     _clearResults() {
-        log('Clearing search results.');
+        this._log('Clearing search results.');
         this._spinner.stop();
         this._spinner.set_visible(false);
         this._searchResults = [];
@@ -214,5 +228,18 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             child = this._resultsBox.get_first_child();
         }
         this._resultsBox.set_visible(false);
+    }
+
+    _log(message) {
+        if (this.settings.get_boolean('enable-logging')) {
+            log(`ZmanBar Prefs: ${message}`);
+        }
+    }
+
+    _logError(error, message) {
+        // Errors should probably always be logged, but for consistency with the user's request,
+        // we can tie it to the same setting. Or we can log them always.
+        // For now, let's always log errors.
+        logError(error, `ZmanBar Prefs Error: ${message}`);
     }
 }
