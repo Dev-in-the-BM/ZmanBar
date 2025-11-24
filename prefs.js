@@ -5,11 +5,13 @@ import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 import Soup from 'gi://Soup?version=3.0';
 import GLib from 'gi://GLib';
-import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {createAboutPage} from './aboutPage.js';
 
 export default class ZmanBarPreferences extends ExtensionPreferences {
     constructor(metadata) {
         super(metadata);
+        this.initTranslations();
         log('ZmanBar Preferences constructor called.');
         this._httpSession = Soup.Session.new();
         this._searchTimeout = null;
@@ -27,22 +29,30 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         this.settings = this.getSettings();
         log('ZmanBar settings object:', this.settings);
         this._log('Filling preferences window...');
+        log(JSON.stringify(this.metadata));
 
         this._window = window;
         this._window.connect('destroy', this._onWindowDestroy.bind(this));
 
+        const locationPage = this._createLocationPage();
+        const aboutPage = createAboutPage(this.metadata);
+
+        window.add(locationPage);
+        window.add(aboutPage);
+    }
+
+    _createLocationPage() {
         const page = new Adw.PreferencesPage();
-        window.add(page);
 
         // --- General Settings Group ---
         const generalGroup = new Adw.PreferencesGroup({
-            title: 'General Settings',
+            title: _('General Settings'),
         });
         page.add(generalGroup);
 
         const loggingRow = new Adw.SwitchRow({
-            title: 'Enable Logging',
-            subtitle: 'Enable verbose logging for debugging.',
+            title: _('Enable Logging'),
+            subtitle: _('Enable verbose logging for debugging.'),
         });
         generalGroup.add(loggingRow);
 
@@ -51,15 +61,15 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
         // --- Location Settings Group ---
         const group = new Adw.PreferencesGroup({
-            title: 'Location Settings',
-            description: 'Set your location to get accurate Zmanim.',
+            title: _('Location Settings'),
+            description: _('Set your location to get accurate Zmanim.'),
         });
         page.add(group);
 
         // --- Location Expander Row ---
         const locationExpander = new Adw.ExpanderRow({
-            title: 'Location',
-            subtitle: this.settings.get_string('location-name') || 'Not Set',
+            title: _('Location'),
+            subtitle: this.settings.get_string('location-name') || _('Not Set'),
         });
         group.add(locationExpander);
 
@@ -72,7 +82,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         locationExpander.add_row(contentBox);
 
         const searchEntry = new Gtk.SearchEntry({
-            placeholder_text: 'Enter a location, like "Monsey" or "10952"',
+            placeholder_text: _('Enter a location, like "Monsey" or "10952"'),
             hexpand: true,
         });
         contentBox.append(searchEntry);
@@ -112,6 +122,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             });
         });
 
+        return page;
     }
 
     _performSearch(query) {
