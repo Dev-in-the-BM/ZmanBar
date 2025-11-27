@@ -7,6 +7,9 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
+const log = (message) => console.log(`ZmanBar: ${message}`);
+const logError = (error, message) => console.error(`ZmanBar Error: ${message}`, error);
+
 function importUMD(path) {
     const file = Gio.File.new_for_path(path);
     const [, contents] = file.load_contents(null);
@@ -55,44 +58,31 @@ export default class HebrewDateDisplayExtension extends Extension {
         // Note: Can't log here until settings are loaded in enable()
     }
 
-    _log(message) {
-        if (this._settings && this._settings.get_boolean('enable-logging')) {
-            log(`ZmanBar: ${message}`);
-        }
-    }
-
-    _logError(error, message) {
-        // We will always log errors regardless of the setting.
-        logError(error, `ZmanBar Error: ${message}`);
-    }
-
-
-
     _onLogSettingChanged() {
         // Now that the setting has changed, we will log a message.
-        this._log('Log setting changed. Logging is now ' + (this._settings.get_boolean('enable-logging') ? 'enabled' : 'disabled'));
+        log('Log setting changed. Logging is now ' + (this._settings.get_boolean('enable-logging') ? 'enabled' : 'disabled'));
     }
 
     _useSavedLocation() {
-        this._log('Attempting to use saved location from settings.');
+        log('Attempting to use saved location from settings.');
         const settings = this.getSettings();
         const latitude = settings.get_double('latitude');
         const longitude = settings.get_double('longitude');
 
         if (latitude === 0.0 && longitude === 0.0) {
-            this._log('No saved location found. The date will update at midnight.');
+            log('No saved location found. The date will update at midnight.');
             this._location = null;
         } else {
             const timezone = GLib.TimeZone.new_local().get_identifier();
             this._location = { latitude, longitude, timezone, source: 'Saved Settings' };
             const geoLocation = new KosherZmanim.GeoLocation(settings.get_string('location-name'), latitude, longitude, 0, timezone);
             this._zmanimCalendar.setGeoLocation(geoLocation);
-            this._log(`Using saved location: Lat ${latitude}, Lon ${longitude}`);
+            log(`Using saved location: Lat ${latitude}, Lon ${longitude}`);
         }
     }
 
     _onLocationSettingChanged() {
-        this._log('Manual location setting changed. Re-evaluating location.');
+        log('Manual location setting changed. Re-evaluating location.');
         this._useSavedLocation();
         this._updateAndDisplayDate();
     }
@@ -109,13 +99,13 @@ export default class HebrewDateDisplayExtension extends Extension {
 
     _updateAndCacheValues() {
         const now = new Date();
-        this._log(`Recalculating shkiah and Hebrew date for ${now.toLocaleString()}`);
+        log(`Recalculating shkiah and Hebrew date for ${now.toLocaleString()}`);
 
         if (this._zmanimCalendar) {
             this._zmanimCalendar.setDate(now);
             this._shkiah = this._zmanimCalendar.getSunset()?.toJSDate();
             if (!this._shkiah) {
-                this._logError(new Error('Failed to calculate shkiah.'));
+                logError(new Error('Failed to calculate shkiah.'));
                 this._shkiah = null; // Ensure it's null on failure
             }
         } else {
@@ -124,7 +114,7 @@ export default class HebrewDateDisplayExtension extends Extension {
 
         let dateForHebrewCalc = now;
         if (this._shkiah && now >= this._shkiah) {
-            this._log(`Current time is after shkiah (${this._shkiah.toLocaleTimeString()}). Using tomorrow's date for display.`);
+            log(`Current time is after shkiah (${this._shkiah.toLocaleTimeString()}). Using tomorrow's date for display.`);
             const tomorrow = new Date(now.getTime() + 86400000);
             dateForHebrewCalc = tomorrow;
         }
@@ -133,7 +123,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._hebrewDateString = this._formatHebrewDate(jewishDate, false);
         this._hebrewDateStringWithYear = this._formatHebrewDate(jewishDate, true);
 
-        this._log(`Cached new Hebrew date: ${this._hebrewDateString}`);
+        log(`Cached new Hebrew date: ${this._hebrewDateString}`);
         this._scheduleUpdate();
     }
 
@@ -148,10 +138,10 @@ export default class HebrewDateDisplayExtension extends Extension {
 
         if (this._shkiah && now < this._shkiah) {
             nextUpdate = this._shkiah;
-            this._log(`Scheduling next update for shkiah at ${nextUpdate.toLocaleTimeString()}`);
+            log(`Scheduling next update for shkiah at ${nextUpdate.toLocaleTimeString()}`);
         } else {
             nextUpdate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-            this._log(`Scheduling next update for midnight at ${nextUpdate.toLocaleTimeString()}`);
+            log(`Scheduling next update for midnight at ${nextUpdate.toLocaleTimeString()}`);
         }
 
         const secondsToNextUpdate = Math.max(1, Math.floor((nextUpdate.getTime() - now.getTime()) / 1000));
@@ -168,43 +158,43 @@ export default class HebrewDateDisplayExtension extends Extension {
     }
 
     _onMenuOpened() {
-        this._log('Executing _onMenuOpened to update notification center date.');
+        log('Executing _onMenuOpened to update notification center date.');
         const dateLabel = findActorByClassName(this._dateMenu.menu.box, 'date-label');
         if (!dateLabel) {
-            this._logError(new Error('Could not find dateLabel actor in notification center.'));
+            logError(new Error('Could not find dateLabel actor in notification center.'));
             return;
         }
-        this._log('Found dateLabel actor.');
+        log('Found dateLabel actor.');
 
         this._dateLabel = dateLabel;
         this._originalDateText = this._dateLabel.get_text();
-        this._log(`Original date text in notification center: "${this._originalDateText}"`);
+        log(`Original date text in notification center: "${this._originalDateText}"`);
 
         // Use the cached full date string
         const newText = `${this._originalDateText}\n${this._hebrewDateStringWithYear}`;
-        this._log(`Setting new text for notification center: "${newText.replace('\n', '\\n')}"`);
+        log(`Setting new text for notification center: "${newText.replace('\n', '\\n')}"`);
         
         try {
             this._dateLabel.set_text(newText);
-            this._log('Successfully set new date text in notification center.');
+            log('Successfully set new date text in notification center.');
         } catch (e) {
-            this._logError(e, 'Failed to set text on dateLabel.');
+            logError(e, 'Failed to set text on dateLabel.');
         }
     }
 
     _onMenuClosed() {
-        this._log('Executing _onMenuClosed.');
+        log('Executing _onMenuClosed.');
         if (this._dateLabel && this._originalDateText) {
-            this._log(`Restoring original date text: "${this._originalDateText}"`);
+            log(`Restoring original date text: "${this._originalDateText}"`);
             this._dateLabel.set_text(this._originalDateText);
         } else {
-            this._log('No original date text to restore.');
+            log('No original date text to restore.');
         }
         this._dateLabel = null;
     }
 
     _onMenuStateChanged(menu, isOpen) {
-        this._log(`Date menu state changed. Is open: ${isOpen}`);
+        log(`Date menu state changed. Is open: ${isOpen}`);
         if (isOpen) {
             this._onMenuOpened();
         } else {
@@ -219,8 +209,8 @@ export default class HebrewDateDisplayExtension extends Extension {
 
     enable() {
         this._settings = this.getSettings();
-        this._log('Enabling ZmanBar extension.');
-        this._log('KosherZmanim library loaded successfully.');
+        log('Enabling ZmanBar extension.');
+        log('KosherZmanim library loaded successfully.');
         this._originalClockText = this._clockDisplay.get_text();
 
         this._settingsChangedIdLat = this._settings.connect('changed::latitude', this._onLocationSettingChanged.bind(this));
@@ -234,11 +224,11 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._useSavedLocation();
         this._updateAndDisplayDate();
 
-        this._log('ZmanBar extension enabled successfully.');
+        log('ZmanBar extension enabled successfully.');
     }
 
     disable() {
-        this._log('Disabling ZmanBar extension.');
+        log('Disabling ZmanBar extension.');
 
         if (this._updateTimeout) GLib.source_remove(this._updateTimeout);
         if (this._clockUpdateSignal) this._dateMenu._clock.disconnect(this._clockUpdateSignal);
@@ -255,6 +245,6 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._location = null;
         this._shkiah = null;
         
-        this._log('ZmanBar extension disabled.');
+        log('ZmanBar extension disabled.');
     }
 }

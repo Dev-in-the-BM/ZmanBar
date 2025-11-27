@@ -2,31 +2,10 @@
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
 import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-const parseReadme = (readmeContent) => {
-    const lines = readmeContent.split('\n');
-    const features = [];
-    let website = '';
-
-    let inFeatures = false;
-    for (const line of lines) {
-        if (line.startsWith('## ✨ Features')) {
-            inFeatures = true;
-        } else if (line.startsWith('* ')) {
-            if (inFeatures) {
-                features.push(line.substring(2).trim());
-            }
-        } else if (line.startsWith('http')) {
-            website = line.trim();
-            inFeatures = false;
-        }
-    }
-
-    return { features, website };
-};
-
-export const createAboutPage = (metadata) => {
+export const createAboutPage = (metadata, settings) => {
     const aboutPage = new Adw.PreferencesPage({
         title: _('About'),
         iconName: 'info-symbolic',
@@ -44,11 +23,9 @@ export const createAboutPage = (metadata) => {
 
     const box = new Gtk.Box({
         orientation: Gtk.Orientation.VERTICAL,
-        spacing: 12,
     });
     clamp.set_child(box);
 
-    // --- Extension Icon and Name ---
     if (metadata.icon) {
         const icon = new Gtk.Image({
             icon_name: metadata.icon,
@@ -61,67 +38,142 @@ export const createAboutPage = (metadata) => {
         use_markup: true,
         label: `<span size="xx-large" weight="bold">${metadata.name}</span>`,
         justify: Gtk.Justification.CENTER,
+        margin_bottom: 12,
     });
     box.append(nameLabel);
-    box.append(new Gtk.Separator({ margin_top: 12, margin_bottom: 12 }));
 
+    const hebrewDateLabel = new Gtk.Label({
+        use_markup: true,
+        label: `<span size="large" weight="bold">${_('Hebrew Date for GNOME')}</span>`,
+        justify: Gtk.Justification.CENTER,
+        margin_bottom: 12,
+    });
+    box.append(hebrewDateLabel);
 
-    let readmeData = { features: [], website: metadata.url };
-    try {
-        const file = Gio.File.new_for_path(metadata.path + '/zmanbarreadme.md');
-        const [success, contents] = file.load_contents(null);
-        if (success) {
-            const contentString = new TextDecoder().decode(contents);
-            readmeData = parseReadme(contentString);
-        }
-    } catch (e) {
-        logError(e, 'Error reading or parsing zmanbarreadme.md');
-    }
-
-    // --- Features ---
-    if (readmeData.features.length > 0) {
-        const featuresGroup = new Adw.PreferencesGroup({
-            title: _('Features'),
-        });
-        box.append(featuresGroup);
-        readmeData.features.forEach(feature => {
-            featuresGroup.add(new Adw.ActionRow({ title: feature }));
-        });
-    }
-
-
-    // --- General Info ---
     const infoGroup = new Adw.PreferencesGroup();
     box.append(infoGroup);
 
     const versionRow = new Adw.ActionRow({
         title: _('Version'),
-        subtitle: `${metadata['version-name'] || metadata.version}`,
-        icon_name: 'info-symbolic'
+        subtitle: '1.0.0',
+        icon_name: 'info-symbolic',
+        activatable: true,
     });
     infoGroup.add(versionRow);
 
-
-    if (readmeData.website) {
-        const websiteRow = new Adw.ActionRow({
-            title: _('Website'),
-            subtitle: readmeData.website,
-            icon_name: 'web-browser-symbolic',
-            activatable: true,
-        });
-        websiteRow.connect('activated', () => {
-            Gtk.show_uri(null, readmeData.website, Gtk.get_current_time());
-        });
-        infoGroup.add(websiteRow);
-    }
-
-    const developerRow = new Adw.ActionRow({
-        title: _('Developer'),
-        subtitle: metadata.developer || 'Unknown',
-        icon_name: 'user-symbolic'
+    const loggingGroup = new Adw.PreferencesGroup({
+        title: _('Developer Settings'),
+        visible: false,
     });
-    infoGroup.add(developerRow);
+    box.append(loggingGroup);
 
+    const loggingRow = new Adw.SwitchRow({
+        title: _('Enable Logging'),
+        subtitle: _('Enable verbose logging for debugging.'),
+    });
+    loggingGroup.add(loggingRow);
+
+    settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+    let clickCount = 0;
+    const versionClick = new Gtk.GestureClick();
+    versionClick.connect('released', () => {
+        clickCount++;
+        if (clickCount >= 5) {
+            loggingGroup.set_visible(true);
+        }
+    });
+    versionRow.add_controller(versionClick);
+
+
+    const githubRow = new Adw.ActionRow({
+        title: _('GitHub'),
+        subtitle: metadata.url,
+        activatable: true,
+    });
+    const githubFile = Gio.File.new_for_path(metadata.path + '/github-mark-white.svg');
+    const githubIcon = new Gtk.Image({
+        gicon: new Gio.FileIcon({ file: githubFile }),
+        pixel_size: 24,
+    });
+    githubRow.add_prefix(githubIcon);
+    githubRow.connect('activated', () => {
+        Gio.AppInfo.launch_default_for_uri(metadata.url, null);
+    });
+    infoGroup.add(githubRow);
+
+    box.append(new Gtk.Separator({ margin_top: 24, margin_bottom: 24 }));
+
+    const devNameLabel = new Gtk.Label({
+        use_markup: true,
+        label: '<span size="xx-large" weight="bold">Hi 👋, I\'m Dev-in-the-BM</span>',
+        justify: Gtk.Justification.CENTER,
+        margin_bottom: 12,
+    });
+    box.append(devNameLabel);
+
+    const devInfoGroup = new Adw.PreferencesGroup({
+        margin_bottom: 0,
+    });
+    box.append(devInfoGroup);
+
+    const siteRow = new Adw.ActionRow({
+        title: _('Check out my site:'),
+        subtitle: 'https://dev-in-the-bm.github.io',
+        activatable: true,
+    });
+    const siteIcon = new Gtk.Image({
+        icon_name: 'web-browser-symbolic',
+    });
+    siteRow.add_prefix(siteIcon);
+    siteRow.connect('activated', () => {
+        Gio.AppInfo.launch_default_for_uri('https://dev-in-the-bm.github.io/', null);
+    });
+    devInfoGroup.add(siteRow);
+
+    const jtechRow = new Adw.ActionRow({
+        title: _('Or say hi on JTech Forums :'),
+        subtitle: 'https://forums.jtechforums.org',
+        activatable: true,
+    });
+    const jtechFile = Gio.File.new_for_path(metadata.path + '/Jtech_logo.png');
+    const jtechIcon = new Gtk.Image({
+        gicon: new Gio.FileIcon({ file: jtechFile }),
+        pixel_size: 24,
+    });
+    jtechRow.add_prefix(jtechIcon);
+    jtechRow.connect('activated', () => {
+        Gio.AppInfo.launch_default_for_uri('https://forums.jtechforums.org/invites/DSQpWEfMbr', null);
+    });
+    devInfoGroup.add(jtechRow);
+
+    const bmcImage = new Gtk.Image({
+        gicon: new Gio.FileIcon({ file: Gio.File.new_for_path(metadata.path + '/bmc-button.svg') }),
+        pixel_size: 200,
+        halign: Gtk.Align.CENTER,
+        valign: Gtk.Align.CENTER,
+        margin_top: 0,
+    });
+    bmcImage.set_tooltip_text(_('Buy me a coffee'));
+
+    const gesture = new Gtk.GestureClick();
+    gesture.connect('released', () => {
+        Gio.AppInfo.launch_default_for_uri('https://www.buymeacoffee.com/devinthebm', null);
+    });
+    bmcImage.add_controller(gesture);
+
+    const motion = new Gtk.EventControllerMotion();
+    motion.connect('enter', () => {
+        bmcImage.set_state_flags(Gtk.StateFlags.PRELIGHT, false);
+        bmcImage.set_cursor(Gdk.Cursor.new_from_name('pointer'));
+    });
+    motion.connect('leave', () => {
+        bmcImage.unset_state_flags(Gtk.StateFlags.PRELIGHT);
+        bmcImage.set_cursor(null);
+    });
+    bmcImage.add_controller(motion);
+
+    box.append(bmcImage);
 
     return aboutPage;
 };

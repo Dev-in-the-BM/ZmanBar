@@ -4,7 +4,8 @@
   "uuid": "ZmanBar@dev-in-the-bm.github.io",
   "shell-version": ["45", "46"],
   "url": "https://github.com/Dev-in-the-BM/ZmanBar",
-  "version-name": "0.9 beta",
+  "version": 1,
+  "version-name": "1.0.0",
   "gettext-domain": "ZmanBar@dev-in-the-bm.github.io",
   "donations": {
     "buymeacoffee": "devinthebm"
