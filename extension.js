@@ -7,8 +7,7 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gio from 'gi://Gio';
 
-const log = (message) => console.log(`ZmanBar: ${message}`);
-const logError = (error, message) => console.error(`ZmanBar Error: ${message}`, error);
+import { log, logError } from './logging.js';
 
 function importUMD(path) {
     const file = Gio.File.new_for_path(path);

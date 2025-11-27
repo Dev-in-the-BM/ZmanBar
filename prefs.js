@@ -7,8 +7,7 @@ import GLib from 'gi://GLib';
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import {createAboutPage} from './aboutPage.js';
 
-const log = (message) => console.log(`ZmanBar Prefs: ${message}`);
-const logError = (error, message) => console.error(`ZmanBar Prefs Error: ${message}`, error);
+import { getLogs, connectToLogs, log, logError } from './logging.js';
 
 
 export default class ZmanBarPreferences extends ExtensionPreferences {
@@ -61,7 +60,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             title: _('Location'),
             subtitle: this.settings.get_string('location-name') || _('Not Set'),
         });
-        group.aRatingsdd(locationExpander);
+        group.add(locationExpander);
 
         const contentBox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,

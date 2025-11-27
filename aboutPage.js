@@ -3,7 +3,10 @@ import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
 import Gdk from 'gi://Gdk';
+import GLib from 'gi://GLib';
 import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
+import { getLogs, connectToLogs } from './logging.js';
 
 export const createAboutPage = (metadata, settings) => {
     const aboutPage = new Adw.PreferencesPage({
@@ -61,17 +64,48 @@ export const createAboutPage = (metadata, settings) => {
     });
     infoGroup.add(versionRow);
 
-    const loggingGroup = new Adw.PreferencesGroup({
+    const developerGroup = new Adw.PreferencesGroup({
         title: _('Developer Settings'),
         visible: false,
     });
-    box.append(loggingGroup);
+    box.append(developerGroup);
 
     const loggingRow = new Adw.SwitchRow({
         title: _('Enable Logging'),
         subtitle: _('Enable verbose logging for debugging.'),
     });
-    loggingGroup.add(loggingRow);
+    developerGroup.add(loggingRow);
+
+    const logView = new Gtk.TextView({
+        editable: false,
+        cursor_visible: true,
+        monospace: true,
+        wrap_mode: Gtk.WrapMode.WORD_CHAR,
+        vexpand: true,
+    });
+
+    const scrolledWindow = new Gtk.ScrolledWindow({
+        hscrollbar_policy: Gtk.PolicyType.NEVER,
+        vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
+        child: logView,
+        min_content_height: 200,
+    });
+
+    developerGroup.add(scrolledWindow);
+
+    const copyButton = new Gtk.Button({
+        label: _('Copy'),
+        halign: Gtk.Align.END,
+        margin_top: 6,
+    });
+    developerGroup.add(copyButton);
+
+    copyButton.connect('clicked', () => {
+        const buffer = logView.get_buffer();
+        const [start, end] = buffer.get_bounds();
+        const text = buffer.get_text(start, end, false);
+        Gdk.Display.get_default().get_clipboard().set_text(text);
+    });
 
     settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
 
@@ -80,7 +114,21 @@ export const createAboutPage = (metadata, settings) => {
     versionClick.connect('released', () => {
         clickCount++;
         if (clickCount >= 5) {
-            loggingGroup.set_visible(true);
+            developerGroup.set_visible(true);
+            const buffer = logView.get_buffer();
+
+            // Load existing logs
+            const logs = getLogs();
+            const existingLogText = logs.map(log => `[${log.timestamp.toLocaleTimeString()}] [${log.level}] ${log.message}`).join('\n');
+            buffer.set_text(existingLogText + '\n', -1);
+
+            // Connect to future logs
+            connectToLogs(logEntry => {
+                const newLogText = `[${logEntry.timestamp.toLocaleTimeString()}] [${logEntry.level}] ${logEntry.message}\n`;
+                buffer.insert_at_cursor(newLogText, -1);
+                const adj = scrolledWindow.get_vadjustment();
+                adj.set_value(adj.get_upper() - adj.get_page_size());
+            });
         }
     });
     versionRow.add_controller(versionClick);
