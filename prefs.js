@@ -42,7 +42,10 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     }
 
     _createLocationPage() {
-        const page = new Adw.PreferencesPage();
+        const page = new Adw.PreferencesPage({
+            title: _('Location'),
+            iconName: 'map-symbolic',
+        });
 
         // --- General Settings Group ---
         const generalGroup = new Adw.PreferencesGroup({
