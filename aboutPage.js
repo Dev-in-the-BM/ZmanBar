@@ -9,26 +9,22 @@ export const createAboutPage = (metadata) => {
         iconName: 'info-symbolic',
     });
 
-    const aboutGroup = new Adw.PreferencesGroup();
-    aboutPage.add(aboutGroup);
+    const extensionGroup = new Adw.PreferencesGroup({
+        title: _('About this Extension'),
+    });
+    aboutPage.add(extensionGroup);
 
     const versionRow = new Adw.ActionRow({
         title: _('Version'),
         subtitle: metadata['version-name'] ? metadata['version-name'].toString() : '',
     });
-    aboutGroup.add(versionRow);
-
-    const developerRow = new Adw.ActionRow({
-        title: _('Developer'),
-        subtitle: metadata.developer || 'Unknown',
-    });
-    aboutGroup.add(developerRow);
+    extensionGroup.add(versionRow);
 
     const descriptionRow = new Adw.ActionRow({
         title: _('Description'),
         subtitle: metadata.description || 'No description available.',
     });
-    aboutGroup.add(descriptionRow);
+    extensionGroup.add(descriptionRow);
 
     const websiteRow = new Adw.ActionRow({
         title: _('Website'),
@@ -40,7 +36,18 @@ export const createAboutPage = (metadata) => {
             Gtk.show_uri(null, metadata.url, Gtk.get_current_time());
         }
     });
-    aboutGroup.add(websiteRow);
+    extensionGroup.add(websiteRow);
+
+    const developerGroup = new Adw.PreferencesGroup({
+        title: _('About the Developer'),
+    });
+    aboutPage.add(developerGroup);
+
+    const developerRow = new Adw.ActionRow({
+        title: _('Developer'),
+        subtitle: metadata.developer || 'Unknown',
+    });
+    developerGroup.add(developerRow);
 
     return aboutPage;
 };
