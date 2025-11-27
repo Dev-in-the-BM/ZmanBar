@@ -61,7 +61,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
             title: _('Location'),
             subtitle: this.settings.get_string('location-name') || _('Not Set'),
         });
-        group.add(locationExpander);
+        group.aRatingsdd(locationExpander);
 
         const contentBox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
@@ -95,13 +95,13 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
         // --- Event Handlers ---
         searchEntry.connect('search-changed', () => {
-            const query = searchEntry.get_text().trim();
-            this._log(`Search text changed: "${query}"`);
             if (this._searchTimeout) {
                 GLib.source_remove(this._searchTimeout);
             }
-            this._searchTimeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
+            this._searchTimeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
                 const query = searchEntry.get_text().trim();
+                log(`Search text changed: "${query}"`);
+
                 if (query.length > 2) {
                     this._performSearch(query);
                 } else {
@@ -116,7 +116,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
     }
 
     _performSearch(query) {
-        this._log(`Searching for location: "${query}"`);
+        log(`Searching for location: "${query}"`);
         this._clearResults();
 
         this._spinner.set_visible(true);
@@ -129,6 +129,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         }
 
         const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+        log(`Nominatim URL: ${url}`);
         this._currentSearchMessage = new Soup.Message({
             method: 'GET',
             uri: GLib.Uri.parse(url, GLib.UriFlags.NONE)
@@ -137,6 +138,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         const message = this._currentSearchMessage;
 
         this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
+            log('Search callback initiated.');
             // Clear the current message reference once the callback is entered.
             this._currentSearchMessage = null;
             this._spinner.stop();
@@ -154,6 +156,19 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
                 if (error instanceof GLib.Error && error.matches(Soup.http_error_quark(), Soup.Status.CANCELLED)) {
                     log('Location search was cancelled.');
                 } else {
+                    let errorMessage = 'Unknown error';
+                    if (error instanceof GLib.Error) {
+                        errorMessage = `GLib.Error: ${error.message}, code: ${error.code}`;
+                    } else if (error instanceof Error) {
+                        errorMessage = `JS Error: ${error.message}`;
+                    } else {
+                        try {
+                            errorMessage = JSON.stringify(error);
+                        } catch (e) {
+                            errorMessage = 'Error object could not be serialized.';
+                        }
+                    }
+                    log(`Caught error during search: ${errorMessage}`);
                     logError(error, 'Error fetching location');
                 }
                 this._clearResults();
