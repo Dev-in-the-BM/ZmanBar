@@ -6,7 +6,7 @@ import Gdk from 'gi://Gdk';
 import GLib from 'gi://GLib';
 import { gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import { getLogs, connectToLogs } from './logging.js';
+import { getLogs, connectToLogs, log } from './logging.js';
 
 export const createAboutPage = (metadata, settings) => {
     const aboutPage = new Adw.PreferencesPage({
@@ -104,10 +104,14 @@ export const createAboutPage = (metadata, settings) => {
         const buffer = logView.get_buffer();
         const [start, end] = buffer.get_bounds();
         const text = buffer.get_text(start, end, false);
-        Gdk.Display.get_default().get_clipboard().set_text(text);
+
+        log('Copy button clicked.');
+        log(`Copying text to clipboard: ${text}`);
+        St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, text);
     });
 
     settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+
 
     let clickCount = 0;
     const versionClick = new Gtk.GestureClick();
