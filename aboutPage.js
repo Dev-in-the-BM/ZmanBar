@@ -198,6 +198,15 @@ export const createAboutPage = (metadata, settings) => {
 
     devInfoGroup.add(jtechRow);
 
+    const feedbackLabel = new Gtk.Label({
+        use_markup: true,
+        label: `<span size="large" weight="bold">${_('How did you hear about this extension?\nAny comments or suggestions?\nI\'d love to hear from you!')}</span>`,
+        justify: Gtk.Justification.CENTER,
+        margin_top: 24,
+        margin_bottom: 0,
+    });
+    box.append(feedbackLabel);
+
     const styleManager = Adw.StyleManager.get_default();
 
     const updateIconsForTheme = () => {
@@ -220,7 +229,7 @@ export const createAboutPage = (metadata, settings) => {
         pixel_size: 200,
         halign: Gtk.Align.CENTER,
         valign: Gtk.Align.CENTER,
-        margin_top: 0,
+        margin_top: 12,
     });
     bmcImage.set_tooltip_text(_('Buy me a coffee'));
 
