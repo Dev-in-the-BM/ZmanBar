@@ -143,15 +143,27 @@ export const createAboutPage = (metadata, settings) => {
         subtitle: metadata.url,
         activatable: true,
     });
-    const githubFile = Gio.File.new_for_path(metadata.path + '/github-mark-white.svg');
     const githubIcon = new Gtk.Image({
-        gicon: new Gio.FileIcon({ file: githubFile }),
         pixel_size: 24,
     });
     githubRow.add_prefix(githubIcon);
     githubRow.connect('activated', () => {
         Gio.AppInfo.launch_default_for_uri(metadata.url, null);
     });
+
+    const jtechRow = new Adw.ActionRow({
+        title: _('Or say hi on JTech Forums :'),
+        subtitle: 'https://forums.jtechforums.org',
+        activatable: true,
+    });
+    const jtechIcon = new Gtk.Image({
+        pixel_size: 24,
+    });
+    jtechRow.add_prefix(jtechIcon);
+    jtechRow.connect('activated', () => {
+        Gio.AppInfo.launch_default_for_uri('https://forums.jtechforums.org/invites/DSQpWEfMbr', null);
+    });
+
     infoGroup.add(githubRow);
 
     box.append(new Gtk.Separator({ margin_top: 24, margin_bottom: 24 }));
@@ -184,21 +196,24 @@ export const createAboutPage = (metadata, settings) => {
     });
     devInfoGroup.add(siteRow);
 
-    const jtechRow = new Adw.ActionRow({
-        title: _('Or say hi on JTech Forums :'),
-        subtitle: 'https://forums.jtechforums.org',
-        activatable: true,
-    });
-    const jtechFile = Gio.File.new_for_path(metadata.path + '/Jtech_logo.png');
-    const jtechIcon = new Gtk.Image({
-        gicon: new Gio.FileIcon({ file: jtechFile }),
-        pixel_size: 24,
-    });
-    jtechRow.add_prefix(jtechIcon);
-    jtechRow.connect('activated', () => {
-        Gio.AppInfo.launch_default_for_uri('https://forums.jtechforums.org/invites/DSQpWEfMbr', null);
-    });
     devInfoGroup.add(jtechRow);
+
+    const styleManager = Adw.StyleManager.get_default();
+
+    const updateIconsForTheme = () => {
+        const isDark = styleManager.get_dark();
+
+        const githubIconName = isDark ? 'github-mark-white.svg' : 'github-mark.svg';
+        const githubFile = Gio.File.new_for_path(`${metadata.path}/${githubIconName}`);
+        githubIcon.set_from_gicon(new Gio.FileIcon({ file: githubFile }));
+
+        const jtechIconName = isDark ? 'Jtech_logo.png' : 'Jtech_logo_dark.png';
+        const jtechFile = Gio.File.new_for_path(`${metadata.path}/${jtechIconName}`);
+        jtechIcon.set_from_gicon(new Gio.FileIcon({ file: jtechFile }));
+    };
+
+    styleManager.connect('notify::dark', updateIconsForTheme);
+    updateIconsForTheme();
 
     const bmcImage = new Gtk.Image({
         gicon: new Gio.FileIcon({ file: Gio.File.new_for_path(metadata.path + '/bmc-button.svg') }),
