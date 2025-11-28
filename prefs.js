@@ -1,4 +1,3 @@
-
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gio from 'gi://Gio';
@@ -129,15 +128,27 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
 
         const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
         log(`Nominatim URL: ${url}`);
-        this._currentSearchMessage = new Soup.Message({
-            method: 'GET',
-            uri: GLib.Uri.parse(url, GLib.UriFlags.NONE)
-        });
+        this._currentSearchMessage = Soup.Message.new('GET', url);
         this._currentSearchMessage.request_headers.append('User-Agent', `GNOME Shell Extension ZmanBar/${this.metadata.version} (https://github.com/dev-in-the-bm/ZmanBar)`);
+        
+        let requestHeaders = '';
+        this._currentSearchMessage.request_headers.foreach(function(name, value) {
+            requestHeaders += `\n  ${name}: ${value}`;
+        });
+        log(`Request Headers:${requestHeaders}`);
+
         const message = this._currentSearchMessage;
 
         this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
             log('Search callback initiated.');
+
+            log(`Nominatim response status: ${message.get_status()} ${message.get_reason_phrase()}`);
+            let responseHeaders = '';
+            message.response_headers.foreach(function(name, value) {
+                responseHeaders += `\n  ${name}: ${value}`;
+            });
+            log(`Response Headers:${responseHeaders}`);
+
             // Clear the current message reference once the callback is entered.
             this._currentSearchMessage = null;
             this._spinner.stop();

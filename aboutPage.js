@@ -107,7 +107,7 @@ export const createAboutPage = (metadata, settings) => {
 
         log('Copy button clicked.');
         log(`Copying text to clipboard: ${text}`);
-        St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, text);
+        Gdk.Display.get_default().get_clipboard().set(text);
     });
 
     settings.bind('enable-logging', loggingRow, 'active', Gio.SettingsBindFlags.DEFAULT);
