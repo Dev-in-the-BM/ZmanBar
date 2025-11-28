@@ -160,7 +160,8 @@ export const createAboutPage = (metadata, settings) => {
         use_markup: true,
         label: '<span size="xx-large" weight="bold">Hi 👋, I\'m Dev-in-the-BM</span>',
         justify: Gtk.Justification.CENTER,
-        margin_bottom: 12,
+        margin_top: 18,
+        margin_bottom: 30,
     });
     box.append(devNameLabel);
 

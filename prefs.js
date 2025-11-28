@@ -50,7 +50,7 @@ export default class ZmanBarPreferences extends ExtensionPreferences {
         // --- Location Settings Group ---
         const group = new Adw.PreferencesGroup({
             title: _('Location Settings'),
-            description: _('Set your location to get accurate Zmanim.'),
+            description: _('Set your location to get accurate date info.'),
         });
         page.add(group);
 
