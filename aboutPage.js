@@ -225,32 +225,23 @@ export const createAboutPage = (metadata, settings) => {
     updateIconsForTheme();
 
     const bmcImage = new Gtk.Image({
-        gicon: new Gio.FileIcon({ file: Gio.File.new_for_path(metadata.path + '/bmc-button.svg') }),
+        file: metadata.path + '/bmc-button.svg',
         pixel_size: 200,
-        halign: Gtk.Align.CENTER,
-        valign: Gtk.Align.CENTER,
-        margin_top: 12,
     });
-    bmcImage.set_tooltip_text(_('Buy me a coffee'));
 
-    const gesture = new Gtk.GestureClick();
-    gesture.connect('released', () => {
+    const bmcButton = new Gtk.Button({
+        child: bmcImage,
+        css_classes: ['flat'], // Use 'flat' style to remove padding/border
+        halign: Gtk.Align.CENTER,
+        margin_top: 12,
+        tooltip_text: _('Buy me a coffee'),
+    });
+
+    bmcButton.connect('clicked', () => {
         Gio.AppInfo.launch_default_for_uri('https://www.buymeacoffee.com/devinthebm', null);
     });
-    bmcImage.add_controller(gesture);
 
-    const motion = new Gtk.EventControllerMotion();
-    motion.connect('enter', () => {
-        bmcImage.set_state_flags(Gtk.StateFlags.PRELIGHT, false);
-        bmcImage.set_cursor(Gdk.Cursor.new_from_name('pointer'));
-    });
-    motion.connect('leave', () => {
-        bmcImage.unset_state_flags(Gtk.StateFlags.PRELIGHT);
-        bmcImage.set_cursor(null);
-    });
-    bmcImage.add_controller(motion);
-
-    box.append(bmcImage);
+    box.append(bmcButton);
 
     return aboutPage;
 };
