@@ -22,6 +22,11 @@ function addLogEntry(level, message) {
         message,
     };
     logHistory.push(logEntry);
+
+    if (logHistory.length > 1000) {
+        logHistory.shift();
+    }
+
     for (const [id, callback] of logConnections) {
         try {
             callback(logEntry);
