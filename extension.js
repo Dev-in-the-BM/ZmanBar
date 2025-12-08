@@ -50,11 +50,6 @@ export default class HebrewDateDisplayExtension extends Extension {
         // Note: Can't log here until settings are loaded in enable()
     }
 
-    _onLogSettingChanged() {
-        // Now that the setting has changed, we will log a message.
-        log('Log setting changed. Logging is now ' + (this._settings.get_boolean('enable-logging') ? 'enabled' : 'disabled'));
-    }
-
     _useSavedLocation() {
         log('Attempting to use saved location from settings.');
         const settings = this.getSettings();
@@ -94,11 +89,16 @@ export default class HebrewDateDisplayExtension extends Extension {
         log(`Recalculating shkiah and Hebrew date for ${now.toLocaleString()}`);
 
         if (this._zmanimCalendar) {
-            this._zmanimCalendar.setDate(now);
-            this._shkiah = this._zmanimCalendar.getSunset()?.toJSDate();
-            if (!this._shkiah) {
-                logError(new Error('Failed to calculate shkiah.'));
-                this._shkiah = null; // Ensure it's null on failure
+            try {
+                this._zmanimCalendar.setDate(now);
+                this._shkiah = this._zmanimCalendar.getSunset()?.toJSDate();
+                if (!this._shkiah) {
+                    logError(new Error('Failed to calculate shkiah (sunset) for the given location. The value was null.'));
+                    this._shkiah = null; // Ensure it's null on failure
+                }
+            } catch (e) {
+                logError(e, 'An unexpected error occurred during shkiah (sunset) calculation.');
+                this._shkiah = null;
             }
         } else {
             this._shkiah = null;
@@ -111,9 +111,15 @@ export default class HebrewDateDisplayExtension extends Extension {
             dateForHebrewCalc = tomorrow;
         }
 
-        const jewishDate = new KosherZmanim.JewishCalendar(dateForHebrewCalc);
-        this._hebrewDateString = this._formatHebrewDate(jewishDate, false);
-        this._hebrewDateStringWithYear = this._formatHebrewDate(jewishDate, true);
+        try {
+            const jewishDate = new KosherZmanim.JewishCalendar(dateForHebrewCalc);
+            this._hebrewDateString = this._formatHebrewDate(jewishDate, false);
+            this._hebrewDateStringWithYear = this._formatHebrewDate(jewishDate, true);
+        } catch (e) {
+            logError(e, 'An unexpected error occurred during Hebrew date calculation.');
+            this._hebrewDateString = 'Error';
+            this._hebrewDateStringWithYear = 'Error calculating date';
+        }
 
         log(`Cached new Hebrew date: ${this._hebrewDateString}`);
 
@@ -202,12 +208,9 @@ export default class HebrewDateDisplayExtension extends Extension {
         log('Enabling ZmanBar extension.');
         log('KosherZmanim library loaded successfully.');
 
-        this._clockUpdateSignalId = this._dateMenu._clock.connect('notify::clock', this._updateClockDisplay.bind(this));
-
         this._settingsChangedIdLat = this._settings.connect('changed::latitude', this._onLocationSettingChanged.bind(this));
         this._settingsChangedIdLon = this._settings.connect('changed::longitude', this._onLocationSettingChanged.bind(this));
         this._settingsChangedIdName = this._settings.connect('changed::location-name', this._onLocationSettingChanged.bind(this));
-        this._settingsChangedIdLog = this._settings.connect('changed::enable-logging', this._onLogSettingChanged.bind(this));
 
         this._menuStateSignal = this._dateMenu.menu.connect('open-state-changed', this._onMenuStateChanged.bind(this));
 
@@ -225,15 +228,9 @@ export default class HebrewDateDisplayExtension extends Extension {
             this._updateTimeout = null;
         }
 
-        if (this._clockUpdateSignalId) {
-            this._dateMenu._clock.disconnect(this._clockUpdateSignalId);
-            this._clockUpdateSignalId = null;
-        }
-
         if (this._settingsChangedIdLat) this._settings.disconnect(this._settingsChangedIdLat);
         if (this._settingsChangedIdLon) this._settings.disconnect(this._settingsChangedIdLon);
         if (this._settingsChangedIdName) this._settings.disconnect(this._settingsChangedIdName);
-        if (this._settingsChangedIdLog) this._settings.disconnect(this._settingsChangedIdLog);
         if (this._menuStateSignal) this._dateMenu.menu.disconnect(this._menuStateSignal);
 
         this._onMenuClosed();

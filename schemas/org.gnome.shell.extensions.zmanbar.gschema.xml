@@ -16,6 +16,11 @@
       <summary>Longitude</summary>
       <description>The longitude of the location.</description>
     </key>
+    <key name="timezone" type="s">
+      <default>''</default>
+      <summary>Timezone</summary>
+      <description>The IANA timezone identifier for the location (e.g., "America/New_York").</description>
+    </key>
     <key name="enable-logging" type="b">
       <default>false</default>
       <summary>Enable Logging</summary>
