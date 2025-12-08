@@ -9,17 +9,10 @@ import Gio from 'gi://Gio';
 
 import { log, logError } from './logging.js';
 
-function importUMD(path) {
-    const file = Gio.File.new_for_path(path);
-    const [, contents] = file.load_contents(null);
-    const module = { exports: {} };
-    const umdLoader = new Function('module', 'exports', 'globalThis', new TextDecoder().decode(contents));
-    umdLoader(module, module.exports, globalThis);
-    return module.exports;
-}
-
-const kosherZmanimPath = import.meta.url.substring(7).replace('extension.js', 'kosher-zmanim.js');
-const KosherZmanim = importUMD(kosherZmanimPath);
+// Import for side-effect: The UMD bundle does not have modern ES6 exports,
+// so we execute the script to have it attach its main object to the global scope.
+import './kosher-zmanim.js';
+const KosherZmanim = globalThis.KosherZmanim;
 
 function findActorByClassName(actor, className) {
     if (!actor) {
