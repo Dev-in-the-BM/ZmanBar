@@ -10,5 +10,6 @@
   "donations": {
     "buymeacoffee": "devinthebm"
   },
-  "settings-schema": "org.gnome.shell.extensions.zmanbar"
+  "settings-schema": "org.gnome.shell.extensions.zmanbar",
+  "license": "GPL-3.0-or-later"
 }
