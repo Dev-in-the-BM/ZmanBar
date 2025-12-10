@@ -17,7 +17,7 @@
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Party%20Popper.png" alt="Party Popper" width="50" height="50" /> New - version 1.0 release
 
 **New in this release:** The Hebrew date now updates after shkiah.
-You can set your location in the extensions settings, so the extension can calcualte when shkiah is.
+You can set your location in the extensions settings, so the extension can calculate when shkiah is.
 
 <details>
   <summary>Click to view instructions for installing from source</summary>
