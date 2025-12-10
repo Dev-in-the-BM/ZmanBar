@@ -1,6 +1,6 @@
 {
   "name": "ZmanBar",
-  "description": "Seamlessly integrates the Hebrew date into the GNOME top panel.\nThis elegant GNOME extension ensures the current Hebrew date is always visible and perfectly integrated.",
+  "description": "Seamlessly integrates the Hebrew date into the GNOME top panel.\nThis elegant GNOME extension ensures the current Hebrew date is always visible and perfectly integrated.\n\nNow updates the date at shkiah, instead of midnight!",
   "uuid": "ZmanBar@dev-in-the-bm.github.io",
   "shell-version": ["48", "49"],
   "url": "https://github.com/Dev-in-the-BM/ZmanBar",
