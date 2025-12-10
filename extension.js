@@ -47,6 +47,7 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._zmanimCalendar = new KosherZmanim.ComplexZmanimCalendar();
         this._hebrewDateFormatter = new KosherZmanim.HebrewDateFormatter();
         this._hebrewDateFormatter.setHebrewFormat(true);
+        this._clockUpdateTimeout = null;
         // Note: Can't log here until settings are loaded in enable()
     }
 
@@ -217,11 +218,22 @@ export default class HebrewDateDisplayExtension extends Extension {
         this._useSavedLocation();
         this._updateAndCacheValues(); // Initial update
 
+        // Start a recurring update every second to keep our date visible
+        this._clockUpdateTimeout = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1, () => {
+            this._updateClockDisplay();
+            return GLib.SOURCE_CONTINUE; // Keep the timeout running
+        });
+
         log('ZmanBar extension enabled successfully.');
     }
 
     disable() {
         log('Disabling ZmanBar extension.');
+
+        if (this._clockUpdateTimeout) {
+            GLib.source_remove(this._clockUpdateTimeout);
+            this._clockUpdateTimeout = null;
+        }
 
         if (this._updateTimeout) {
             GLib.source_remove(this._updateTimeout);
